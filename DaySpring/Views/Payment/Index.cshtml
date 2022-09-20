@@ -1,0 +1,68 @@
+﻿@model DaySpring.ViewModels.PaymentsResponseModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<div class="card-header" style="background-color: whitesmoke;">
+    <div class="card-title">
+        <h1 class="text-center">Payments</h1>
+    </div>
+</div>
+@*<table class="table justify-content-center align-items-center">*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Payment Reference
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transation in Model.Data)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => transation.Member.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.Member.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.Member.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.PaymentReference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.PaymentType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => transation.CreatedAt)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

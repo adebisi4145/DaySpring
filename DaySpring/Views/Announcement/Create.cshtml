@@ -1,0 +1,50 @@
+﻿@model DaySpring.ViewModels.CreateAnnouncementRequestModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>Add Announcement</strong></h3>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div>
+                        <label asp-for="Title" class="control-label"><strong>Title</strong></label>
+                        <input asp-for="Title" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"><strong>Select Image</strong></label>
+                        <input name="image" type="file" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Description" class="control-label"><strong>Description</strong></label>
+                        <input asp-for="Description" type="text" class="form-control" />
+                    </div>
+                   @* @for (int i = 0; i < int.Parse(@TempData["Days"].ToString()); i++)
+                     {
+                        <div>
+                            <label asp-for="Dates[i]" class="control-label"><strong>Date</strong></label>
+                        </div>
+                     }*@
+                    <div>
+                        <label asp-for="StartingDate" class="control-label"><strong>Starting Date</strong></label>
+                        <input asp-for="StartingDate" type="datetime-local" name="StartingDate" class="form-control" />
+                        @*<span asp-validation-for="StartingDate"></span>*@
+                    </div>
+                    <div>
+                        <label asp-for="EndingDate" class="control-label"><strong>Ending Date</strong></label>
+                        <input asp-for="EndingDate" type="datetime-local" name="EndingDate" class="form-control" />
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Create">Add Announcement</a></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,86 @@
+﻿@model DaySpring.ViewModels.SermonResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "MediaDetails";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Catalog</title>
+    <link rel="stylesheet" href="~/Sermon/fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!-- https://fonts.google.com/ -->
+    <link rel="stylesheet" href="~/Sermon/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Sermon/css/templatemo-video-catalog.css">
+</head>
+<!--
+
+TemplateMo 552 Video Catalog
+
+https://templatemo.com/tm-552-video-catalog
+
+-->
+<body>
+    <div class="tm-page-wrap mx-auto">
+
+        <!-- Page content -->
+        <div class="container-fluid">
+            <div class="mx-auto tm-content-container">
+                <main>
+                    <div class="row mb-5 pb-4">
+                        <div class="col-12">
+                            <!-- Video player 1422x800 -->
+                            <video width="1422" height="800" controls autoplay>
+                                <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    <div class="row mb-5 pb-5">
+                        <div class="col-xl-8 col-lg-7">
+                            <!-- Video description -->
+                            <div class="tm-video-description-box">
+                                <h2 class="mb-5 tm-video-title"><strong>@Model.Data.Title</strong></h2>
+                                <p class="mb-4"><strong>@Model.Data.Description</strong></p>
+                                <p class="mb-4"><a><strong>By @Model.Data.Preacher.Name </strong></a></p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <audio controls>
+                        <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                    </audio>
+                </main>
+                <ul class="tags">
+                    <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to the Sermon</a></li>
+                </ul>
+
+            </div> <!-- .tm-content-container -->
+        </div>
+    </div>
+
+    <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
+    <script src="~/Sermon/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.tm-likes-box').click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass('tm-liked');
+
+                if ($(this).hasClass('tm-liked')) {
+                    $('#tm-likes-count').html('486 likes');
+                } else {
+                    $('#tm-likes-count').html('485 likes');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,89 @@
+﻿@model DaySpring.ViewModels.MembersResponseModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="card-header" style="background-color: whitesmoke;">
+    <div class="card-title">
+        <h1 class="text-center">Members</h1>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+
+            <th>
+                Last Name
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Payment
+            </th>
+            <th>
+                Media
+            </th>
+            <th>
+                Ministers
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model.Data)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => member.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => member.LastName)
+                </td>
+
+                <td>
+                    <a asp-action="AdminDetails" asp-route-id="@member.Id">Details</a>
+                </td>
+                <td>
+                    <a asp-controller="Payment" asp-action="GetPaymentsByEmailSuperAdmin" asp-route-email="@member.Email">Payments</a>
+                </td>
+                @{
+                    var role = member.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
+                    if (!role.Contains("media"))
+                    {
+                        <td>
+                            <a asp-action="UpdateToMedia" asp-route-id="@member.Id">Upgrade To Media</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a asp-action="RemoveMediaRole" asp-route-id="@member.Id">Remove Media Status</a>
+                        </td>
+                    }
+                    if (!role.Contains("minister"))
+                    {
+                        <td>
+                            <a asp-action="UpdateToMinister" asp-route-id="@member.Id">Upgrade To Ministers</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a asp-action="RemoveMinisterRole" asp-route-id="@member.Id">Remove Minister Status</a>
+                        </td>
+                    }
+                }
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+@*<button class="btn btn-primary offset-10 " style="background-color: whitesmoke;"><a asp-action="Create">Add Category</a></button>*@

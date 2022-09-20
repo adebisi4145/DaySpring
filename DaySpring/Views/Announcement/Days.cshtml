@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>This program will last for how many days</strong></h3>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div>
+                        <label id="name" class="control-label"><strong>Days</strong></label>
+                        <input name="days" type="number" id="name" class="form-control" />
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Days">Next</a></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

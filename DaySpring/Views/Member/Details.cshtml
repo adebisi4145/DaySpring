@@ -1,0 +1,28 @@
+﻿@model DaySpring.ViewModels.MemberResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="card">
+        <h3 class="card-header bg-dark text-white text-center"><strong>Profile</strong></h3>
+        <div class="card-body">
+            <dl class="row">
+                <dd class="col-6"><strong>First Name :</strong></dd>
+                <dt class="col-6">
+                    @Model.Data.FirstName
+                </dt>
+                <dd class="col-6"><strong>Last Name :</strong></dd>
+                <dt class=" col-6">
+                    @Model.Data.LastName
+                </dt>
+                <dd class="col-6"><strong>Email :</strong></dd>
+                <dt class="col-6">
+                    @Model.Data.Email
+                </dt>
+            </dl>
+        </div>
+    </div>
+</div>

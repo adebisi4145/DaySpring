@@ -1,0 +1,119 @@
+﻿@model DaySpring.ViewModels.BookResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "MediaDetails";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Dayspring</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    @* <link href="~/Books/assets/img/favicon.png" rel="icon">*@
+    <link href="~/Books/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/Books/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Books/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Books/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/Books/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Books/assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: EstateAgency - v4.7.0
+    * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+
+    <main id="main">
+
+        <!-- ======= Intro Single ======= -->
+        <section class="intro-single">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-8">
+                        <div class="title-single-box">
+                            <h1 class="title-single">@Model.Data.Title</h1>
+                            @foreach (var author in Model.Data.Authors)
+                            {
+                                <a asp-action="MediaDetails" asp-controller="Author" asp-route-id="@author.Id"><span class="color-text-a">@author.FirstName @author.LastName</span></a>
+                                
+                            }
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Intro Single-->
+        <!-- ======= Blog Single ======= -->
+        <section class="news-single nav-arrow-b">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="news-img-box">
+                            <img src="~/bookImages/@Model.Data.BookImage" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                        <div class="post-information">
+                            <ul class="list-inline text-center color-a">
+                                
+                                @foreach (var category in Model.Data.BookCategories)
+                                {
+                                    <li class="list-inline-item mr-2">
+                                        <strong>Category: </strong>
+                                        <span class="color-text-a">@category.Name</span>
+                                    </li>
+                                }
+
+                                <li class="list-inline-item">
+                                    <strong>Pages: </strong>
+                                    <span class="color-text-a">@Model.Data.NumberOfPages Pages</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="post-information">
+                            <ul class="list-inline text-center color-a">
+                                <li class="list-inline-item mr-2">
+                                    @*<strong><a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">Author:</a></strong>*@
+                                    <span class="color-text-a"><a href="~/bookPDFs/@Model.Data.BookPDF" download="@Model.Data.BookPDF"><input class="btn btn-outline-primary" type="button" value="Download book" /></a></span>
+
+                                </li>
+                                <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to the Book</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+        </section><!-- End Blog Single-->
+
+    </main><!-- End #main -->
+    <!-- Vendor JS Files -->
+    <script src="~/Books/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Books/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/Books/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/Books/assets/js/main.js"></script>
+
+</body>
+
+</html>

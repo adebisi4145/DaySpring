@@ -1,0 +1,75 @@
+﻿@model DaySpring.ViewModels.AuthorsResponseModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "SuperAdminIndex";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/Announcement/assets/img/favicon.ico">
+    <title>Mediumish - A Medium style template by WowThemes.net</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Announcement/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="~/Announcement/assets/css/mediumish.css" rel="stylesheet">
+</head>
+<body>
+
+
+    <!-- Begin List Posts
+    ================================================== -->
+    <section class="recent-posts">
+        <div class="section-title">
+            <h2><span>Preachers</span></h2>
+        </div>
+        <div class="card-columns listrecent">
+            @foreach (var author in Model.Data)
+            {
+                <div class="card">
+                    <a asp-action="SuperAdminDetails" asp-route-id="@author.Id">
+                        <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="">
+                    </a>
+                    <div class="card-block">
+                        <h2 class="card-title"><a asp-action="SuperAdminDetails" asp-route-id="@author.Id">@author.FirstName @author.LastName</a></h2>
+                        
+                    </div>
+                </div>
+            }
+            <!-- begin post -->
+            <!-- end post -->
+
+        </div>
+    </section>
+    <!-- End List Posts
+    ================================================== -->
+    <!-- Begin Footer
+    ================================================== -->
+    <div class="footer">
+        <p class="pull-left">
+            Copyright &copy; 2017 Your Website Name
+        </p>
+        <div class="clearfix">
+        </div>
+    </div>
+    <!-- End Footer
+    ================================================== -->
+    </div>
+    <!-- /.container -->
+    <!-- Bootstrap core JavaScript
+        ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="~/Announcement/assets/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="~/Announcement/assets/js/bootstrap.min.js"></script>
+    <script src="~/Announcement/assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>

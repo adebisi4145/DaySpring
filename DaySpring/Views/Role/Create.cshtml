@@ -1,0 +1,26 @@
+﻿@model DaySpring.ViewModels.CreateRoleRequestModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+
+    <div class="row row-content d-flex justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <h3 class="card-header bg-black text-center"><strong>Add Role</strong></h3>
+                <div class="card-body">
+                    <form method="POST">
+                        <div>
+                            <label asp-for="Name" class="control-label"><strong>Name</strong></label>
+                            <input asp-for="Name" type="text" class="form-control" />
+                        </div>
+                        <br />
+                        <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Create">Add Role</a></button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

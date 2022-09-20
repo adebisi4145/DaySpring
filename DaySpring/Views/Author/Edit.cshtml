@@ -1,0 +1,36 @@
+﻿@model DaySpring.ViewModels.AuthorResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "Edit";
+}
+
+<br>
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>Update Author</strong></h3>
+            <div class="card-body">
+                <form method="POST">
+                    <p>Check the details carefully before clicking on the Update button</p>
+                    <div>
+                        <label asp-for="Data.FirstName" class="control-label"><strong>First Name</strong></label>
+                        <input name="FirstName" value="@Model.Data.FirstName" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Data.LastName" class="control-label"><strong>Last Name</strong></label>
+                        <input name="LastName" value="@Model.Data.LastName" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Data.Biography" class="control-label"><strong>Biography</strong></label>
+                        <textarea name="Biography" value="@Model.Data.Biography" type="text" class="form-control"></textarea>
+                        <input name="Biography" value="@Model.Data.Biography" type="text" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="submit">Update</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

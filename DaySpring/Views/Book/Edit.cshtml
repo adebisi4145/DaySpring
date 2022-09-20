@@ -1,0 +1,39 @@
+﻿@model DaySpring.ViewModels.BookResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "MediaIndex";
+}
+
+<br>
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>Update Book Details</strong></h3>
+            <div class="card-body">
+                <form method="POST">
+                    <p>Check the details carefully before clicking on the Update button</p>
+                    <div>
+                        <label asp-for="Data.ISBN" class="control-label"><strong>ISBN</strong></label>
+                        <input name="ISBN" value="@Model.Data.ISBN" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Data.Title" class="control-label"><strong>Title</strong></label>
+                        <input name="Title" value="@Model.Data.Title" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Data.Publisher" class="control-label"><strong>Publisher</strong></label>
+                        <input name="Publisher" value="@Model.Data.Publisher" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Data.NumberOfPages" class="control-label"><strong>Number of Pages</strong></label>
+                        <input name="NumberOfPages" value="@Model.Data.NumberOfPages" type="text" class="form-control" />
+                    </div>
+                    <br />
+                    <button type="submit">Update</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
