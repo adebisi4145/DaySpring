@@ -36,7 +36,12 @@ namespace DaySpring.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreatePreacherRequestModel model, IFormFile image)
         {
-            if (image != null)
+            if (image == null)
+            {
+                ViewBag.Message = "Please upload an image";
+                return View();
+            }
+            else
             {
                 string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "PreachersPicture");
                 Directory.CreateDirectory(imageDirectory);

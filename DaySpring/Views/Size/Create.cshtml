@@ -1,0 +1,30 @@
+﻿@model DaySpring.ViewModels.CreateSizeRequestModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>Add Size</strong></h3>
+            <div class="card-body">
+                <form method="POST">
+                    <div>
+                        <label asp-for="Name" class="control-label"><strong>Name</strong></label>
+                        <input asp-for="Name" type="text" class="form-control" />
+                    </div>
+                    <div>
+                        <label asp-for="Abbreviation" class="control-label"><strong>Abbreviation</strong></label>
+                        <input asp-for="Abbreviation" type="text" class="form-control" placeholder="XXL" />
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Create">Add Size</a></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

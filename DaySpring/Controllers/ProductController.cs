@@ -46,9 +46,14 @@ namespace DaySpring.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductRequestModel model, IFormFile image)
         {
-            if (image != null)
+            if (image == null)
             {
-                string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "AuthorsImage");
+                ViewBag.Message = "Please upload an image";
+                return View();
+            }
+            else
+            {
+                string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "ProductsImage");
                 Directory.CreateDirectory(imageDirectory);
                 string contentType = image.ContentType.Split('/')[1];
                 string productImage = $"{Guid.NewGuid()}.{contentType}";

@@ -17,10 +17,6 @@
                         <label asp-for="Data.Title" class="control-label"><strong>Title</strong></label>
                         <input name="Title" value="@Model.Data.Title" type="text" class="form-control" />
                     </div>
-                    <div>
-                        <label asp-for="Data.Description" class="control-label"><strong>Description</strong></label>
-                        <input name="Description" value="@Model.Data.Description" type="text" class="form-control" />
-                    </div>
                     <div class="col-md-6">
                         <label asp-for="Data.Preacher" class="control-label">Courses</label>
                         <select asp-for="Data.Preacher" class="form-control" asp-items="ViewBag.Preachers" required>

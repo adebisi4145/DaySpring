@@ -24,11 +24,18 @@ namespace DaySpring.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> VideoIndex()
         {
             var sermons = await _sermonService.GetSermons();
             return View(sermons);
         }
+
+        public async Task<IActionResult> AudioIndex()
+        {
+            var sermons = await _sermonService.GetSermonAudios();
+            return View(sermons);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetSermonsByPreacher(int preacherId)
         {
@@ -119,13 +126,26 @@ namespace DaySpring.Controllers
              return View(sermon);
          }*/
 
-        public async Task<IActionResult> MediaIndex()
+
+        public async Task<IActionResult> MediaAudioIndex()
+        {
+            var sermons = await _sermonService.GetSermonAudios();
+            return View(sermons);
+        }
+
+        public async Task<IActionResult> MediaVideoIndex()
         {
             var author = await _sermonService.GetSermons();
             return View(author);
         }
 
-        public async Task<IActionResult> SuperAdminIndex()
+        public async Task<IActionResult> superAdminAudioIndex()
+        {
+            var sermons = await _sermonService.GetSermonAudios();
+            return View(sermons);
+        }
+
+        public async Task<IActionResult> SuperAdminVideoIndex()
         {
             var author = await _sermonService.GetSermons();
             return View(author);

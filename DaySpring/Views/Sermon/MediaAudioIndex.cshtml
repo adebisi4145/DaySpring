@@ -1,0 +1,40 @@
+﻿@model DaySpring.ViewModels.SermonsResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "MediaAudioIndex";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Gallery</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="heading">Music Gallery</div>
+        <div class="music-container">
+            @foreach (var sermon in Model.Data)
+            {
+                <div class="box">
+                    <div class="image">
+                        <img src="~/PreachersPicture/@sermon.Preacher.Picture" alt="">
+                    </div>
+                    <div class="music">
+                        <div class="head">@sermon.Title by @sermon.Preacher.Name</div>
+                        <audio controls>
+                            <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                        </audio>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -66,7 +66,7 @@ namespace DaySpring
 
             services.AddHostedService<MyBackgroundService>();
 
-
+            //services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(config =>
                 {
@@ -93,6 +93,7 @@ namespace DaySpring
             app.UseStaticFiles();
 
             app.UseRouting();
+            //app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

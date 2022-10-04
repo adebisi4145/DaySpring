@@ -25,41 +25,35 @@ TemplateMo 552 Video Catalog
 https://templatemo.com/tm-552-video-catalog
 
 -->
-<body>
-    <div class="tm-page-wrap mx-auto">
 
-        <!-- Page content -->
-        <div class="container-fluid">
-            <div class="mx-auto tm-content-container">
-                <main>
-                    <div class="row mb-5 pb-4">
-                        <div class="col-12">
-                            <!-- Video player 1422x800 -->
-                            <video width="1422" height="800" controls autoplay>
-                                <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    </div>
-                    <div class="row mb-5 pb-5">
-                        <div class="col-xl-8 col-lg-7">
-                            <!-- Video description -->
-                            <div class="tm-video-description-box">
-                                <h2 class="mb-5 tm-video-title"><strong>@Model.Data.Title</strong></h2>
-                                <p class="mb-4"><strong>@Model.Data.Description</strong></p>
-                                <p class="mb-4"><a><strong>By @Model.Data.Preacher.Name</strong></a></p>
+<body>
+    <div class="card-header" style="background-color: whitesmoke;">
+        
+        <div class="tm-page-wrap mx-auto">
+
+            <!-- Page content -->
+            <div class="container-fluid">
+                <div class="mx-auto tm-content-container">
+                    <main>
+                        <div class="row mb-5 pb-4">
+                            <div class="col-12">
+                                <!-- Video player 1422x800 -->
+                                <video width="1422" height="800" controls autoplay>
+                                    <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
+                        <div class="card-title">
+                            <h2 class="text-center">@Model.Data.Title by @Model.Data.Preacher.Name</h2>
+                        </div>
+                    </main>
 
-                    </div>
-                    <audio controls>
-                        <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
-                    </audio>
-                </main>
-
-            </div> <!-- .tm-content-container -->
+                </div> <!-- .tm-content-container -->
+            </div>
         </div>
     </div>
+    
 
     <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
     <script src="~/Sermon/js/bootstrap.min.js"></script>

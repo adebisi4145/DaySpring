@@ -1,0 +1,8 @@
+﻿@model DaySpring.ViewModels.BookResponseModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "SuperAdminReadBook";
+}
+
+<embed src="~/bookPdfs/@Model.Data.BookPDF" width="1200px" height="2100px" />

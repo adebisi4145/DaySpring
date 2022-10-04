@@ -25,7 +25,7 @@ namespace DaySpring.Implementations.Services
         {
             var products = await _productRepository.GetProducts();
 
-            var product = new Product
+            var product = new Models.Product
             {
                 Name = model.Name,
                 Price = model.Price,

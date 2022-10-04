@@ -172,9 +172,13 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPaymentsByEmailSuperAdmin(string email)
+        public async Task<IActionResult> GetPaymentsByEmailSuperAdmin()
         {
-            var payments = await _transactionService.GetPaymentsByEmail(email);
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var member = await _memberService.GetMember(memberId);
+            string email = member.Data.Email;
+            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
             return View(payments);
         }
 

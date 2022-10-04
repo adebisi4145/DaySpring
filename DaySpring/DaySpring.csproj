@@ -36,13 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Color\" />
-    <Folder Include="Views\Size\" />
     <Folder Include="wwwroot\AuthorImages\" />
     <Folder Include="wwwroot\BookImages\" />
     <Folder Include="wwwroot\BookPdfs\" />
     <Folder Include="wwwroot\AnnouncementImages\" />
     <Folder Include="wwwroot\AuthorsImage\" />
+    <Folder Include="wwwroot\ProductsImage\" />
     <Folder Include="wwwroot\PreachersPicture\" />
     <Folder Include="wwwroot\SermonVideos\" />
     <Folder Include="wwwroot\SermonAudios\" />

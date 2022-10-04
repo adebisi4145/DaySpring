@@ -77,6 +77,7 @@ namespace DaySpring.Implementations.Services
             {
                 Data = new BookModel
                 {
+                    Id = book.Id,
                     Title = book.Title,
                     ISBN = book.ISBN,
                     BookPDF = book.BookPDF,
@@ -108,6 +109,7 @@ namespace DaySpring.Implementations.Services
             {
                 Data = new BookModel
                 {
+                    Id = book.Id,
                     Title = book.Title,
                     ISBN = book.ISBN,
                     BookPDF = book.BookPDF,
@@ -172,6 +174,7 @@ namespace DaySpring.Implementations.Services
             {
                 Data = books.Select(m => new BookModel
                 {
+                    Id = m.Id,
                     Title = m.Title,
                     ISBN = m.ISBN,
                     BookPDF = m.BookPDF,
@@ -203,6 +206,7 @@ namespace DaySpring.Implementations.Services
             {
                 Data = books.Select(m => new BookModel
                 {
+                    Id = m.Id,
                     Title = m.Title,
                     ISBN = m.ISBN,
                     BookPDF = m.BookPDF,
@@ -234,6 +238,7 @@ namespace DaySpring.Implementations.Services
             {
                 Data = books.Select(m => new BookModel
                 {
+                    Id = m.Id,
                     Title = m.Title,
                     ISBN = m.ISBN,
                     BookPDF = m.BookPDF,

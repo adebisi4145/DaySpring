@@ -33,7 +33,21 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> Create(CreateColorRequestModel model)
         {
             await _colorService.CreateColor(model);
-            return RedirectToAction("MediaIndex");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var color = await _colorService.GetColor(id);
+            return View(color);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _colorService.DeleteColor(id);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -54,38 +68,8 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> Edit(int id, UpdateColorRequestModel model)
         {
             await _colorService.UpdateColor(id, model);
-            return RedirectToAction("MediaIndex");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _colorService.DeleteColor(id);
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> MediaIndex()
-        {
-            var color = await _colorService.GetColors();
-            return View(color);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> MediaDetails(int id)
-        {
-            var color = await _colorService.GetColor(id);
-            return View(color);
-        }
-        public async Task<IActionResult> SuperAdminIndex()
-        {
-            var color = await _colorService.GetColors();
-            return View(color);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> SuperAdminDetails(int id)
-        {
-            var color = await _colorService.GetColor(id);
-            return View(color);
-        }
+        
     }
 }

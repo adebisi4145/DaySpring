@@ -238,11 +238,39 @@
                         <ul class="submenu">
                             <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="MediaIndex">Library</a></li>
-                            <li><a asp-controller="Sermon" asp-action="MediaIndex">Sermons</a></li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a asp-controller="Author" asp-action="MediaIndex">Authors</a></li>
+                                    <li><a asp-controller="Category" asp-action="MediaIndex">Categories</a></li>
+                                    <li><a asp-controller="Preacher" asp-action="MediaIndex">Preachers</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="MediaIndex">Announcements</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+
+                    </li>
+
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+
+                    <li>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-edit-2"></span><span class="mtext">Add</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a asp-controller="Book" asp-action="Create">Book</a></li>
+                            <li><a asp-controller="Announcement" asp-action="Create">Announcement</a></li>
+                            <li><a asp-controller="Preacher" asp-action="Create">Preacher</a></li>
+                            <li><a asp-controller="Author" asp-action="Create">Author</a></li>
                         </ul>
                     </li>
 
-                    @*<li class="dropdown">
+                    <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
                             <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
                         </a>
@@ -250,33 +278,6 @@
                             <li><a asp-controller="Sermon" asp-action="Create">Add Sermon</a></li>
                             <li><a asp-controller="Sermon" asp-action="MediaAudioIndex">Audios</a></li>
                             <li><a asp-controller="Sermon" asp-action="MediaVideoIndex">Videos</a></li>
-                        </ul>
-                    </li>*@
-
-                    <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
-                        </a>
-                        <ul class="submenu">
-                            <li><a asp-controller="Author" asp-action="MediaIndex">Authors</a></li>
-                            <li><a asp-controller="Category" asp-action="MediaIndex">Categories</a></li>
-                            <li><a asp-controller="Preacher" asp-action="MediaIndex">Preachers</a></li>
-                            <li><a asp-controller="Announcement" asp-action="MediaIndex">Announcements</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon dw dw-edit-2"></span><span class="mtext">Add</span>
-                        </a>
-                        <ul class="submenu">
-                            <li><a asp-controller="Book" asp-action="Create">Book</a></li>
-                            <li><a asp-controller="Sermon" asp-action="Create">Sermon</a></li>
-                            <li><a asp-controller="Announcement" asp-action="Create">Announcement</a></li>
-                            <li><a asp-controller="Preacher" asp-action="Create">Preacher</a></li>
-                            <li><a asp-controller="Author" asp-action="Create">Author</a></li>
                         </ul>
                     </li>
                     <li>
@@ -314,6 +315,7 @@
     <script src="~/Dashboard/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
     <script src="~/Dashboard/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
     <script src="~/Dashboard/vendors/scripts/dashboard.js"></script>
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,4 +1,5 @@
-﻿using DaySpring.Models;
+﻿using DaySpring.Dtos;
+using DaySpring.Models;
 using DaySpring.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,7 @@ namespace DaySpring.Interfaces.Services
         public Task<BaseResponse> UpdateProduct(int id, UpdateProductRequestModel model);
 
         public Task<BaseResponse> DeleteProduct(int id);
-
         public Task<ProductResponseModel> GetProduct(int id);
-
         public Task<ProductsResponseModel> GetProducts();
     }
 }

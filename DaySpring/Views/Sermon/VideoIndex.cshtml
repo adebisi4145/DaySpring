@@ -1,8 +1,8 @@
 ﻿@model DaySpring.ViewModels.SermonsResponseModel
 
 @{
-    Layout = "~/Views/Shared/_MediaLayout.cshtml";
-    ViewData["Title"] = "MediaIndex";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "VideoIndex";
 }
 
 
@@ -45,19 +45,18 @@
                         <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
                             <div class="position-relative tm-thumbnail-container">
                                 <img src="~/PreachersPicture/@video.Preacher.Picture" alt="Image" class="img-fluid tm-catalog-item-img">
-                                <a asp-action="MediaDetails" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
+                                <a asp-action="Details" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
                                     <i class="fas fa-play tm-overlay-icon"></i>
                                 </a>
                             </div>
                             <div class="p-4 tm-bg-gray tm-catalog-item-description">
                                 <h3 class="tm-text-primary mb-3 tm-catalog-item-title">@video.Title</h3>
                                 <p class="tm-catalog-item-text">
-                                    @video.Description
+                                    @*@video.Description*@
                                     <span class="tm-text-secondary">@video.Preacher.Name</span>
                                 </p>
                             </div>
                         </div>
-
                         }
                     </div>
                 </main>

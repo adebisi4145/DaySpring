@@ -26,6 +26,15 @@ namespace DaySpring.Models
             {
                 a.HasIndex(a => a.Email).IsUnique();
             });
+            modelBuilder.Entity<Color>(a =>
+            {
+                a.HasIndex(a => a.Name).IsUnique();
+            });
+            modelBuilder.Entity<Size>(a =>
+            {
+                a.HasIndex(a => a.Name).IsUnique();
+                a.HasIndex(a => a.Abbreviation).IsUnique();
+            });
             modelBuilder.Entity<Role>().HasData(new Role { Id= 1, Name = "SuperAdmin" });
             modelBuilder.Entity<Role>().HasData(new Role { Id= 2, Name = "Member" });
             modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "adeyemieyinjuoluwa@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("password") });

@@ -16,6 +16,7 @@ namespace DaySpring.Interfaces.Services
         public Task<SermonResponseModel> GetSermonByTitle(string title);
 
         public Task<SermonsResponseModel> GetSermons();
+        public Task<SermonsResponseModel> GetSermonAudios();
         public Task<SermonsResponseModel> GetSermonsByPreacher(int preacherId);
 
         public Task<SermonResponseModel> GetSermon(int id);

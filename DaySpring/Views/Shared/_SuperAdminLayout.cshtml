@@ -238,7 +238,28 @@
                         <ul class="submenu">
                             <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="SuperAdminIndex">Library</a></li>
-                            <li><a asp-controller="Sermon" asp-action="SuperAdminIndex">Sermons</a></li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a asp-controller="Author" asp-action="SuperAdminIndex">Authors</a></li>
+                                    <li><a asp-controller="Category" asp-action="SuperAdminIndex">Categories</a></li>
+
+                                    <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">Announcements</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a asp-controller="Sermon" asp-action="SuperAdminAudioIndex">Audios</a></li>
+                            <li><a asp-controller="Sermon" asp-action="SuperAdminVideoIndex">Videos</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -248,19 +269,6 @@
                         <ul class="submenu">
                             <li><a asp-controller="Role" asp-action="Create">Create Role</a></li>
                             <li><a asp-controller="Role" asp-action="Index">View Roles</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
-                        </a>
-                        <ul class="submenu">
-                            <li><a asp-controller="Author" asp-action="SuperAdminIndex">Authors</a></li>
-                            <li><a asp-controller="Category" asp-action="SuperAdminIndex">Categories</a></li>
-
-                            <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
-                            <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">Announcements</a></li>
                         </ul>
                     </li>
                     <li>

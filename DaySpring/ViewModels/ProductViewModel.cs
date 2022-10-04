@@ -2,6 +2,7 @@
 using DaySpring.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,8 +10,10 @@ namespace DaySpring.ViewModels
 {
     public class CreateProductRequestModel
     {
+        [Required]
         public string Name { get; set; }
         public int Price { get; set; }
+        [Required]
         public string ProductImage { get; set; }
         public List<int> ProductSizes { get; set; } = new List<int>();
         public List<int> ProductColors { get; set; } = new List<int>();

@@ -17,6 +17,7 @@
     <!-- https://fonts.google.com/ -->
     <link rel="stylesheet" href="~/Sermon/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Sermon/css/templatemo-video-catalog.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <!--
 
@@ -26,60 +27,65 @@ https://templatemo.com/tm-552-video-catalog
 
 -->
 <body>
-    <div class="tm-page-wrap mx-auto">
-
-        <!-- Page content -->
-        <div class="container-fluid">
-            <div class="mx-auto tm-content-container">
-                <main>
-                    <div class="row mb-5 pb-4">
-                        <div class="col-12">
-                            <!-- Video player 1422x800 -->
-                            <video width="1422" height="800" controls autoplay>
-                                <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
+    <div class="card-header" style="background-color: #ecf0f4;">
+        <div class="container">
+            <div class="heading">@Model.Data.Title</div>
+            <div class="music-container">
+                <div class="box">
+                    <div class="image">
+                        <img src="~/PreachersPicture/@Model.Data.Preacher.Picture" alt="">
                     </div>
-                    <div class="row mb-5 pb-5">
-                        <div class="col-xl-8 col-lg-7">
-                            <!-- Video description -->
-                            <div class="tm-video-description-box">
-                                <h2 class="mb-5 tm-video-title"><strong>@Model.Data.Title</strong></h2>
-                                <p class="mb-4"><strong>@Model.Data.Description</strong></p>
-                                <p class="mb-4"><a><strong>By @Model.Data.Preacher.Name </strong></a></p>
+                    <div class="music">
+                        <div class="head">@Model.Data.Title by @Model.Data.Preacher.Name</div>
+                        <audio controls>
+                            <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tm-page-wrap mx-auto">
+
+            <!-- Page content -->
+            <div class="container-fluid">
+                <div class="mx-auto tm-content-container">
+                    <main>
+                        <div class="row mb-5 pb-4">
+                            <div class="col-12">
+                                <!-- Video player 1422x800 -->
+                                <video width="1422" height="800" controls autoplay>
+                                    <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
 
-                    </div>
-                    <audio controls>
-                        <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
-                    </audio>
-                </main>
-                <ul class="tags">
-                    <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to the Sermon</a></li>
-                </ul>
+                    </main>
+                    <ul class="tags">
+                        <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to the Sermon</a></li>
+                    </ul>
 
-            </div> <!-- .tm-content-container -->
+                </div> <!-- .tm-content-container -->
+            </div>
         </div>
     </div>
 
-    <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
-    <script src="~/Sermon/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.tm-likes-box').click(function (e) {
-                e.preventDefault();
-                $(this).toggleClass('tm-liked');
+        <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
+        <script src="~/Sermon/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.tm-likes-box').click(function (e) {
+                    e.preventDefault();
+                    $(this).toggleClass('tm-liked');
 
-                if ($(this).hasClass('tm-liked')) {
-                    $('#tm-likes-count').html('486 likes');
-                } else {
-                    $('#tm-likes-count').html('485 likes');
-                }
+                    if ($(this).hasClass('tm-liked')) {
+                        $('#tm-likes-count').html('486 likes');
+                    } else {
+                        $('#tm-likes-count').html('485 likes');
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 </html>
 

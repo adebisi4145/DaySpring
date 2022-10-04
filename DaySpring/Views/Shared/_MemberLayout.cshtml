@@ -239,6 +239,7 @@
                             <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="Index">Library</a></li>
                             <li><a asp-controller="Announcement" asp-action="Index">Announcements</a></li>
+                            <li><a asp-controller="Preacher" asp-action="Index">Preachers</a></li>
                         </ul>
                     </li>
                     <li>
@@ -246,15 +247,10 @@
                             <span class="micon dw dw-edit-2"></span><span class="mtext">Sermon</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Sermon" asp-action="Index">View Sermons</a></li>
+                            <li><a asp-controller="Sermon" asp-action="AudioIndex">Audios</a></li>
                         </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon dw dw-apartment"></span><span class="mtext">Preachers</span>
-                        </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Preacher" asp-action="Index">View Preachers</a></li>
+                            <li><a asp-controller="Sermon" asp-action="VideoIndex">Videos</a></li>
                         </ul>
                     </li>
                     <li>

@@ -37,7 +37,12 @@ namespace DaySpring.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserRequestModel model)
         {
-            var user = await _userService.Login(model);
+            var user = await _userService.Login(model); 
+            if (user == null)
+            {
+                ViewBag.Message = "Invalid Username/Password";
+                return View();
+            }
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, $"{user.Data.FirstName} {user.Data.LastName}"),
@@ -69,7 +74,6 @@ namespace DaySpring.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }

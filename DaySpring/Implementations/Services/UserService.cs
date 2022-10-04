@@ -25,7 +25,7 @@ namespace DaySpring.Implementations.Services
             var member = await _memberRepository.GetMemberByEmailAsync(user.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
-                throw new Exception($"Invalid email or password");
+                return null;
             }
             return new MemberResponseModel
             {

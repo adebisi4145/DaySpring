@@ -12,6 +12,10 @@
             <h3 class="card-header bg-black text-center"><strong>Add Announcement</strong></h3>
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
+                    @if (!string.IsNullOrEmpty(ViewBag.Message))
+                    {
+                        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                    }
                     <div>
                         <label asp-for="Title" class="control-label"><strong>Title</strong></label>
                         <input asp-for="Title" type="text" class="form-control" />
@@ -24,12 +28,12 @@
                         <label asp-for="Description" class="control-label"><strong>Description</strong></label>
                         <input asp-for="Description" type="text" class="form-control" />
                     </div>
-                   @* @for (int i = 0; i < int.Parse(@TempData["Days"].ToString()); i++)
-                     {
-                        <div>
-                            <label asp-for="Dates[i]" class="control-label"><strong>Date</strong></label>
-                        </div>
-                     }*@
+                    @* @for (int i = 0; i < int.Parse(@TempData["Days"].ToString()); i++)
+        {
+           <div>
+               <label asp-for="Dates[i]" class="control-label"><strong>Date</strong></label>
+           </div>
+        }*@
                     <div>
                         <label asp-for="StartingDate" class="control-label"><strong>Starting Date</strong></label>
                         <input asp-for="StartingDate" type="datetime-local" name="StartingDate" class="form-control" />

@@ -10,7 +10,6 @@ namespace DaySpring.ViewModels
     public class CreateSermonRequestModel
     {
         public string Title { get; set; }
-        public string Description { get; set; }
         public string Audio { get; set; }
         public string Video { get; set; }
         public int Preacher { get; set; }
@@ -19,7 +18,6 @@ namespace DaySpring.ViewModels
     public class UpdateSermonRequestModel
     {
         public string Title { get; set; }
-        public string Description { get; set; }
         public int Preacher { get; set; }
     }
 

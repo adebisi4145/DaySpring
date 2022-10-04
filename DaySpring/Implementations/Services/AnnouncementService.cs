@@ -55,12 +55,12 @@ namespace DaySpring.Implementations.Services
             {
                 if(announcement.EndingDate != null)
                 {
+
                     var dueDate = announcement.EndingDate.ToString().Split(" ")[0];
                     var expiryDate = DateTime.Parse(dueDate);
-                    var currentDate = DateTime.Now;
-                    var expDay = (expiryDate.Day + expiryDate.Month + (expiryDate.Year * 12));
-                    var currentDay = (currentDate.Day + currentDate.Month + (currentDate.Year * 12));
-                    if (currentDay - expDay == 1)
+                    var date = DateTime.Now.ToString().Split(" ")[0];
+                    var currentDate = DateTime.Parse(date);
+                    if (currentDate > expiryDate)
                     {
                         await _announcementRepository.DeleteAsync(announcement);
                         await _announcementRepository.SaveChangesAsync();
@@ -70,10 +70,9 @@ namespace DaySpring.Implementations.Services
                 {
                     var dueDate = announcement.StartingDate.ToString().Split(" ")[0];
                     var expiryDate = DateTime.Parse(dueDate);
-                    var currentDate = DateTime.Now;
-                    var expDay = (expiryDate.Day + expiryDate.Month + (expiryDate.Year * 12));
-                    var currentDay = (currentDate.Day + currentDate.Month + (currentDate.Year * 12));
-                    if (currentDay - expDay == 1)
+                    var date = DateTime.Now.ToString().Split(" ")[0];
+                    var currentDate = DateTime.Parse(date);
+                    if (currentDate > expiryDate)
                     {
                         await _announcementRepository.DeleteAsync(announcement);
                         await _announcementRepository.SaveChangesAsync();

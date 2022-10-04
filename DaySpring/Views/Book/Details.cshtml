@@ -95,6 +95,10 @@
                                     @*<strong><a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">Author:</a></strong>*@
                                     <span class="color-text-a"><a href="~/bookPDFs/@Model.Data.BookPDF" download="@Model.Data.BookPDF"><input class="btn btn-outline-primary" type="button" value="Download book" /></a></span>
                                 </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="color-text-a"><a asp-action="Readbook" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Read book" /></a></span>
+
+                                </li>
                             </ul>
                         </div>
                         <div class="post-content color-text-a">

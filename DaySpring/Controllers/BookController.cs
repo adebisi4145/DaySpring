@@ -47,6 +47,11 @@ namespace DaySpring.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateBookRequestModel model, IFormFile image, IFormFile pdf)
         {
+            if(image == null || pdf == null)
+            {
+                ViewBag.Message = "Please upload an image or pdf";
+                return View();
+            }
             if (image != null)
             {
                 string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "BookImages");
@@ -93,6 +98,13 @@ namespace DaySpring.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
+        {
+            var book = await _bookService.GetBook(id);
+            return View(book);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReadBook(int id)
         {
             var book = await _bookService.GetBook(id);
             return View(book);
@@ -155,6 +167,20 @@ namespace DaySpring.Controllers
         {
             var books = await _bookService.GetBooksByAuthor(authorId);
             return View(books);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MediaReadBook(int id)
+        {
+            var book = await _bookService.GetBook(id);
+            return View(book);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminReadBook(int id)
+        {
+            var book = await _bookService.GetBook(id);
+            return View(book);
         }
     }
 }

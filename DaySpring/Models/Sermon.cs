@@ -8,7 +8,7 @@ namespace DaySpring.Models
     public class Sermon: BaseEntity
     {
         public string Title { get; set; }
-        public string Description { get; set; }
+        // string Description { get; set; }
         public string Audio { get; set; } 
         public string Video { get; set; }
         public int PreacherId { get; set; }

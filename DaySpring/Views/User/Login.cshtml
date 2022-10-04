@@ -27,6 +27,10 @@
                             </div>
                             <p class="login-card-description">Sign into your account</p>
                             <form method="post" action="#!">
+                                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                                {
+                                    <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                                }
                                 <div class="form-group">
                                     <label for="email" class="sr-only">Email</label>
                                     <input asp-for="Email" type="email" class="form-control" placeholder="Email address">

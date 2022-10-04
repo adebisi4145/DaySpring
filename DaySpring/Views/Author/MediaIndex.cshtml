@@ -35,15 +35,18 @@
             @foreach (var author in Model.Data)
             {
                 <div class="card">
-                    <a asp-action="MediaDetails" asp-route-id="@author.Id">
-                        <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="Authors Image">
-                    </a>
+                    <div class="img-fluid" style="background: url(../../AuthorsImage/@author.AuthorsImage); width:400px; height:350px; background-repeat: no-repeat; background-size:cover">
+
+                    </div>
+                    @*<a asp-action="MediaDetails" asp-route-id="@author.Id">
+                    <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="Authors Image">
+                    </a>*@
                     <div class="card-block">
                         <h2 class="card-title text-center"><a asp-action="MediaDetails" asp-route-id="@author.Id">@author.FirstName @author.LastName</a></h2>
                         @*<h4 class="card-text">@author.Biography</h4>*@
-                        
+
                     </div>
-                </div>
+            </div>
             }
             <!-- begin post -->
             <!-- end post -->

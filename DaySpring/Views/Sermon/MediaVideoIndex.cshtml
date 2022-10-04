@@ -1,8 +1,8 @@
 ﻿@model DaySpring.ViewModels.SermonsResponseModel
 
 @{
-    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
-    ViewData["Title"] = "SuperAdminIndex";
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "MediaVideoIndex";
 }
 
 
@@ -42,21 +42,21 @@
                     <div class="row tm-catalog-item-list">
                         @foreach (var video in Model.Data)
                         {
-                            <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
-                                <div class="position-relative tm-thumbnail-container">
-                                    <img src="~/Registration/images/signup-bg.jpg" alt="Image" class="img-fluid tm-catalog-item-img">
-                                    <a asp-action="SuperAdminDetails" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
-                                        <i class="fas fa-play tm-overlay-icon"></i>
-                                    </a>
-                                </div>
-                                <div class="p-4 tm-bg-gray tm-catalog-item-description">
-                                    <h3 class="tm-text-primary mb-3 tm-catalog-item-title">@video.Title</h3>
-                                    <p class="tm-catalog-item-text">
-                                        @video.Description
-                                        <span class="tm-text-secondary">@video.Preacher.Name</span>
-                                    </p>
-                                </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
+                            <div class="position-relative tm-thumbnail-container">
+                                <img src="~/PreachersPicture/@video.Preacher.Picture" alt="Image" class="img-fluid tm-catalog-item-img">
+                                <a asp-action="MediaDetails" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
+                                    <i class="fas fa-play tm-overlay-icon"></i>
+                                </a>
                             </div>
+                            <div class="p-4 tm-bg-gray tm-catalog-item-description">
+                                <h3 class="tm-text-primary mb-3 tm-catalog-item-title">@video.Title</h3>
+                                <p class="tm-catalog-item-text">
+                                   @* @video.Description*@
+                                    <span class="tm-text-secondary">@video.Preacher.Name</span>
+                                </p>
+                            </div>
+                        </div>
 
                         }
                     </div>
@@ -69,9 +69,9 @@
         </div>
     </div>
 
-    <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
-    <script src="~/Sermon/js/bootstrap.min.js"></script>
-    <script>
+            <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
+            <script src="~/Sermon/js/bootstrap.min.js"></script>
+            <script>
         function setVideoSize() {
             const vidWidth = 1920;
             const vidHeight = 1080;
@@ -130,7 +130,7 @@
                 }
             });
         })
-    </script>
+            </script>
 </body>
 
 </html>

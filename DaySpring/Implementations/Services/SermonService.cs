@@ -26,7 +26,6 @@ namespace DaySpring.Implementations.Services
             var sermon = new Sermon
             {
                 Title = model.Title,
-                Description = model.Description,
                 PreacherId = model.Preacher,
                 Preacher = preacher,
                 Audio = model.Audio,
@@ -50,7 +49,6 @@ namespace DaySpring.Implementations.Services
                 {
                     Id = id,
                     Title = sermon.Title,
-                    Description = sermon.Description,
                     PreacherId = sermon.PreacherId,
                     Preacher = sermon.Preacher,
                     Audio = sermon.Audio,
@@ -61,7 +59,27 @@ namespace DaySpring.Implementations.Services
             };
         }
 
+
         public async Task<SermonsResponseModel> GetSermons()
+        {
+            var sermons = await _sermonRepository.GetSermons();
+            return new SermonsResponseModel
+            {
+                Data = sermons.Select(m => new SermonModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    PreacherId = m.PreacherId,
+                    Preacher = m.Preacher,
+                    Audio = m.Audio,
+                    Video = m.Video
+                }).ToList(),
+                Status = true,
+                Message = "successful"
+            };
+        }
+
+        public async Task<SermonsResponseModel> GetSermonAudios()
         {
             var sermons = await _sermonRepository.GetSermons();
             return new SermonsResponseModel

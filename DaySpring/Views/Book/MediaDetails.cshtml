@@ -94,8 +94,11 @@
                         <div class="post-information">
                             <ul class="list-inline text-center color-a">
                                 <li class="list-inline-item mr-2">
-                                    @*<strong><a asp-action="Details" asp-controller="Author" asp-route-id="@author.Id">Author:</a></strong>*@
                                     <span class="color-text-a"><a href="~/bookPDFs/@Model.Data.BookPDF" download="@Model.Data.BookPDF"><input class="btn btn-outline-primary" type="button" value="Download book" /></a></span>
+
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="color-text-a"><a asp-action="MediaReadbook" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Read book" /></a></span>
 
                                 </li>
                                 <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to the Book</a></li>
