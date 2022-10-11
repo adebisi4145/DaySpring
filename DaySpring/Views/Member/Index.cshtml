@@ -39,22 +39,24 @@
     <tbody>
         @foreach (var member in Model.Data)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => member.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => member.LastName)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => member.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => member.LastName)
+            </td>
 
-                <td>
-                    <a asp-action="AdminDetails" asp-route-id="@member.Id">Details</a>
-                </td>
-                <td>
-                    <a asp-controller="Payment" asp-action="GetPaymentsByEmailSuperAdmin" asp-route-email="@member.Email">Payments</a>
-                </td>
-                @{
-                    var role = member.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
+            <td>
+                <a asp-action="AdminDetails" asp-route-id="@member.Id">Details</a>
+            </td>
+            <td>
+                <a asp-controller="Payment" asp-action="GetPaymentsByEmail" asp-route-email="@member.Email">Payments</a>
+            </td>
+            @{
+                var role = member.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
+                if (!role.Contains("superadmin"))
+                {
                     if (!role.Contains("media"))
                     {
                         <td>
@@ -80,10 +82,16 @@
                         </td>
                     }
                 }
+                else
+                {
+                    <td>----------</td>
+                    <td>----------</td>
+                }
+            }
 
 
-            </tr>
-        }
+        </tr>
+                    }
     </tbody>
 </table>
 @*<button class="btn btn-primary offset-10 " style="background-color: whitesmoke;"><a asp-action="Create">Add Category</a></button>*@

@@ -23,7 +23,13 @@
     <link href="~/Announcement/assets/css/mediumish.css" rel="stylesheet">
 </head>
 <body>
-
+    <form class="signup-form form-inline justify-content-center pt-3">
+        <div class="form-group">
+            @*<label class="sr-only" for="semail">Your email</label>*@
+            <input name="name" type="text" class="form-control" placeholder="search">
+        </div>
+        <button class="btn btn-primary" asp-action="GetAuthorsByName" style="font-size: 1.0rem; padding: 10px 60px;">Search</button>
+    </form>
 
     <!-- Begin List Posts
     ================================================== -->
@@ -31,16 +37,20 @@
         <div class="section-title">
             <h2><span>Preachers</span></h2>
         </div>
-        <div class="card-columns listrecent" width:400px; height:350px;>
+        <div class="card-columns listrecent">
             @foreach (var author in Model.Data)
             {
                 <div class="card">
-                    <a asp-action="Details" asp-route-id="@author.Id">
-                        <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="">
-                    </a>
+                    <div class="img-fluid" style="background: url(../../AuthorsImage/@author.AuthorsImage); width:400px; height:350px; background-repeat: no-repeat; background-size:cover">
+
+                    </div>
+                    @*<a asp-action="MediaDetails" asp-route-id="@author.Id">
+                        <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="Authors Image">
+                        </a>*@
                     <div class="card-block">
-                        <h2 class="card-title"><a asp-action="Details" asp-route-id="@author.Id">@author.FirstName @author.LastName</a></h2>
-                        
+                        <h2 class="card-title text-center"><a asp-action="Details" asp-route-id="@author.Id">@author.FirstName @author.LastName</a></h2>
+                        @*<h4 class="card-text">@author.Biography</h4>*@
+
                     </div>
                 </div>
             }

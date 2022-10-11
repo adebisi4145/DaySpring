@@ -57,6 +57,20 @@ namespace DaySpring.Implementations.Services
             };
         }
 
+        public async Task<MemberModel> GetMemberById(int id)
+        {
+            var member = await _memberRepository.GetAsync(id);
+            return new MemberModel
+            {
+                Id = member.Id,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                Email = member.Email,
+                UserId = member.UserId,
+                User = member.User
+            };
+        }
+
         public async Task<MembersResponseModel> GetAllMembers()
         {
             var members = await _memberRepository.GetMembers();
@@ -77,20 +91,34 @@ namespace DaySpring.Implementations.Services
 
         }
 
-        public async Task<MemberResponseModel> GetMemberByEmail(string email)
+        public async Task<MemberModel> GetMemberByEmail(string email)
         {
             var member = await _memberRepository.GetMemberByEmailAsync(email);
-            return new MemberResponseModel
+            return new MemberModel
             {
-                Data = new MemberModel
+                Id = member.Id,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                Email = member.Email,
+                UserId = member.UserId,
+                User = member.User
+            };
+        }
+
+        public async Task<MembersResponseModel> GetMinisters()
+        {
+            var members = await _memberRepository.GetMinisters();
+            return new MembersResponseModel
+            {
+                Data = members.Select(m => new MemberModel
                 {
-                    Id = member.Id,
-                    FirstName = member.FirstName,
-                    LastName = member.LastName,
-                    Email = member.Email,
-                    UserId = member.UserId,
-                    User = member.User
-                },
+                    Id = m.Id,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    Email = m.Email,
+                    UserId = m.UserId,
+                    User = m.User
+                }).ToList(),
                 Status = true,
                 Message = "successful"
             };

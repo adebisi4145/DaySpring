@@ -13,9 +13,9 @@ namespace DaySpring.Interfaces.Services
 
         public Task<BaseResponse> UpdateAnnouncement(int id, UpdateAnnouncementRequestModel model);
 
-        public Task<BaseResponse> DeleteAnnouncements();
-
         public Task<AnnouncementResponseModel> GetAnnouncement(int id);
+
+        public Task<AnnouncementsResponseModel> GetCurrentAnnouncements();
 
         public Task<AnnouncementsResponseModel> GetAnnouncements();
     }

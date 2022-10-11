@@ -15,19 +15,19 @@
                     <p>Check the details carefully before clicking on the Update button</p>
                     <div>
                         <label asp-for="Data.ISBN" class="control-label"><strong>ISBN</strong></label>
-                        <input name="ISBN" value="@Model.Data.ISBN" type="text" class="form-control" />
+                        <input name="ISBN" value="@Model.Data.ISBN" type="text" class="form-control" required/>
                     </div>
                     <div>
                         <label asp-for="Data.Title" class="control-label"><strong>Title</strong></label>
-                        <input name="Title" value="@Model.Data.Title" type="text" class="form-control" />
+                        <input name="Title" value="@Model.Data.Title" type="text" class="form-control" required/>
                     </div>
                     <div>
                         <label asp-for="Data.Publisher" class="control-label"><strong>Publisher</strong></label>
-                        <input name="Publisher" value="@Model.Data.Publisher" type="text" class="form-control" />
+                        <input name="Publisher" value="@Model.Data.Publisher" type="text" class="form-control" required/>
                     </div>
                     <div>
                         <label asp-for="Data.NumberOfPages" class="control-label"><strong>Number of Pages</strong></label>
-                        <input name="NumberOfPages" value="@Model.Data.NumberOfPages" type="text" class="form-control" />
+                        <input name="NumberOfPages" value="@Model.Data.NumberOfPages" type="text" class="form-control" required/>
                     </div>
                     <br />
                     <button type="submit">Update</button>

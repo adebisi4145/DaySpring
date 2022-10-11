@@ -16,7 +16,7 @@ namespace DaySpring.Implementations.Repositories
         }
         public async Task<Preacher> GetPreacherByName(string name)
         {
-            return await _daySpringDbContext.Preachers.SingleOrDefaultAsync(c => c.Name == name);
+            return await _daySpringDbContext.Preachers.SingleOrDefaultAsync(c => c.Name == name || c.Name.Contains(name));
         }
     }
 }

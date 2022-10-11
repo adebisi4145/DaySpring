@@ -41,7 +41,6 @@
 </head>
 
 <body>
-
     <!-- ======= Intro Single ======= -->
     <section class="intro-single">
         <div class="container">
@@ -53,8 +52,17 @@
                 </div>
 
             </div>
+            <form class="signup-form form-inline justify-content-center pt-3">
+                <div class="form-group">
+                    @*<label class="sr-only" for="semail">Your email</label>*@
+                    <input name="title" type="text" class="form-control" placeholder="Enter Title">
+                </div>
+                <button class="btn" asp-action="GetBooksByTitleSuperAdmin" style="font-size: 1.0rem; padding: 10px 60px; background-color: #2eca6a;">Search</button>
+            </form>
         </div>
-    </section><!-- End Intro Single-->
+    </section>
+    
+    <!-- End Intro Single-->
     <!-- =======  Blog Grid ======= -->
     <section class="news-grid grid">
         <div class="container">
@@ -71,16 +79,15 @@
                                 <div class="card-header-b">
                                     <div class="card-category-b">
                                         <a asp-action="SuperAdminDetails" asp-route-id="@book.Id" class="category-b">@book.Title</a>
-                                        @foreach (var author in book.Authors)
-                                        {
-                                            <a asp-action="SuperAdminDetails" asp-controller="Author" asp-route-id="@author.Id"><span class="color-text-a"><strong>@author.FirstName @author.LastName</strong></span></a>
 
-                                        }
                                     </div>
                                     <div class="card-title-b">
                                         <h2 class="title-2">
-                                            <a href="@book.Title">
-                                            </a>
+                                            @foreach (var author in book.Authors)
+                                            {
+                                                <a asp-action="SuperAdminDetails" asp-controller="Author" asp-route-id="@author.Id">@author.FirstName @author.LastName</a>
+
+                                            }
                                         </h2>
                                     </div>
                                     @*<div class="card-date">

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace DaySpring.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -20,6 +21,7 @@ namespace DaySpring.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userService.GetAllUsers();
@@ -37,11 +39,19 @@ namespace DaySpring.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserRequestModel model)
         {
-            var user = await _userService.Login(model); 
+            var user = await _userService.Login(model);
             if (user == null)
             {
-                ViewBag.Message = "Invalid Username/Password";
+                ViewBag.Message = "Invalid Email/Password";
                 return View();
+            }
+            var userRoles = user.Data.User.UserRoles.Select(c => c.Role.Name).ToList();
+
+            var roleClaims = new List<Claim>();
+            foreach(var role in userRoles)
+            {
+                var claim = new Claim(ClaimTypes.Role, role);
+                roleClaims.Add(claim);
             }
             var claims = new List<Claim>
             {
@@ -49,7 +59,10 @@ namespace DaySpring.Controllers
                 new Claim(ClaimTypes.GivenName, $"{user.Data.FirstName} {user.Data.LastName}"),
                 new Claim(ClaimTypes.NameIdentifier, user.Data.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Data.Email),
+            
+           
             };
+            claims.AddRange(roleClaims);
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authenticationProperties = new AuthenticationProperties();
             var principal = new ClaimsPrincipal(claimsIdentity);

@@ -1,4 +1,5 @@
 ﻿using DaySpring.Dtos;
+using DaySpring.Enums;
 using DaySpring.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,15 @@ namespace DaySpring.ViewModels
     public class CreateSermonRequestModel
     {
         public string Title { get; set; }
+        public SermonType SermonType { get; set; }
         public string Audio { get; set; }
         public string Video { get; set; }
         public int Preacher { get; set; }
+        public int Member { get; set; }
+    }
+    public class SermonTypeRequestModel
+    {
+        public SermonType SermonType { get; set; }
     }
 
     public class UpdateSermonRequestModel

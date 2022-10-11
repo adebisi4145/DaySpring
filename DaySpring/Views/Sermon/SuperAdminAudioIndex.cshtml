@@ -20,7 +20,9 @@
         <div class="music-container">
             @foreach (var sermon in Model.Data)
             {
-                <div class="box">
+            <div class="box">
+                @if (sermon.Member == null)
+                {
                     <div class="image">
                         <img src="~/PreachersPicture/@sermon.Preacher.Picture" alt="">
                     </div>
@@ -30,7 +32,21 @@
                             <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
                         </audio>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="image">
+                        <img src="~/Registration/images/signup-bg.jpg" alt="">
+                    </div>
+                    <div class="music">
+                        <div class="head">@sermon.Title by @sermon.Member.FirstName @sermon.Member.LastName</div>
+                        <audio controls>
+                            <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                        </audio>
+                    </div>
+                }
+
+            </div>
             }
 
         </div>

@@ -12,7 +12,7 @@ namespace DaySpring.Interfaces.Services
     {
         public Task<BookResponseModel> GetBook(int id);
 
-        public Task<BookResponseModel> GetBookByTitle(string title);
+        public Task<BooksResponseModel> GetBooksByTitle(string title);
 
         public Task<BooksResponseModel> GetBooks();
 
@@ -25,5 +25,6 @@ namespace DaySpring.Interfaces.Services
         public Task<BaseResponse> CreateBook(CreateBookRequestModel model);
 
         public Task<BaseResponse> UpdateBook(int id, UpdateBookRequestModel model);
+        public Task<BaseResponse> DeleteBook(int id);
     }
 }

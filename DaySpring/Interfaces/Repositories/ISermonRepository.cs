@@ -8,8 +8,8 @@ namespace DaySpring.Interfaces.Repositories
 {
     public interface ISermonRepository : IRepository<Sermon>
     {
-        Task<Sermon> GetSermonByTitle(string title);
-        Task<List<Sermon>> GetSermonByPreacher(int preacherId);
+        Task<List<Sermon>> GetSermonsByTitle(string title);
+        Task<List<Sermon>> GetSermonsByPreacher(int id);
         Task<List<Sermon>> GetSermons();
         Task<Sermon> GetSermon(int id);
     }

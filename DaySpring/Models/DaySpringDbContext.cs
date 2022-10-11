@@ -18,6 +18,10 @@ namespace DaySpring.Models
             {
                 a.HasIndex(a => a.Name).IsUnique();
             });
+            modelBuilder.Entity<Book>(a =>
+            {
+                a.HasIndex(a => a.ISBN).IsUnique();
+            });
             modelBuilder.Entity<Member>(a =>
             {
                 a.HasIndex(a => a.Email).IsUnique();

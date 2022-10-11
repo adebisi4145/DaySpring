@@ -54,7 +54,7 @@
         <div class="header-left">
             <div class="menu-icon dw dw-menu"></div>
             <div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
-            <div class="header-search">
+            @*<div class="header-search">
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>*@
         </div>
         <div class="header-right">
             <div class="dashboard-setting user-notification">
@@ -132,9 +132,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                         @*<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>*@
-                        <a class="dropdown-item" asp-controller="Member" asp-action="Details"><i class="dw dw-user1"></i> Profile</a>
-                        <a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-                        <a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
+                        <a class="dropdown-item" asp-controller="Member" asp-action="MediaDetails"><i class="dw dw-user1"></i> Profile</a>
+                        <a class="dropdown-item" asp-controller="Member" asp-action="EditPasswordMedia"><i class="dw dw-settings2"></i>Change Password</a>
                         <a class="dropdown-item" asp-controller="User" asp-action="Logout"><i class="dw dw-logout"></i> Log Out</a>
                     </div>
                 </div>
@@ -246,7 +245,8 @@
                                     <li><a asp-controller="Author" asp-action="MediaIndex">Authors</a></li>
                                     <li><a asp-controller="Category" asp-action="MediaIndex">Categories</a></li>
                                     <li><a asp-controller="Preacher" asp-action="MediaIndex">Preachers</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="MediaIndex">Announcements</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="MediaCurrentAnnouncements">View New Programs</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="MediaIndex">View All Programs</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -264,6 +264,7 @@
                         </a>
                         <ul class="submenu">
                             <li><a asp-controller="Book" asp-action="Create">Book</a></li>
+                            <li><a asp-controller="Category" asp-action="Create">Category</a></li>
                             <li><a asp-controller="Announcement" asp-action="Create">Announcement</a></li>
                             <li><a asp-controller="Preacher" asp-action="Create">Preacher</a></li>
                             <li><a asp-controller="Author" asp-action="Create">Author</a></li>
@@ -275,9 +276,9 @@
                             <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Sermon" asp-action="Create">Add Sermon</a></li>
+                            <li><a asp-controller="Sermon" asp-action="SermonType">Add Sermon</a></li>
                             <li><a asp-controller="Sermon" asp-action="MediaAudioIndex">Audios</a></li>
-                            <li><a asp-controller="Sermon" asp-action="MediaVideoIndex">Videos</a></li>
+                            <li><a asp-controller="Sermon" asp-action="MediaIndex">Sermons</a></li>
                         </ul>
                     </li>
                     <li>

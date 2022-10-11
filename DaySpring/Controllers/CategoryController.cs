@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,14 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateCategoryRequestModel model)
         {
             await _categoryService.CreateCategory(model);
@@ -43,6 +46,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryService.GetCategory(id);
@@ -50,6 +54,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateCategoryRequestModel model)
         {
             await _categoryService.UpdateCategory(id, model);
@@ -57,6 +62,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryService.GetCategory(id);
@@ -64,6 +70,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> DeleteConfirmed([FromRoute] int id)
         {
             await _categoryService.DeleteCategory(id);

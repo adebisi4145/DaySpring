@@ -5,6 +5,7 @@ using DaySpring.Models;
 using DaySpring.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,16 +21,8 @@ namespace DaySpring.Implementations.Services
 
         public async Task<BaseResponse> CreateAuthor(CreateAuthorRequestModel model)
         {
-            /*var authors = await _authorRepository.GetAllAsync();
-            var authorsName = authors.Select(c => c.FirstName , c=>c.LastName);
-            if (membersEmail.Contains(model.Email))
-            {
-                return new BaseResponse
-                {
-                    Status = true,
-                    Message = "member already exist"
-                };
-            }*/
+            var authors = await _authorRepository.GetAllAsync();
+            
             var author = new Author
             {
                 FirstName = model.FirstName,
@@ -37,24 +30,20 @@ namespace DaySpring.Implementations.Services
                 AuthorsImage = model.AuthorsImage,
                 Biography = model.Biography
             };
-           await _authorRepository.AddAsync(author);
+            if (authors.Contains(author))
+            {
+                return new BaseResponse
+                {
+                    Status = true,
+                    Message = "Author already exist"
+                };
+            }
+          await _authorRepository.AddAsync(author);
            await _authorRepository.SaveChangesAsync();
             return new BaseResponse
             {
                 Status = true,
                 Message = "Successfully Added"
-            };
-        }
-
-        public async Task<BaseResponse> DeleteAuthor(int id)
-        {
-            var author = await _authorRepository.GetAsync(id);
-            await _authorRepository.DeleteAsync(author);
-            await _authorRepository.SaveChangesAsync();
-            return new BaseResponse
-            {
-                Status = true,
-                Message = "Successfully deleted"
             };
         }
 
@@ -79,6 +68,24 @@ namespace DaySpring.Implementations.Services
         public async Task<AuthorsResponseModel> GetAuthors()
         {
             var author = await _authorRepository.GetAllAsync();
+            return new AuthorsResponseModel
+            {
+                Data = author.Select(m => new AuthorModel
+                {
+                    Id = m.Id,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    AuthorsImage = m.AuthorsImage,
+                    Biography = m.Biography
+                }).ToList(),
+                Status = true,
+                Message = "successful"
+            };
+        }
+
+        public async Task<AuthorsResponseModel> GetAuthorsByName(string name)
+        {
+            var author = await _authorRepository.GetAuthorsByName(name);
             return new AuthorsResponseModel
             {
                 Data = author.Select(m => new AuthorModel

@@ -15,26 +15,37 @@ namespace DaySpring.Implementations.Repositories
             _daySpringDbContext = daySpringDbContext;
         }
 
-        public async Task<Sermon> GetSermonByTitle(string title)
-        {
-            return await _daySpringDbContext.Sermons.Include(c => c.Preacher).SingleOrDefaultAsync(b => b.Title == title);
-        }
-
-        public async Task<List<Sermon>> GetSermonByPreacher(int preacherId)
+        public async Task<List<Sermon>> GetSermonsByTitle(string title)
         {
             return await _daySpringDbContext.Sermons.Include(c => c.Preacher)
-                .Where(c => c.PreacherId == preacherId)
+                .Include(c => c.Member)
+                .Where(b => b.Title == title || b.Title.Contains(title))
+                .ToListAsync();
+        }
+
+        public async Task<List<Sermon>> GetSermonsByPreacher(int id)
+        {
+            return await _daySpringDbContext.Sermons
+                .Include(c => c.Member)
+                .Include(c => c.Preacher)
+                .Where(c => c.PreacherId == id)
                 .ToListAsync();
         }
 
         public async Task<List<Sermon>> GetSermons()
         {
-            return await _daySpringDbContext.Sermons.Include(c => c.Preacher).ToListAsync();
+            return await _daySpringDbContext.Sermons
+                .Include(c => c.Preacher)
+                .Include(c=>c.Member)
+                .ToListAsync();
         }
 
         public async Task<Sermon> GetSermon(int id)
         {
-            return await _daySpringDbContext.Sermons.Include(c => c.Preacher).SingleOrDefaultAsync(c => c.Id == id);
+            return await _daySpringDbContext.Sermons
+                .Include(c => c.Preacher)
+                .Include(c => c.Member)
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
     }
 }

@@ -28,6 +28,13 @@
 </head>
 
 <body>
+    <form class="signup-form form-inline justify-content-center pt-3">
+        <div class="form-group">
+            @*<label class="sr-only" for="semail">Your email</label>*@
+            <input name="title" type="text" class="form-control" placeholder="Enter Title">
+        </div>
+        <button class="btn btn-primary" asp-action="GetSermonsByTitleSuperAdmin" style="font-size: 1.0rem; padding: 10px 60px;">Search</button>
+    </form>
     <div class="tm-page-wrap mx-auto">
 
         <div class="container-fluid">
@@ -43,19 +50,23 @@
                         @foreach (var video in Model.Data)
                         {
                             <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
-                                <div class="position-relative tm-thumbnail-container">
-                                    <img src="~/Registration/images/signup-bg.jpg" alt="Image" class="img-fluid tm-catalog-item-img">
-                                    <a asp-action="MediaDetails" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
-                                        <i class="fas fa-play tm-overlay-icon"></i>
-                                    </a>
-                                </div>
-                                <div class="p-4 tm-bg-gray tm-catalog-item-description">
-                                    <h3 class="tm-text-primary mb-3 tm-catalog-item-title">@video.Title</h3>
-                                    <p class="tm-catalog-item-text">
-                                        @*@video.Description*@
-                                        <span class="tm-text-secondary">@video.Preacher.Name</span>
-                                    </p>
-                                </div>
+                                @if (video.Member == null)
+                                {
+                                    <div class="position-relative tm-thumbnail-container">
+                                        <div class="img-fluid tm-catalog-item-img" style="background: url(../../PreachersPicture/@video.Preacher.Picture); width:400px; height:350px; background-repeat: no-repeat; background-size:cover"></div>
+                                        @*<img src="~/PreachersPicture/@video.Preacher.Picture" alt="Image" class="img-fluid tm-catalog-item-img">*@
+                                        <a asp-action="SuperAdminDetails" asp-route-id="@video.Id" class="position-absolute tm-img-overlay">
+                                            <i class="fas fa-play tm-overlay-icon"></i>
+                                        </a>
+                                    </div>
+                                    <div class="p-4 tm-bg-gray tm-catalog-item-description">
+                                        <h3 class="tm-text-primary mb-3 tm-catalog-item-title">@video.Title</h3>
+                                        <p class="tm-catalog-item-text">
+                                            @* @video.Description*@
+                                            <span class="tm-text-secondary">@video.Preacher.Name</span>
+                                        </p>
+                                    </div>
+                                }
                             </div>
 
                         }
@@ -86,11 +97,11 @@
                 newVidWidth = newVidHeight * vidWidth / vidHeight;
             }
 
-            if(newVidWidth > windowWidth) {
+            if (newVidWidth > windowWidth) {
                 marginLeft = -((newVidWidth - windowWidth) / 2);
             }
 
-            if(newVidHeight > 720) {
+            if (newVidHeight > 720) {
                 marginTop = -((newVidHeight - $('#tm-video-container').height()) / 2);
             }
 

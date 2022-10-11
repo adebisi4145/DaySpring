@@ -17,6 +17,7 @@
     <!-- https://fonts.google.com/ -->
     <link rel="stylesheet" href="~/Sermon/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Sermon/css/templatemo-video-catalog.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <!--
 
@@ -26,7 +27,39 @@ https://templatemo.com/tm-552-video-catalog
 
 -->
 <body>
-    <div class="card-header" style="background-color: whitesmoke;">
+    <div class="card-header" style="background-color: #ecf0f4;">
+        <div class="container">
+            <div class="heading">@Model.Data.Title</div>
+            <div class="music-container">
+                <div class="box">
+                    @if (Model.Data.PreacherId == null)
+                    {
+                        <div class="image">
+                            <img src="~/Registration/images/signup-bg.jpg" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@Model.Data.Title by @Model.Data.Member.FirstName @Model.Data.Member.LastName</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
+                    else if (Model.Data.MemberId == null)
+                    {
+                        <div class="image">
+                            <img src="~/PreachersPicture/@Model.Data.Preacher.Picture" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@Model.Data.Title by @Model.Data.Preacher.Name</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
         <div class="tm-page-wrap mx-auto">
 
             <!-- Page content -->
@@ -42,14 +75,13 @@ https://templatemo.com/tm-552-video-catalog
                                 </video>
                             </div>
                         </div>
-                        <div class="card-title">
-                            <h2 class="text-center">@Model.Data.Title by @Model.Data.Preacher.Name</h2>
-                        </div>
+
                     </main>
+
                 </div> <!-- .tm-content-container -->
             </div>
         </div>
-        </div>
+    </div>
 
         <script src="~/Sermon/js/jquery-3.4.1.min.js"></script>
         <script src="~/Sermon/js/bootstrap.min.js"></script>

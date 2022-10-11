@@ -54,7 +54,7 @@
         <div class="header-left">
             <div class="menu-icon dw dw-menu"></div>
             <div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
-            <div class="header-search">
+            @*<div class="header-search">
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>*@
         </div>
         <div class="header-right">
             <div class="dashboard-setting user-notification">
@@ -132,9 +132,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                         @*<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>*@
-                        <a class="dropdown-item" asp-controller="Member" asp-action="Details"><i class="dw dw-user1"></i> Profile</a>
-                        <a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-                        <a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
+                        <a class="dropdown-item" asp-controller="Member" asp-action="SuperAdminDetails"><i class="dw dw-user1"></i> Profile</a>
+                        <a class="dropdown-item" asp-controller="Member" asp-action="EditPasswordSuperAdmin"><i class="dw dw-settings2"></i>Change Password</a>
                         <a class="dropdown-item" asp-controller="User" asp-action="Logout"><i class="dw dw-logout"></i> Log Out</a>
                     </div>
                 </div>
@@ -244,10 +243,9 @@
                                 </a>
                                 <ul class="submenu">
                                     <li><a asp-controller="Author" asp-action="SuperAdminIndex">Authors</a></li>
-                                    <li><a asp-controller="Category" asp-action="SuperAdminIndex">Categories</a></li>
-
                                     <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">Announcements</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="SuperAdminCurrentAnnouncements">View New Programs</a></li>
+                                    <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">View All Programs</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -259,7 +257,7 @@
                         </a>
                         <ul class="submenu">
                             <li><a asp-controller="Sermon" asp-action="SuperAdminAudioIndex">Audios</a></li>
-                            <li><a asp-controller="Sermon" asp-action="SuperAdminVideoIndex">Videos</a></li>
+                            <li><a asp-controller="Sermon" asp-action="SuperAdminIndex">Sermons</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

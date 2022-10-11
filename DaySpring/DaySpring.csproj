@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\AuthorImages\" />
     <Folder Include="wwwroot\BookImages\" />
     <Folder Include="wwwroot\BookPdfs\" />
     <Folder Include="wwwroot\AnnouncementImages\" />

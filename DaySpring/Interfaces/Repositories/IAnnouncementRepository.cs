@@ -9,5 +9,6 @@ namespace DaySpring.Interfaces.Repositories
     public interface IAnnouncementRepository : IRepository<Announcement>
     {
         Task<Announcement> AddAnnouncement(Announcement announcement);
+        Task<List<Announcement>> GetCurrentAnnouncements();
     }
 }

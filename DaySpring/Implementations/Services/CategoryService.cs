@@ -19,10 +19,19 @@ namespace DaySpring.Implementations.Services
         }
         public async Task<BaseResponse> CreateCategory(CreateCategoryRequestModel model)
         {
+            var categories = await _categoryRepository.GetAllAsync();
             var category = new Category
             {
                 Name = model.Name
             };
+            if(categories.Contains(category))
+            {
+                return new BaseResponse
+                {
+                    Status = true,
+                    Message = "Category already exist"
+                };
+            }
             await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveChangesAsync();
             return new BaseResponse

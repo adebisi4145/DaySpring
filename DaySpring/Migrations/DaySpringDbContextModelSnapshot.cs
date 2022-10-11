@@ -35,7 +35,7 @@ namespace DaySpring.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("EndingDate")
+                    b.Property<DateTime>("EndingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartingDate")
@@ -87,7 +87,7 @@ namespace DaySpring.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("NumberOfPages")
                         .HasColumnType("int");
@@ -99,6 +99,10 @@ namespace DaySpring.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique()
+                        .HasFilter("[ISBN] IS NOT NULL");
 
                     b.ToTable("Books");
                 });
@@ -170,9 +174,13 @@ namespace DaySpring.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Colors");
                 });
@@ -379,10 +387,13 @@ namespace DaySpring.Migrations
                     b.Property<string>("Audio")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PreacherId")
+                    b.Property<int?>("PreacherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SermonType")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -392,6 +403,8 @@ namespace DaySpring.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
 
                     b.HasIndex("PreacherId");
 
@@ -406,12 +419,20 @@ namespace DaySpring.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Abbreviation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Abbreviation")
+                        .IsUnique()
+                        .HasFilter("[Abbreviation] IS NOT NULL");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Sizes");
                 });
@@ -442,7 +463,7 @@ namespace DaySpring.Migrations
                         {
                             Id = 1,
                             Email = "adeyemieyinjuoluwa@gmail.com",
-                            PasswordHash = "$2a$11$ZjLr1mkqg.c2F7pZbna0/OfulX6fiwZad7uUtCbq/19WMdcfU8AUG"
+                            PasswordHash = "$2a$11$LLbc/VHgeakKrLwwPeGTSesCGBm7fB0JJnQZICWkT0qjPnU75AHEK"
                         });
                 });
 
@@ -582,11 +603,15 @@ namespace DaySpring.Migrations
 
             modelBuilder.Entity("DaySpring.Models.Sermon", b =>
                 {
+                    b.HasOne("DaySpring.Models.Member", "Member")
+                        .WithMany("Sermons")
+                        .HasForeignKey("MemberId");
+
                     b.HasOne("DaySpring.Models.Preacher", "Preacher")
                         .WithMany("Sermons")
-                        .HasForeignKey("PreacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PreacherId");
+
+                    b.Navigation("Member");
 
                     b.Navigation("Preacher");
                 });
@@ -635,6 +660,8 @@ namespace DaySpring.Migrations
             modelBuilder.Entity("DaySpring.Models.Member", b =>
                 {
                     b.Navigation("Payments");
+
+                    b.Navigation("Sermons");
                 });
 
             modelBuilder.Entity("DaySpring.Models.Preacher", b =>

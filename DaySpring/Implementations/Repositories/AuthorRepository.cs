@@ -18,5 +18,12 @@ namespace DaySpring.Implementations.Repositories
         {
             return await _daySpringDbContext.Authors.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
+
+        public async Task<List<Author>> GetAuthorsByName(string name)
+        {
+            return await _daySpringDbContext.Authors
+                .Where(c=>c.FirstName == name || c.LastName == name || c.FirstName.Contains(name) || c.LastName.Contains(name))
+                .ToListAsync();
+        }
     }
 }

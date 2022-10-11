@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Repositories;
 using DaySpring.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,10 @@ namespace DaySpring.Implementations.Repositories
             await _daySpringDbContext.Announcements.AddRangeAsync(announcement);
             return announcement;
         }
+        public async Task<List<Announcement>> GetCurrentAnnouncements()
+        {
+            return await _daySpringDbContext.Announcements.Where(c => c.EndingDate >= DateTime.Now).ToListAsync();
+        }
     }
 }
+ 

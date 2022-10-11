@@ -17,5 +17,6 @@ namespace DaySpring.Models
 
         public User User { get; set; }
         public List<Payment> Payments { get; set; }
+        public List<Sermon> Sermons { get; set; } = new List<Sermon>();
     }
 }

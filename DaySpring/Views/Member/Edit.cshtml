@@ -15,11 +15,11 @@
                     <p>Check the details carefully before clicking on the Update button</p>
                     <div>
                         <label asp-for="Data.FirstName" class="control-label">First Name</label>
-                        <input name="Name" value="@Model.Data.FirstName" type="text" class="form-control" />
+                        <input name="Name" value="@Model.Data.FirstName" type="text" class="form-control" required/>
                     </div>
                     <div>
                         <label asp-for="Data.LastName" class="control-label">Last Name</label>
-                        <input name="LastName" value="@Model.Data.LastName" type="text" class="form-control" />
+                        <input name="LastName" value="@Model.Data.LastName" type="text" class="form-control" required/>
                     </div>
                     <br />
                     <button type="submit">Update</button>

@@ -15,10 +15,10 @@
                     <p>Check the details carefully before clicking on the Update button</p>
                     <div>
                         <label asp-for="Data.Title" class="control-label"><strong>Title</strong></label>
-                        <input name="Title" value="@Model.Data.Title" type="text" class="form-control" />
+                        <input name="Title" value="@Model.Data.Title" type="text" class="form-control" required/>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Data.Preacher" class="control-label">Courses</label>
+                        <label asp-for="Data.Preacher" class="control-label">Preachers</label>
                         <select asp-for="Data.Preacher" class="form-control" asp-items="ViewBag.Preachers" required>
                             <option value="">Select Preacher</option>
                         </select>

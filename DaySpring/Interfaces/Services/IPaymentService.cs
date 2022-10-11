@@ -1,4 +1,5 @@
-﻿using DaySpring.Models;
+﻿using DaySpring.Dtos;
+using DaySpring.Models;
 using DaySpring.ViewModels;
 using PayStack.Net;
 using System;
@@ -17,6 +18,8 @@ namespace DaySpring.Interfaces.Services
 
         public Task<PaymentsResponseModel> GetPayments();
         public Task<PaymentsResponseModel> GetPaymentsByEmail(string email);
+        public Task<List<PaymentModel>> GetAllPaymentsByEmail(string email);
         public Task<PaymentsResponseModel> GetPaymentsByDate(DateTime date);
+        public Task<List<PaymentModel>> GetMembersPaymentsByEmail(string email);
     }
 }

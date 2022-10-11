@@ -13,12 +13,13 @@ namespace DaySpring.Interfaces.Services
 
         public Task<BaseResponse> UpdateSermon(int id, UpdateSermonRequestModel model);
 
-        public Task<SermonResponseModel> GetSermonByTitle(string title);
+        public Task<SermonsResponseModel> GetSermonsByTitle(string title);
 
         public Task<SermonsResponseModel> GetSermons();
         public Task<SermonsResponseModel> GetSermonAudios();
-        public Task<SermonsResponseModel> GetSermonsByPreacher(int preacherId);
+        public Task<SermonsResponseModel> GetSermonsByPreacher(int id);
 
         public Task<SermonResponseModel> GetSermon(int id);
+        public Task<BaseResponse> DeleteSermon(int id);
     }
 }

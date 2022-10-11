@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,13 +14,16 @@ namespace DaySpring.Controllers
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;
+        private readonly IPaymentService _paymentService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public MemberController(IMemberService memberService, IHttpContextAccessor httpContextAccessor)
+        public MemberController(IMemberService memberService, IPaymentService paymentService, IHttpContextAccessor httpContextAccessor)
         {
             _memberService = memberService;
+            _paymentService = paymentService;
             _httpContextAccessor = httpContextAccessor;
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Index()
         {
             var members = await _memberService.GetAllMembers();
@@ -40,22 +44,14 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details()
         {
             var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var memberId = int.Parse(signedInMemberId);
             var member = await _memberService.GetMember(memberId);
             return View(member);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> AdminDetails(int id)
-        {
-            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var memberId = int.Parse(signedInMemberId);
-            var member = await _memberService.GetMember(memberId);
-            return View(member);
-        }
+        
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -71,6 +67,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> UpdateToMedia(int id)
         {
             await _memberService.UpdateMembershipStatusToMedia(id);
@@ -78,6 +75,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> UpdateToMinister(int id)
         {
             await _memberService.UpdateMembershipStatusToMinister(id);
@@ -85,6 +83,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RemoveMediaRole(int id)
         {
             await _memberService.RemoveMediaRole(id);
@@ -92,6 +91,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RemoveMinisterRole(int id)
         {
             await _memberService.RemoveMinisterRole(id);
@@ -107,8 +107,10 @@ namespace DaySpring.Controllers
         [HttpPost]
         public async Task<IActionResult> EditPassword(int id, UpdateMemberPasswordRequestModel model)
         {
-            var response = await _memberService.UpdateMemberPassword(id, model);
-            return Ok(response);
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var response = await _memberService.UpdateMemberPassword(memberId, model);
+            return RedirectToAction("MediaDashboard");
         }
 
         [HttpGet]
@@ -129,11 +131,64 @@ namespace DaySpring.Controllers
         {
             var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var memberId = int.Parse(signedInMemberId);
-            var member = await _memberService.GetMember(memberId);
-            return View(member);
+            var member = await _memberService.GetMemberById(memberId);
+            var payments = await _paymentService.GetAllPaymentsByEmail(member.Email);
+            var dashboardViewModel = new MembersPaymentViewModel
+            {
+                Member = member,
+                Payments = payments
+            };
+            return View(dashboardViewModel);
         }
 
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> MediaDashboard()
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var member = await _memberService.GetMemberById(memberId);
+            var payments = await _paymentService.GetAllPaymentsByEmail(member.Email);
+            var dashboardViewModel = new MembersPaymentViewModel
+            {
+                Member = member,
+                Payments = payments
+            };
+            return View(dashboardViewModel);
+        }
+
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> SuperAdminDashboard()
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var member = await _memberService.GetMemberById(memberId);
+            var payments = await _paymentService.GetAllPaymentsByEmail(member.Email);
+            var dashboardViewModel = new MembersPaymentViewModel
+            {
+                Member = member,
+                Payments = payments
+            };
+            return View(dashboardViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult EditPasswordMedia()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPasswordMedia(UpdateMemberPasswordRequestModel model)
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var response = await _memberService.UpdateMemberPassword(memberId, model);
+            ViewBag.Message = "Password Updated";
+            return View("MediaDashboard");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MediaDetails()
         {
             var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var memberId = int.Parse(signedInMemberId);
@@ -141,7 +196,23 @@ namespace DaySpring.Controllers
             return View(member);
         }
 
-        public async Task<IActionResult> SuperAdminDashboard()
+        [HttpGet]
+        public IActionResult EditPasswordSuperAdmin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPasswordSuperAdmin(UpdateMemberPasswordRequestModel model)
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var response = await _memberService.UpdateMemberPassword(memberId, model);
+            return RedirectToAction("SuperAdminDashboard");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminDetails()
         {
             var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var memberId = int.Parse(signedInMemberId);

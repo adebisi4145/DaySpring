@@ -64,8 +64,6 @@ namespace DaySpring
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddHttpContextAccessor();
 
-            services.AddHostedService<MyBackgroundService>();
-
             //services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(config =>

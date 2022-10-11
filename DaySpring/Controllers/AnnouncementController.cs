@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,18 +26,16 @@ namespace DaySpring.Controllers
             var announcement = await _announcementService.GetAnnouncements();
             return View(announcement);
         }
+
         [HttpGet]
-        public IActionResult Days()
+        public async Task<IActionResult> CurrentAnnouncement()
         {
-            return View();
+            var announcement = await _announcementService.GetCurrentAnnouncements();
+            return View(announcement);
         }
-        [HttpPost]
-        public IActionResult Days(int days)
-        {
-            TempData["Days"] = days;
-            return RedirectToAction("Create");
-        }
+
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public IActionResult Create()
         {
             if (TempData.ContainsKey("days"))
@@ -47,27 +46,24 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateAnnouncementRequestModel model, IFormFile image)
         {
-            if (image == null)
+            /*if (image == null)
             {
                 ViewBag.Message = "Please upload an image";
                 return View();
-            }
-            else
+            }*/
+            string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "AnnouncementImages");
+            Directory.CreateDirectory(imageDirectory);
+            string contentType = image.ContentType.Split('/')[1];
+            string announcementImage = $"{Guid.NewGuid()}.{contentType}";
+            string fullPath = Path.Combine(imageDirectory, announcementImage);
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
             {
-            
-                string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "AnnouncementImages");
-                Directory.CreateDirectory(imageDirectory);
-                string contentType = image.ContentType.Split('/')[1];
-                string announcementImage = $"{Guid.NewGuid()}.{contentType}";
-                string fullPath = Path.Combine(imageDirectory, announcementImage);
-                using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    image.CopyTo(fileStream);
-                }
-                model.AnnouncementImage = announcementImage;
+               image.CopyTo(fileStream);
             }
+            model.AnnouncementImage = announcementImage;
             await _announcementService.CreateAnnouncement(model);
             return RedirectToAction("MediaIndex");
         }
@@ -81,6 +77,7 @@ namespace DaySpring.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
             var announcement = await _announcementService.GetAnnouncement(id);
@@ -88,16 +85,10 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateAnnouncementRequestModel model)
         {
             await _announcementService.UpdateAnnouncement(id, model);
-            return RedirectToAction("MediaIndex");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Delete()
-        {
-            await _announcementService.DeleteAnnouncements();
             return RedirectToAction("MediaIndex");
         }
 
@@ -122,6 +113,26 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> SuperAdminDetails(int id)
         {
             var announcement = await _announcementService.GetAnnouncement(id);
+            return View(announcement);
+        }
+        [HttpGet]
+        public async Task<IActionResult> CurrentAnnouncements()
+        {
+            var announcement = await _announcementService.GetCurrentAnnouncements();
+            return View(announcement);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MediaCurrentAnnouncements()
+        {
+            var announcement = await _announcementService.GetCurrentAnnouncements();
+            return View(announcement);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminCurrentAnnouncements()
+        {
+            var announcement = await _announcementService.GetCurrentAnnouncements();
             return View(announcement);
         }
     }

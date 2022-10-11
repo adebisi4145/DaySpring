@@ -1,0 +1,29 @@
+﻿@using DaySpring.Enums
+@model DaySpring.ViewModels.CreateSermonRequestModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "SermonType";
+}
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    <div>
+                        <label asp-for="SermonType" class="control-label"><strong>Sermon Type</strong></label>
+                        <select asp-for="SermonType" class="form-control" required>
+                            Select Sermon Type
+                            <option value="@SermonType.Internal">Church Services</option>
+                            <option value="@SermonType.External">Others</option>
+                        </select>
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="SermonType">Next</a></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

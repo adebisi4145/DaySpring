@@ -54,7 +54,7 @@
         <div class="header-left">
             <div class="menu-icon dw dw-menu"></div>
             <div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
-            <div class="header-search">
+            @*<div class="header-search">
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>*@
         </div>
         <div class="header-right">
             <div class="dashboard-setting user-notification">
@@ -133,8 +133,7 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                         @*<a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>*@
                         <a class="dropdown-item" asp-controller="Member" asp-action="Details"><i class="dw dw-user1"></i> Profile</a>
-                        <a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-                        <a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
+                        <a class="dropdown-item" asp-controller="Member" asp-action="EditPassword"><i class="dw dw-settings2"></i>Change Password</a>
                         <a class="dropdown-item" asp-controller="User" asp-action="Logout"><i class="dw dw-logout"></i> Log Out</a>
                     </div>
                 </div>
@@ -238,19 +237,29 @@
                         <ul class="submenu">
                             <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="Index">Library</a></li>
-                            <li><a asp-controller="Announcement" asp-action="Index">Announcements</a></li>
                             <li><a asp-controller="Preacher" asp-action="Index">Preachers</a></li>
+                            <li><a asp-controller="Author" asp-action="Index">Authors</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-apartment"></span><span class="mtext">Announcements</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a asp-controller="Announcement" asp-action="CurrentAnnouncements">View Current Programs</a></li>
+                            <li><a asp-controller="Announcement" asp-action="Index">View Old Programs</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon dw dw-edit-2"></span><span class="mtext">Sermon</span>
+                            <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
                         </a>
                         <ul class="submenu">
                             <li><a asp-controller="Sermon" asp-action="AudioIndex">Audios</a></li>
                         </ul>
                         <ul class="submenu">
-                            <li><a asp-controller="Sermon" asp-action="VideoIndex">Videos</a></li>
+                            <li><a asp-controller="Sermon" asp-action="VideoIndex">Sermons</a></li>
                         </ul>
                     </li>
                     <li>
@@ -262,7 +271,7 @@
                         </a>
                         <ul class="submenu">
                             <li><a asp-controller="Payment" asp-action="Create">Tithe & Offering</a></li>
-                            <li><a asp-controller="Payment" asp-action="GetPaymentsByEmail">My Payments</a></li>
+                            <li><a asp-controller="Payment" asp-action="GetPaymentsByEmailMember">My Payments</a></li>
                         </ul>
                     </li>
                 </ul>

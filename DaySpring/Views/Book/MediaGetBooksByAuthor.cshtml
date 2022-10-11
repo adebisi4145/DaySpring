@@ -49,11 +49,18 @@
                 <div class="col-md-12 col-lg-8">
                     <div class="title-single-box">
                         <h1 class="title-single">Books</h1>
-                        <span class="color-text-a">Grid News</span>
                     </div>
                 </div>
 
             </div>
+
+            <form class="signup-form form-inline justify-content-center pt-3">
+                <div class="form-group">
+                    @*<label class="sr-only" for="semail">Your email</label>*@
+                    <input name="title" type="text" class="form-control" placeholder="Enter Title">
+                </div>
+                <button class="btn" asp-action="GetBooksByTitleMedia" style="font-size: 1.0rem; padding: 10px 60px; background-color: #2eca6a;">Search</button>
+            </form>
         </div>
     </section><!-- End Intro Single-->
     <!-- =======  Blog Grid ======= -->
@@ -65,17 +72,22 @@
                     <div class="col-md-4">
                         <div class="card-box-b card-shadow news-box">
                             <div class="img-box-b">
-                                <img src="~/bookImages/@book.BookImage" alt="" class="img-b img-fluid">
+                                <div class="img-b img-fluid" style="background: url(../../BookImages/@book.BookImage); width:400px; height:350px; background-repeat: no-repeat; background-size:cover"></div>
+                                @*<img src="~/bookImages/@book.BookImage" alt="" class="img-b img-fluid" width:"700px" height:"300px" style="max-width:700px; max-height:300px">*@
                             </div>
                             <div class="card-overlay">
                                 <div class="card-header-b">
                                     <div class="card-category-b">
-                                        <a asp-action="MediaDetails" asp-route-id="@book.Id" class="category-b">Details</a>
+                                        <a asp-action="MediaDetails" asp-route-id="@book.Id" class="category-b">@book.Title</a>
+
                                     </div>
                                     <div class="card-title-b">
                                         <h2 class="title-2">
-                                            <a href="@book.Title">
-                                            </a>
+                                            @foreach (var author in book.Authors)
+                                            {
+                                                <a asp-action="MediaDetails" asp-controller="Author" asp-route-id="@author.Id">@author.FirstName @author.LastName</a>
+
+                                            }
                                         </h2>
                                     </div>
                                     @*<div class="card-date">

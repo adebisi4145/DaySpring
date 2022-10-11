@@ -73,6 +73,22 @@ namespace DaySpring.Implementations.Services
                 }).ToList(),
             };
         }
+
+        public async Task<List<PaymentModel>> GetAllPaymentsByEmail(string email)
+        {
+            var transactions = await _transactionRepository.GetPaymentsByEmail(email);
+            var transaction = transactions.Select(m => new PaymentModel
+            {
+                Email = m.Email,
+                Amount = m.Amount,
+                Member = m.Member,
+                MemberId = m.MemberId,
+                PaymentType = m.TransactionType,
+                PaymentReference = m.PaymentReference,
+                CreatedAt = m.CreatedAt
+            }).ToList();
+            return transaction;
+        }
         public async Task<PaymentsResponseModel> GetPaymentsByEmail(string email)
         {
             var transactions = await _transactionRepository.GetPaymentsByEmail(email);
@@ -89,6 +105,22 @@ namespace DaySpring.Implementations.Services
                     CreatedAt = m.CreatedAt
                 }).ToList(),
             };
+        }
+
+        public async Task<List<PaymentModel>> GetMembersPaymentsByEmail(string email)
+        {
+            var transactions = await _transactionRepository.GetPaymentsByEmail(email);
+            var transaction = transactions.Select(m => new PaymentModel
+            {
+                Email = m.Email,
+                Amount = m.Amount,
+                Member = m.Member,
+                MemberId = m.MemberId,
+                PaymentType = m.TransactionType,
+                PaymentReference = m.PaymentReference,
+                CreatedAt = m.CreatedAt
+            }).ToList();
+            return transaction;
         }
         public async Task<PaymentsResponseModel> GetPaymentsByDate(DateTime date)
         {

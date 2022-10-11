@@ -10,9 +10,10 @@ namespace DaySpring.Interfaces.Services
 {
     public interface IMemberService
     {
-        public Task<MemberResponseModel> GetMemberByEmail(string email);
+        public Task<MemberModel> GetMemberByEmail(string email);
 
         public Task<MemberResponseModel> GetMember(int id);
+        public Task<MembersResponseModel> GetMinisters();
 
         public Task<BaseResponse> CreateMember(CreateMemberRequestModel model);
 
@@ -30,5 +31,6 @@ namespace DaySpring.Interfaces.Services
 
         public Task<BaseResponse> RemoveMediaRole(int id);
         public Task<BaseResponse> RemoveMinisterRole(int id);
+        public Task<MemberModel> GetMemberById(int id);
     }
 }

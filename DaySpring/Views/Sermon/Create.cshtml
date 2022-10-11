@@ -11,26 +11,57 @@
             <h3 class="card-header bg-black text-center"><strong>Add Sermon</strong></h3>
             <div class="card-body">
                 <form method="POST" enctype="multipart/form-data">
-                    <div>
-                        <label asp-for="Title" class="control-label"><strong>Title</strong></label>
-                        <input asp-for="Title" type="text" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="Preacher" class="control-label"><strong>Preacher</strong></label>
-                        <select asp-for="Preacher" class="form-control" asp-items="ViewBag.Preacher" required>
-                            <option value="">--Select Preacher--</option>
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="control-label"><strong>Select Audio</strong></label>
-                            <input name="audio" type="file" class="form-control" />
+                    @if (!string.IsNullOrEmpty(ViewBag.Message))
+                    {
+                        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                    }
+                    @if (ViewBag.SermonType == 1)
+                    {
+                        <div>
+                            <label asp-for="Title" class="control-label"><strong>Title</strong></label>
+                            <input asp-for="Title" type="text" class="form-control" required />
                         </div>
-                        <div class="form-group">
-                            <label class="control-label"><strong>Select Video</strong></label>
-                            <input name="video" type="file" class="form-control" />
+                        <div class="col-md-6">
+                            <label asp-for="Member" class="control-label"><strong>Minister</strong></label>
+                            <select asp-for="Member" class="form-control" asp-items="ViewBag.Member" required>
+                                <option value="">--Select Minister--</option>
+                            </select>
                         </div>
-                    </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="control-label"><strong>Select Audio</strong></label>
+                                <input name="audio" type="file" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label"><strong>Select Video</strong></label>
+                                <input name="video" type="file" class="form-control" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <label asp-for="Title" class="control-label"><strong>Title</strong></label>
+                            <input asp-for="Title" type="text" class="form-control" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Preacher" class="control-label"><strong>Preacher</strong></label>
+                            <select asp-for="Preacher" class="form-control" asp-items="ViewBag.Preacher" required>
+                                <option value="">--Select Preacher--</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="control-label"><strong>Select Audio</strong></label>
+                                <input name="audio" type="file" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label"><strong>Select Video</strong></label>
+                                <input name="video" type="file" class="form-control" />
+                            </div>
+                        </div>
+                    }
+
                     <br />
                     <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Create">Add Sermon</a></button>
 

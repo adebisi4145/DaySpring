@@ -12,7 +12,7 @@ namespace DaySpring.Interfaces.Repositories
 
         Task<List<Book>> GetBooks();
 
-        Task<Book> GetBookByTitle(string title);
+        Task<List<Book>> GetBooksByTitle(string title);
 
         Task<List<Book>> GetBooksByPublisher(string publisher);
 

@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,21 +29,16 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreatePreacherRequestModel model, IFormFile image)
         {
-            if (image == null)
-            {
-                ViewBag.Message = "Please upload an image";
-                return View();
-            }
-            else
-            {
                 string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "PreachersPicture");
                 Directory.CreateDirectory(imageDirectory);
                 string contentType = image.ContentType.Split('/')[1];
@@ -53,7 +49,6 @@ namespace DaySpring.Controllers
                     image.CopyTo(fileStream);
                 }
                 model.Picture = preachersPicture;
-            }
                 await _preacherService.CreatePreacher(model);
             return RedirectToAction("MediaIndex");
         }
@@ -65,13 +60,15 @@ namespace DaySpring.Controllers
             return View(preacher);
         }
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
-            var category = await _preacherService.GetPreacher(id);
-            return View(category);
+            var preacher = await _preacherService.GetPreacher(id);
+            return View(preacher);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdatePreacherRequestModel model)
         {
             await _preacherService.UpdatePreacher(id, model);
@@ -79,16 +76,30 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> GetPreacherByName(string name)
         {
-            await _preacherService.DeletePreacher(id);
-            return RedirectToAction("Index");
+            var preacher = await _preacherService.GetPreacherByName(name);
+            return View(preacher);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPreacherByNameMedia(string name)
+        {
+            var preacher = await _preacherService.GetPreacherByName(name);
+            return View(preacher);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPreacherByNameSuperAdmin(string name)
+        {
+            var preacher = await _preacherService.GetPreacherByName(name);
+            return View(preacher);
         }
 
         public async Task<IActionResult> MediaIndex()
         {
-            var category = await _preacherService.GetPreachers();
-            return View(category);
+            var preacher = await _preacherService.GetPreachers();
+            return View(preacher);
         }
 
         [HttpGet]
@@ -99,8 +110,8 @@ namespace DaySpring.Controllers
         }
         public async Task<IActionResult> SuperAdminIndex()
         {
-            var category = await _preacherService.GetPreachers();
-            return View(category);
+            var preacher = await _preacherService.GetPreachers();
+            return View(preacher);
         }
 
         [HttpGet]

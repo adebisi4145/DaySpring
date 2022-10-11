@@ -52,7 +52,7 @@
                 <div class="after-post-tags">
                     <ul class="tags">
                         <li><a asp-action="Edit" asp-route-id="@Model.Data.Id">Make few changes to this Author</a></li>
-                        @*@<li><a asp-action="Delete" asp-route-id="@Model.Data.Id">Delete this Author</a></li>*@
+                        @*<li><a asp-action="Delete" asp-route-id="@Model.Data.Id">Delete this Author</a></li>*@
                     </ul>
                 </div>
                 <!-- End Tags -->
@@ -63,7 +63,7 @@
     </div>
     <div class="alertbar">
         <div class="container text-center">
-            <img src="#" alt=""> &nbsp; Download <b>books</b> by this author.<a asp-action="MediaGetBooksByAuthor" asp-controller="Book" asp-route-id="@Model.Data.Id" class="btn subscribe">View</a>
+            <img src="#" alt=""> &nbsp; Download <b>books</b> by this author.<a asp-controller="Book" asp-action="MediaGetBooksByAuthor" asp-route-id="@Model.Data.Id" class="btn subscribe">View</a>
         </div>
     </div>
     <!-- End AlertBar

@@ -9,5 +9,6 @@ namespace DaySpring.Interfaces.Repositories
     public interface IAuthorRepository : IRepository<Author>
     {
         Task<IEnumerable<Author>> GetSelectedAuthors(IList<int> ids);
+        Task<List<Author>> GetAuthorsByName(string name);
     }
 }

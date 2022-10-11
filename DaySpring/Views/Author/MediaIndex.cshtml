@@ -23,7 +23,13 @@
     <link href="~/Announcement/assets/css/mediumish.css" rel="stylesheet">
 </head>
 <body>
-
+    <form class="signup-form form-inline justify-content-center pt-3">
+        <div class="form-group">
+            @*<label class="sr-only" for="semail">Your email</label>*@
+            <input name="name" type="text" class="form-control" placeholder="search">
+        </div>
+        <button class="btn btn-primary" asp-action="GetAuthorsByNameMedia" style="font-size: 1.0rem; padding: 10px 60px;">Search</button>
+    </form>
 
     <!-- Begin List Posts
     ================================================== -->
@@ -39,14 +45,14 @@
 
                     </div>
                     @*<a asp-action="MediaDetails" asp-route-id="@author.Id">
-                    <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="Authors Image">
-                    </a>*@
+                        <img class="img-fluid" src="~/AuthorsImage/@author.AuthorsImage" alt="Authors Image">
+                        </a>*@
                     <div class="card-block">
                         <h2 class="card-title text-center"><a asp-action="MediaDetails" asp-route-id="@author.Id">@author.FirstName @author.LastName</a></h2>
                         @*<h4 class="card-text">@author.Biography</h4>*@
 
                     </div>
-            </div>
+                </div>
             }
             <!-- begin post -->
             <!-- end post -->

@@ -12,10 +12,8 @@ namespace DaySpring.Interfaces.Services
         public Task<BaseResponse> CreateAuthor(CreateAuthorRequestModel model);
 
         public Task<BaseResponse> UpdateAuthor(int id, UpdateAuthorRequestModel model);
-
-        public Task<BaseResponse> DeleteAuthor(int id);
-
         public Task<AuthorResponseModel> GetAuthor(int id);
+        public Task<AuthorsResponseModel> GetAuthorsByName(string name);
 
         public Task<AuthorsResponseModel> GetAuthors();
     }

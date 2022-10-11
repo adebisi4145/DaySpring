@@ -1,5 +1,7 @@
-﻿using DaySpring.Interfaces.Services;
+﻿using DaySpring.Enums;
+using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +18,13 @@ namespace DaySpring.Controllers
     {
         private readonly ISermonService _sermonService;
         private readonly IPreacherService _preacherService;
+        private readonly IMemberService _memberService;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public SermonController(ISermonService sermonService, IPreacherService preacherService, IWebHostEnvironment webHostEnvironment)
+        public SermonController(ISermonService sermonService, IMemberService memberService, IPreacherService preacherService, IWebHostEnvironment webHostEnvironment)
         {
             _sermonService = sermonService;
             _preacherService = preacherService;
+            _memberService = memberService;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -37,24 +41,50 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSermonsByPreacher(int preacherId)
+        public async Task<IActionResult> GetSermonsByPreacher(int id)
         {
-            var sermons = await _sermonService.GetSermonsByPreacher(preacherId);
+            var sermons = await _sermonService.GetSermonsByPreacher(id);
             return View(sermons);
         }
-        
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        [Authorize(Roles = "Media")]
+        public IActionResult SermonType()
         {
-            var preachers = await _preacherService.GetPreachers();
-            ViewData["Preacher"] = new SelectList(preachers.Data, "Id", "Name");
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
+        public IActionResult SermonType(SermonTypeRequestModel model)
+        {
+            TempData["SermonType"] = model.SermonType;
+            return RedirectToAction("Create");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Media")]
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.SermonType = int.Parse(TempData.Peek("SermonType").ToString());
+           
+            var members = await _memberService.GetMinisters();
+            var preachers = await _preacherService.GetPreachers();
+            ViewData["Member"] = new SelectList(members.Data, "Id", "FirstName");
+            ViewData["Preacher"] = new SelectList(preachers.Data, "Id", "Name");
+            
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateSermonRequestModel model, IFormFile audio, IFormFile video)
         {
+            if (audio == null && video == null)
+            {
+                ViewBag.Message = "You can't upload a sermon without an audio or video";
+                return View();
+            }
             if (audio != null)
             {
                 string audioDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "SermonAudios");
@@ -81,6 +111,7 @@ namespace DaySpring.Controllers
                 }
                 model.Video = sermonVideo;
             }
+            model.SermonType = (SermonType)TempData.Peek("SermonType");
             await _sermonService.CreateSermon(model);
             return RedirectToAction("MediaIndex");
         }
@@ -92,6 +123,7 @@ namespace DaySpring.Controllers
             return View(sermon);
         }
         [HttpGet]
+        [Authorize(Roles = "media")]
         public async Task<IActionResult> Edit(int id)
         {
             var sermon = await _sermonService.GetSermon(id);
@@ -99,6 +131,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateSermonRequestModel model)
         {
             await _sermonService.UpdateSermon(id, model);
@@ -106,10 +139,18 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSermonByTitle(string title)
+        [Authorize(Roles = "Media")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var sermon = await _sermonService.GetSermonByTitle(title);
-            return View(sermon);
+            await _sermonService.DeleteSermon(id);
+            return RedirectToAction("MediaIndex");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonsByTitle(string title)
+        {
+            var sermons = await _sermonService.GetSermonsByTitle(title);
+            return View(sermons);
         }
 
         /* [HttpGet]
@@ -133,7 +174,7 @@ namespace DaySpring.Controllers
             return View(sermons);
         }
 
-        public async Task<IActionResult> MediaVideoIndex()
+        public async Task<IActionResult> MediaIndex()
         {
             var author = await _sermonService.GetSermons();
             return View(author);
@@ -145,7 +186,7 @@ namespace DaySpring.Controllers
             return View(sermons);
         }
 
-        public async Task<IActionResult> SuperAdminVideoIndex()
+        public async Task<IActionResult> SuperAdminIndex()
         {
             var author = await _sermonService.GetSermons();
             return View(author);
@@ -166,17 +207,31 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MediaGetSermonsByPreacher(int preacherId)
+        public async Task<IActionResult> MediaGetSermonsByPreacher(int id)
         {
-            var sermons = await _sermonService.GetSermonsByPreacher(preacherId);
+            var sermons = await _sermonService.GetSermonsByPreacher(id);
             return View(sermons);
         }
 
         [HttpGet]
-        public async Task<IActionResult> SuperAdminGetSermonsByPreacher(int preacherId)
+        public async Task<IActionResult> GetSermonsByTitleMedia(string title)
         {
-            var sermons = await _sermonService.GetSermonsByPreacher(preacherId);
+            var sermon = await _sermonService.GetSermonsByTitle(title);
+            return View(sermon);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminGetSermonsByPreacher(int id)
+        {
+            var sermons = await _sermonService.GetSermonsByPreacher(id);
             return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonsByTitleSuperAdmin(string title)
+        {
+            var sermon = await _sermonService.GetSermonsByTitle(title);
+            return View(sermon);
         }
     }
 }

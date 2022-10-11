@@ -1,4 +1,4 @@
-﻿@model DaySpring.ViewModels.PaymentsResponseModel
+﻿@model DaySpring.ViewModels.MembersPaymentViewModel
 
 @{
     Layout = "~/Views/Shared/_MemberLayout.cshtml";
@@ -7,7 +7,7 @@
 
 <div class="card-header" style="background-color: whitesmoke;">
     <div class="card-title">
-        <h1 class="text-center">My Payments</h1>
+        <h1 class="text-center">@Model.Member.LastName @Model.Member.FirstName's Payments</h1>
     </div>
 </div>
 @*<table class="table justify-content-center align-items-center">*@
@@ -29,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var transation in Model.Data)
+        @foreach (var transation in Model.Payments)
         {
             <tr>
                 <td>

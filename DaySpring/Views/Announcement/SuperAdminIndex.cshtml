@@ -60,7 +60,7 @@
                                 <h2 class="card-title"><a href="post.html">@announcement.Title</a></h2>
                                 <h4 class="card-text">@announcement.Description</h4>
                                 @{
-                                    if (announcement.EndingDate == null)
+                                    if (announcement.EndingDate != announcement.StartingDate)
                                     {
                                         <span class="post-date">@announcement.StartingDate</span>
                                         <div class="metafooter">

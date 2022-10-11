@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace DaySpring.Controllers
             _categoryService = categoryService;
             _webHostEnvironment = webHostEnvironment;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var books = await _bookService.GetBooks();
@@ -35,6 +36,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create()
         {
             var authors = await _authorService.GetAuthors();
@@ -45,6 +47,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateBookRequestModel model, IFormFile image, IFormFile pdf)
         {
             if(image == null || pdf == null)
@@ -83,6 +86,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
             var book = await _bookService.GetBook(id);
@@ -90,9 +94,18 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateBookRequestModel model)
         {
             await _bookService.UpdateBook(id, model);
+            return RedirectToAction("MediaIndex");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Media")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _bookService.DeleteBook(id);
             return RedirectToAction("MediaIndex");
         }
 
@@ -111,10 +124,10 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBookByTitle(string title)
+        public async Task<IActionResult> GetBooksByTitle(string title)
         {
-            var book = await _bookService.GetBookByTitle(title);
-            return View(book);
+            var books = await _bookService.GetBooksByTitle(title);
+            return View(books);
         }
 
         [HttpGet]
@@ -125,9 +138,9 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBooksByAuthor(int authorId)
+        public async Task<IActionResult> GetBooksByAuthor(int id)
         {
-            var books = await _bookService.GetBooksByAuthor(authorId);
+            var books = await _bookService.GetBooksByAuthor(id);
             return View(books);
         }
 
@@ -143,6 +156,13 @@ namespace DaySpring.Controllers
             return View(book);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetBooksByTitleMedia(string title)
+        {
+            var books = await _bookService.GetBooksByTitle(title);
+            return View(books);
+        }
+
         public async Task<IActionResult> SuperAdminIndex()
         {
             var books = await _bookService.GetBooks();
@@ -156,16 +176,23 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> MediaGetBooksByAuthor(int authorId)
+        public async Task<IActionResult> GetBooksByTitleSuperAdmin(string title)
         {
-            var books = await _bookService.GetBooksByAuthor(authorId);
+            var books = await _bookService.GetBooksByTitle(title);
             return View(books);
         }
 
         [HttpGet]
-        public async Task<IActionResult> SuperAdminGetBooksByAuthor(int authorId)
+        public async Task<IActionResult> MediaGetBooksByAuthor(int id)
         {
-            var books = await _bookService.GetBooksByAuthor(authorId);
+            var books = await _bookService.GetBooksByAuthor(id);
+            return View(books);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminGetBooksByAuthor(int id)
+        {
+            var books = await _bookService.GetBooksByAuthor(id);
             return View(books);
         }
 

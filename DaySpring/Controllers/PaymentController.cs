@@ -1,6 +1,7 @@
 ﻿using DaySpring.Enums;
 using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -33,20 +34,25 @@ namespace DaySpring.Controllers
             token = _configuration["Payment:PaystackSK"];
             Paystack = new PayStackApi(token);
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Index()
         {
             var payments = await  _transactionService.GetPayments();
             return View(payments);
         }
 
-        public async Task<IActionResult> GetPaymentsByEmail()
+        public async Task<IActionResult> GetPaymentsByEmail(string email)
         {
-            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var memberId = int.Parse(signedInMemberId);
-            var member = await _memberService.GetMember(memberId);
-            string email = member.Data.Email;
-            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
-            return View(payments);
+            var member = await _memberService.GetMemberByEmail(email);
+            var payments = await _transactionService.GetMembersPaymentsByEmail(email);
+
+            var memberspayments = new MembersPaymentViewModel
+            {
+                Member = member,
+                Payments = payments
+            };
+            return View(memberspayments);
         }
 
         [HttpGet]
@@ -87,7 +93,7 @@ namespace DaySpring.Controllers
             if (response.Data.Status == "success")
             {
                 await _transactionService.VerifyPayment(reference);
-                return RedirectToAction("Index");
+                return RedirectToAction("GetPaymentsByEmailMember");
             }
             ViewData["error"] = response.Data.GatewayResponse;
             return RedirectToAction("Create");
@@ -118,7 +124,7 @@ namespace DaySpring.Controllers
                 Email = email,
                 Reference = GenerateReference().ToString(),
                 Currency = "NGN",
-                CallbackUrl = "http://localhost:21690/payment/verify"
+                CallbackUrl = "http://localhost:21690/payment/mediaverify"
             };
             TransactionInitializeResponse response = Paystack.Transactions.Initialize(request);
             if (response.Status)
@@ -128,6 +134,38 @@ namespace DaySpring.Controllers
             }
             ViewData["error"] = response.Message;
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MediaVerify(string reference)
+        {
+            TransactionVerifyResponse response = Paystack.Transactions.Verify(reference);
+            if (response.Data.Status == "success")
+            {
+                await _transactionService.VerifyPayment(reference);
+                return RedirectToAction("GetPaymentsByEmailMedia");
+            }
+            ViewData["error"] = response.Data.GatewayResponse;
+            return RedirectToAction("MediaCreate");
+        }
+
+        public async Task<IActionResult> GetPaymentsByEmailMedia()
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var member = await _memberService.GetMember(memberId);
+            string email = member.Data.Email;
+            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
+            return View(payments);
+        }
+        public async Task<IActionResult> GetPaymentsByEmailMember()
+        {
+            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var memberId = int.Parse(signedInMemberId);
+            var member = await _memberService.GetMember(memberId);
+            string email = member.Data.Email;
+            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
+            return View(payments);
         }
 
         [HttpGet]
@@ -149,7 +187,7 @@ namespace DaySpring.Controllers
                 Email = email,
                 Reference = GenerateReference().ToString(),
                 Currency = "NGN",
-                CallbackUrl = "http://localhost:21690/payment/verify"
+                CallbackUrl = "http://localhost:21690/payment/superadminverify"
             };
             TransactionInitializeResponse response = Paystack.Transactions.Initialize(request);
             if (response.Status)
@@ -161,14 +199,17 @@ namespace DaySpring.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetPaymentsByEmailMedia()
+        [HttpGet]
+        public async Task<IActionResult> SuperAdminVerify(string reference)
         {
-            var signedInMemberId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var memberId = int.Parse(signedInMemberId);
-            var member = await _memberService.GetMember(memberId);
-            string email = member.Data.Email;
-            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
-            return View(payments);
+            TransactionVerifyResponse response = Paystack.Transactions.Verify(reference);
+            if (response.Data.Status == "success")
+            {
+                await _transactionService.VerifyPayment(reference);
+                return RedirectToAction("Index");
+            }
+            ViewData["error"] = response.Data.GatewayResponse;
+            return RedirectToAction("SuperAdminCreate");
         }
 
         [HttpGet]
@@ -181,6 +222,8 @@ namespace DaySpring.Controllers
             var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
             return View(payments);
         }
+
+        
 
     }
 }

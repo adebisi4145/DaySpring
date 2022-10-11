@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,14 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateAuthorRequestModel model, IFormFile image)
         {
             if (image != null)
@@ -47,6 +50,7 @@ namespace DaySpring.Controllers
                 using (var fileStream = new FileStream(fullPath, FileMode.Create))
                 {
                     image.CopyTo(fileStream);
+                    
                 }
                 model.AuthorsImage = authorImage;
             }
@@ -57,11 +61,13 @@ namespace DaySpring.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            TempData["authorId"] = id;
             var author = await _authorService.GetAuthor(id);
             return View(author);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
             var author = await _authorService.GetAuthor(id);
@@ -69,6 +75,7 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateAuthorRequestModel model)
         {
             await _authorService.UpdateAuthor(id, model);
@@ -76,11 +83,12 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> GetAuthorsByName(string name)
         {
-            await _authorService.DeleteAuthor(id);
-            return RedirectToAction("Index");
+            var author = await _authorService.GetAuthorsByName(name);
+            return View(author);
         }
+
         public async Task<IActionResult> MediaIndex()
         {
             var author = await _authorService.GetAuthors();
@@ -90,9 +98,26 @@ namespace DaySpring.Controllers
         [HttpGet]
         public async Task<IActionResult> MediaDetails(int id)
         {
+            TempData["authorId"] = id;
             var author = await _authorService.GetAuthor(id);
             return View(author);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAuthorsByNameMedia(string name)
+        {
+            var author = await _authorService.GetAuthorsByName(name);
+            return View(author);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAuthorsByNameSuperAdmin(string name)
+        {
+            var author = await _authorService.GetAuthorsByName(name);
+            return View(author);
+        }
+
         public async Task<IActionResult> SuperAdminIndex()
         {
             var author = await _authorService.GetAuthors();

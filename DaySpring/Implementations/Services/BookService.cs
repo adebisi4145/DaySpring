@@ -5,6 +5,7 @@ using DaySpring.Models;
 using DaySpring.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,6 +71,21 @@ namespace DaySpring.Implementations.Services
             };
         }
 
+
+        public async Task<BaseResponse> DeleteBook(int id)
+        {
+            var book = await _bookRepository.GetBook(id);
+            await _bookRepository.DeleteAsync(book);
+            File.Delete($"C:\\Users\\dzumi\\source\\repos\\DaySpring\\DaySpring\\wwwroot\\BookImages\\{book.BookImage}");
+            File.Delete($"C:\\Users\\dzumi\\source\\repos\\DaySpring\\DaySpring\\wwwroot\\BookPdfs\\{book.BookPDF}");
+            await _bookRepository.SaveChangesAsync();
+            return new BaseResponse
+            {
+                Status = true,
+                Message = "Book Deleted Successfully"
+            };
+        }
+
         public async Task<BookResponseModel> GetBook(int id)
         {
             var book = await _bookRepository.GetBook(id);
@@ -102,35 +118,35 @@ namespace DaySpring.Implementations.Services
             };
         }
 
-        public async Task<BookResponseModel> GetBookByTitle(string title)
+        public async Task<BooksResponseModel> GetBooksByTitle(string title)
         {
-            var book = await _bookRepository.GetBookByTitle(title);
-            return new BookResponseModel
+            var books = await _bookRepository.GetBooksByTitle(title);
+            return new BooksResponseModel
             {
-                Data = new BookModel
+                Data = books.Select(m => new BookModel
                 {
-                    Id = book.Id,
-                    Title = book.Title,
-                    ISBN = book.ISBN,
-                    BookPDF = book.BookPDF,
-                    BookImage = book.BookImage,
-                    NumberOfPages = book.NumberOfPages,
-                    Publisher = book.Publisher,
-                    Authors = book.BookAuthors.Select(a => new AuthorModel()
+                    Id = m.Id,
+                    Title = m.Title,
+                    ISBN = m.ISBN,
+                    BookPDF = m.BookPDF,
+                    BookImage = m.BookImage,
+                    NumberOfPages = m.NumberOfPages,
+                    Publisher = m.Publisher,
+                    Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
                         FirstName = a.Author.FirstName,
                         LastName = a.Author.LastName,
                         Biography = a.Author.Biography
                     }).ToList(),
-                    BookCategories = book.BookCategories.Select(a => new CategoryModel()
+                    BookCategories = m.BookCategories.Select(a => new CategoryModel()
                     {
                         Id = a.CategoryId,
                         Name = a.Category.Name,
                     }).ToList()
-                },
+                }).ToList(),
                 Status = true,
-                Message = "Successful"
+                Message = "successful"
             };
         }
 

@@ -48,44 +48,6 @@ namespace DaySpring.Implementations.Services
             };
         }
 
-        public async Task<BaseResponse> DeleteAnnouncements()
-        {
-            var announcements = await _announcementRepository.GetAllAsync();
-            foreach(var announcement in announcements)
-            {
-                if(announcement.EndingDate != null)
-                {
-
-                    var dueDate = announcement.EndingDate.ToString().Split(" ")[0];
-                    var expiryDate = DateTime.Parse(dueDate);
-                    var date = DateTime.Now.ToString().Split(" ")[0];
-                    var currentDate = DateTime.Parse(date);
-                    if (currentDate > expiryDate)
-                    {
-                        await _announcementRepository.DeleteAsync(announcement);
-                        await _announcementRepository.SaveChangesAsync();
-                    }
-                }
-                else
-                {
-                    var dueDate = announcement.StartingDate.ToString().Split(" ")[0];
-                    var expiryDate = DateTime.Parse(dueDate);
-                    var date = DateTime.Now.ToString().Split(" ")[0];
-                    var currentDate = DateTime.Parse(date);
-                    if (currentDate > expiryDate)
-                    {
-                        await _announcementRepository.DeleteAsync(announcement);
-                        await _announcementRepository.SaveChangesAsync();
-                    }
-                }
-            }
-            return new BaseResponse
-            {
-                Status = true,
-                Message = "Successfully deleted"
-            };
-        }
-
         public async Task<AnnouncementResponseModel> GetAnnouncement(int id)
         {
             var announcement = await _announcementRepository.GetAsync(id);
@@ -125,6 +87,28 @@ namespace DaySpring.Implementations.Services
                 Message = "successful"
             };
         }
+
+        public async Task<AnnouncementsResponseModel> GetCurrentAnnouncements()
+        {
+            var announcement = await _announcementRepository.GetCurrentAnnouncements();
+            return new AnnouncementsResponseModel
+            {
+                Data = announcement.Select(m => new AnnouncementModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    AnnouncementImage = m.AnnouncementImage,
+                    Description = m.Description,
+                    StartingDate = m.StartingDate,
+                    EndingDate = m.EndingDate,
+                    DateAdded = m.DateAdded
+                }).ToList(),
+                Status = true,
+                Message = "successful"
+            };
+        }
+
+
 
         public async Task<BaseResponse> UpdateAnnouncement(int id, UpdateAnnouncementRequestModel model)
         {

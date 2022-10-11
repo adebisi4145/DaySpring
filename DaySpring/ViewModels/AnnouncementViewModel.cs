@@ -12,16 +12,14 @@ namespace DaySpring.ViewModels
         public string Title { get; set; }
         public string AnnouncementImage { get; set; }
         public string Description { get; set; }
-        //public List<DateTime> Dates { get; set; }
         public DateTime StartingDate { get; set; }
-        public DateTime? EndingDate { get; set; }
+        public DateTime EndingDate { get; set; }
     }
 
     public class UpdateAnnouncementRequestModel
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        //public List<DateTime> Dates { get; set; }
         public DateTime StartingDate { get; set; }
         public DateTime EndingDate { get; set; }
     }
