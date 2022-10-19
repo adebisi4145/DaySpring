@@ -1,0 +1,87 @@
+﻿@model DaySpring.ViewModels.MemberResponseModel
+
+@{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "Role";
+}
+
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>@Model.Data.FirstName @Model.Data.LastName</strong></h3>
+            <div class="card-body">
+                @{
+                    var role = Model.Data.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
+                    if (!role.Contains("media") && !role.Contains("minister"))
+                    {
+                        <div class="post-information">
+                            <ul class="list-inline color-a">
+                                <li class="list-inline-item mr-2">
+                                    <span class="color-text-a"><a asp-action="UpdateToMedia" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Upgrade To Media" /></a></span>
+
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="color-text-a"><a asp-action="UpdateToMinister" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Upgrade To Minister" /></a></span>
+
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        if (role.Contains("media"))
+                        {
+                            <div class="post-information">
+                                <ul class="list-inline color-a">
+                                    <li class="list-inline-item mr-2">
+                                        <span class="color-text-a"><a asp-action="RemoveMediaRole" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Remove Media Role" /></a></span>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else if (role.Contains("minister"))
+                        {
+                            <div class="post-information">
+                                <ul class="list-inline color-a">
+                                    <li class="list-inline-item mr-2">
+                                        <span class="color-text-a"><a asp-action="RemoveMinisterRole" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Remove Minister Role" /></a></span>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else if (!role.Contains("media"))
+                        {
+                            <div class="post-information">
+                                <ul class="list-inline color-a">
+                                    <li class="list-inline-item mr-2">
+                                        <span class="color-text-a"><a asp-action="UpdateToMedia" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Upgrade To Media" /></a></span>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else if (!role.Contains("minister"))
+                        {
+                            <div class="post-information">
+                                <ul class="list-inline color-a">
+                                    <li class="list-inline-item mr-2">
+                                        <span class="color-text-a"><a asp-action="UpdateToMinister" asp-route-id="@Model.Data.Id"><input class="btn btn-outline-primary" type="button" value="Update To Minister" /></a></span>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    }
+
+
+                }
+                <br />
+                <button class="btn offset-9" style="background-color: #ecf0f4; color: black; font-size: 2rem;"><a asp-action="Index">Back</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+

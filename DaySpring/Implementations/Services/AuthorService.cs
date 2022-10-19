@@ -115,5 +115,18 @@ namespace DaySpring.Implementations.Services
                 Message = "Successfully Updated"
             };
         }
+
+        public async Task<bool> Check(string firstName, string lastName)
+        {
+            var authors = await _authorRepository.GetAllAsync();
+            foreach(var author in authors)
+            {
+                if(author.LastName == lastName && author.FirstName == firstName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

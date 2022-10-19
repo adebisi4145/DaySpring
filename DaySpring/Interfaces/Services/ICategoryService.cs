@@ -10,6 +10,7 @@ namespace DaySpring.Interfaces.Services
     public interface ICategoryService
     {
         public Task<CategoryResponseModel> GetCategory(int id);
+        public Task<CategoryResponseModel> GetCategoryByName(string name);
 
         public Task<CategoriesResponseModel> GetCategories();
 

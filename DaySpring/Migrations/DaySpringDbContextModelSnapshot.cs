@@ -159,9 +159,13 @@ namespace DaySpring.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Categories");
                 });
@@ -174,13 +178,9 @@ namespace DaySpring.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Colors");
                 });
@@ -419,20 +419,12 @@ namespace DaySpring.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Abbreviation")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Abbreviation")
-                        .IsUnique()
-                        .HasFilter("[Abbreviation] IS NOT NULL");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Sizes");
                 });
@@ -463,7 +455,7 @@ namespace DaySpring.Migrations
                         {
                             Id = 1,
                             Email = "adeyemieyinjuoluwa@gmail.com",
-                            PasswordHash = "$2a$11$LLbc/VHgeakKrLwwPeGTSesCGBm7fB0JJnQZICWkT0qjPnU75AHEK"
+                            PasswordHash = "$2a$11$eXotTIeAv39nPlopUU5m7OLZx5Tm371Ytan2haRbg5NDGpDNA4wfm"
                         });
                 });
 

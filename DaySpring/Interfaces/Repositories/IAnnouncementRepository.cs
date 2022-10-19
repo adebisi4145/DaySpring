@@ -10,5 +10,6 @@ namespace DaySpring.Interfaces.Repositories
     {
         Task<Announcement> AddAnnouncement(Announcement announcement);
         Task<List<Announcement>> GetCurrentAnnouncements();
+        Task<List<Announcement>> GetAnnouncementsByTitle(string title);
     }
 }

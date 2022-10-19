@@ -19,7 +19,8 @@ namespace DaySpring.Implementations.Repositories
         {
             return await _daySpringDbContext.Sermons.Include(c => c.Preacher)
                 .Include(c => c.Member)
-                .Where(b => b.Title == title || b.Title.Contains(title))
+                 .Where(m => EF.Functions.Like(m.Title, $"%{title}%"))
+                /*.Where(b => b.Title == title || b.Title.Contains(title))*/
                 .ToListAsync();
         }
 

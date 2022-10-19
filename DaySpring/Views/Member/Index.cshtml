@@ -6,6 +6,17 @@
 }
 
 
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+}
+<form class="signup-form form-inline justify-content-center pt-3">
+    <div class="form-group">
+        @*<label class="sr-only" for="semail">Your email</label>*@
+        <input name="name" type="text" class="form-control" placeholder="Enter Title">
+    </div>
+    <button class="btn" asp-action="GetMembersByName" style="font-size: 1.0rem; padding: 10px 60px; background-color: #202342; color:white; ">Search</button>
+</form>
 <div class="card-header" style="background-color: whitesmoke;">
     <div class="card-title">
         <h1 class="text-center">Members</h1>
@@ -23,17 +34,20 @@
                 Last Name
             </th>
             <th>
-                Details
+                Email
+            </th>
+            <th>
+                Role
             </th>
             <th>
                 Payment
             </th>
-            <th>
-                Media
-            </th>
-            <th>
-                Ministers
-            </th>
+            @*<th>
+            Media
+        </th>
+        <th>
+            Ministers
+        </th>*@
         </tr>
     </thead>
     <tbody>
@@ -46,52 +60,84 @@
             <td>
                 @Html.DisplayFor(modelItem => member.LastName)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => member.Email)
+            </td>
 
-            <td>
-                <a asp-action="AdminDetails" asp-route-id="@member.Id">Details</a>
-            </td>
-            <td>
-                <a asp-controller="Payment" asp-action="GetPaymentsByEmail" asp-route-email="@member.Email">Payments</a>
-            </td>
             @{
                 var role = member.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
                 if (!role.Contains("superadmin"))
                 {
-                    if (!role.Contains("media"))
+                    if (role.Contains("media"))
                     {
                         <td>
-                            <a asp-action="UpdateToMedia" asp-route-id="@member.Id">Upgrade To Media</a>
+                            <a asp-action="Role" asp-route-id="@member.Id">Media</a>
+                        </td>
+                    }
+                    else if (role.Contains("minister"))
+                    {
+                        <td>
+                            <a asp-action="Role" asp-route-id="@member.Id">Minister</a>
                         </td>
                     }
                     else
                     {
                         <td>
-                            <a asp-action="RemoveMediaRole" asp-route-id="@member.Id">Remove Media Status</a>
-                        </td>
-                    }
-                    if (!role.Contains("minister"))
-                    {
-                        <td>
-                            <a asp-action="UpdateToMinister" asp-route-id="@member.Id">Upgrade To Ministers</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <a asp-action="RemoveMinisterRole" asp-route-id="@member.Id">Remove Minister Status</a>
+                            <a asp-action="Role" asp-route-id="@member.Id">Member</a>
                         </td>
                     }
                 }
                 else
                 {
-                    <td>----------</td>
-                    <td>----------</td>
+                    <td>Super Admin</td>
                 }
             }
+            <td>
+                <a asp-controller="Payment" asp-action="GetPaymentsByEmail" asp-route-email="@member.Email">Payments</a>
+            </td>
+
+
+
+
+            @* @{
+            var role = member.User.UserRoles.Select(c => c.Role.Name.ToLower()).ToList();
+            if (!role.Contains("superadmin"))
+            {
+                if (!role.Contains("media"))
+                {
+                    <td>
+                        <a asp-action="UpdateToMedia" asp-route-id="@member.Id">Upgrade To Media</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="RemoveMediaRole" asp-route-id="@member.Id">Remove Media Status</a>
+                    </td>
+                }
+                if (!role.Contains("minister"))
+                {
+                    <td>
+                        <a asp-action="UpdateToMinister" asp-route-id="@member.Id">Upgrade To Ministers</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="RemoveMinisterRole" asp-route-id="@member.Id">Remove Minister Status</a>
+                    </td>
+                }
+            }
+            else
+            {
+                <td>----------</td>
+                <td>----------</td>
+            }
+        }*@
 
 
         </tr>
-                    }
+        }
     </tbody>
 </table>
 @*<button class="btn btn-primary offset-10 " style="background-color: whitesmoke;"><a asp-action="Create">Add Category</a></button>*@

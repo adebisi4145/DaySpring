@@ -33,7 +33,7 @@
     </script>
 </head>
 <body>
-    <div class="pre-loader">
+    @*<div class="pre-loader">
         <div class="pre-loader-box">
             <div class="loader-logo"><img src="~/Dashboard/vendors/images/deskapp-logo.svg" alt=""></div>
             <div class='loader-progress' id="progress_div">
@@ -44,7 +44,7 @@
                 Loading...
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="main-container">
         <main role="main">
             @RenderBody()
@@ -100,7 +100,7 @@
                 </div>
             </div>
             @*NOTIFICATION*@
-            <div class="user-notification">
+            @*<div class="user-notification">
                 <div class="dropdown">
                     <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
                         <i class="icon-copy dw dw-notification"></i>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="user-info-dropdown">
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -235,19 +235,12 @@
                             <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="SuperAdminIndex">Library</a></li>
-                            <li class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle">
-                                    <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a asp-controller="Author" asp-action="SuperAdminIndex">Authors</a></li>
-                                    <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="SuperAdminCurrentAnnouncements">View New Programs</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">View All Programs</a></li>
-                                </ul>
-                            </li>
+                            <li><a asp-controller="Author" asp-action="SuperAdminIndex">Authors</a></li>
+                            <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
+                            <li><a asp-controller="Announcement" asp-action="SuperAdminCurrentAnnouncements">View New Programs</a></li>
+                            <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">View All Programs</a></li>
+                            
                         </ul>
                     </li>
 
@@ -256,8 +249,8 @@
                             <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Sermon" asp-action="SuperAdminAudioIndex">Audios</a></li>
                             <li><a asp-controller="Sermon" asp-action="SuperAdminIndex">Sermons</a></li>
+                            <li><a asp-controller="Sermon" asp-action="SuperAdminAudioIndex">Audios</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -277,7 +270,7 @@
                             <span class="micon dw dw-library"></span><span class="mtext">Tithe & Offering</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Payment" asp-action="SuperAdminCreate">Tithe & Offering</a></li>
+                            <li><a asp-controller="Payment" asp-action="SuperAdminCreate">Pay Tithe & Offering</a></li>
                             <li><a asp-controller="Payment" asp-action="GetPaymentsByEmailSuperAdmin">My Payments</a></li>
                             <li><a asp-controller="Payment" asp-action="Index">All Payments</a></li>
                         </ul>
@@ -290,7 +283,7 @@
                             <span class="micon dw dw-library"></span><span class="mtext">Members</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Member" asp-action="Index">Members</a></li>
+                            <li><a asp-controller="Member" asp-action="Index">View Members</a></li>
                         </ul>
                     </li>
                 </ul>

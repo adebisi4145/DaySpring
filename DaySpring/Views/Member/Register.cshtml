@@ -24,25 +24,29 @@
             <div class="container">
                 <div class="signup-content">
                     <form method="POST" id="signup-form" class="signup-form">
+                        @if (!string.IsNullOrEmpty(ViewBag.Message))
+                        {
+                            <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                        }
                         <h2 class="form-title">Create account</h2>
                         <div class="form-group">
-                            <input asp-for="FirstName" type="text" class="form-input" placeholder="First Name" required/>
+                            <input asp-for="FirstName" type="text" class="form-input" placeholder="First Name" required />
                         </div>
                         <div class="form-group">
-                            <input asp-for="LastName" type="text" class="form-input" placeholder="Last Name" required/>
+                            <input asp-for="LastName" type="text" class="form-input" placeholder="Last Name" required />
                         </div>
                         <div class="form-group">
-                            <input asp-for="Email" type="email" class="form-input" placeholder="Your Email" required/>
+                            <input asp-for="Email" type="email" class="form-input" placeholder="Your Email" required />
                         </div>
                         <div class="form-group">
-                            <input asp-for="Password" type="text" class="form-input" placeholder="Password" required/>
+                            <input asp-for="Password" type="text" class="form-input" placeholder="Password" required />
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <input asp-for="ConfirmPassword" type="password" class="form-input" placeholder="Repeat your password" required/>
+                            <input asp-for="ConfirmPassword" type="password" class="form-input" placeholder="Repeat your password" required />
                         </div>
                         <div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" required/>
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
                             <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
                         </div>
                         <div class="form-group">

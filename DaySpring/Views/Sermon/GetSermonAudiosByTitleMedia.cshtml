@@ -1,0 +1,58 @@
+﻿@model DaySpring.ViewModels.SermonsResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "GetSermonAudiosByTitleMedia";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Gallery</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="heading">Sermon Gallery</div>
+        <div class="music-container">
+            @foreach (var sermon in Model.Data)
+            {
+                <div class="box">
+                    @if (sermon.Member == null)
+                    {
+                        <div class="image">
+                            <img src="~/PreachersPicture/@sermon.Preacher.Picture" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@sermon.Title by @sermon.Preacher.Name</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="image">
+                            <img src="~/Registration/images/signup-bg.jpg" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@sermon.Title by @sermon.Member.FirstName @sermon.Member.LastName</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+        <button class="btn" style="background-color: rgb(185, 175, 175); color: black; font-size: 2rem;"><a asp-action="MediaAudioIndex">Back</a></button>
+    </div>
+
+</body>
+</html>

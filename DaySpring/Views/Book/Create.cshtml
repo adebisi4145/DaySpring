@@ -16,35 +16,39 @@
 
                 </div>
                 <form asp-action="Add" enctype="multipart/form-data">
+                    @if (!string.IsNullOrEmpty(ViewBag.Message))
+                    {
+                        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                    }
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label asp-for="ISBN" class="control-label"></label>
-                            <input asp-for="ISBN" class="form-control" required/>
+                            <input asp-for="ISBN" class="form-control" required />
                         </div>
                         <div class="form-group col-sm-6">
                             <label asp-for="Title" class="control-label"></label>
-                            <input asp-for="Title" class="form-control" required/>
+                            <input asp-for="Title" class="form-control" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label asp-for="Publisher" class="control-label"></label>
-                            <input asp-for="Publisher" class="form-control" required/>
+                            <input asp-for="Publisher" class="form-control" required />
                         </div>
                         <div class="form-group col-sm-6">
                             <label asp-for="NumberOfPages" class="control-label"></label>
-                            <input asp-for="NumberOfPages" class="form-control" required/>
+                            <input asp-for="NumberOfPages" class="form-control" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="control-label"><strong>Select Image</strong></label>
-                            <input name="image" type="file" class="form-control" required/>
+                            <input name="image" type="file" class="form-control" required />
                         </div>
                         <div class="form-group">
                             <label class="control-label"><strong>Select Pdf</strong></label>
-                            <input name="pdf" type="file" class="form-control" required/>
+                            <input name="pdf" type="file" class="form-control" required />
                         </div>
                     </div>
 

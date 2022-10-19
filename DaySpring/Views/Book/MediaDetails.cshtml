@@ -56,9 +56,23 @@
                             @foreach (var author in Model.Data.Authors)
                             {
                                 <a asp-action="MediaDetails" asp-controller="Author" asp-route-id="@author.Id"><span class="color-text-a">@author.FirstName @author.LastName</span></a>
-                                
+
                             }
-                            
+
+                        </div>
+                        <div class="title-single-box">
+                            @foreach (var category in Model.Data.BookCategories)
+                            {
+                                <li class="list-inline-item mr-2">
+                                    <strong>Category: </strong>
+                                    <span class="color-text-a">@category.Name</span>
+                                </li>
+                            }
+
+                            <li class="list-inline-item">
+                                <strong>Pages: </strong>
+                                <span class="color-text-a">@Model.Data.NumberOfPages Pages</span>
+                            </li>
                         </div>
                     </div>
                 </div>
@@ -70,11 +84,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="news-img-box">
-                            <img src="~/bookImages/@Model.Data.BookImage" alt="" class="img-fluid">
+                            <img src="~/bookImages/@Model.Data.BookImage" alt="" class="img-fluid" style="height:400px;">
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-                        <div class="post-information">
+                    <div class="col-md-10 col-lg-8">
+                        @*<div class="post-information">
                             <ul class="list-inline text-center color-a">
                                 
                                 @foreach (var category in Model.Data.BookCategories)
@@ -90,9 +104,9 @@
                                     <span class="color-text-a">@Model.Data.NumberOfPages Pages</span>
                                 </li>
                             </ul>
-                        </div>
+                        </div>*@
                         <div class="post-information">
-                            <ul class="list-inline text-center color-a">
+                            <ul class="list-inline color-a">
                                 <li class="list-inline-item mr-2">
                                     <span class="color-text-a"><a href="~/bookPDFs/@Model.Data.BookPDF" download="@Model.Data.BookPDF"><input class="btn btn-outline-primary" type="button" value="Download book" /></a></span>
 
@@ -106,6 +120,8 @@
                             </ul>
                         </div>
                     </div>
+                    </div>
+                </div>
 
         </section><!-- End Blog Single-->
 

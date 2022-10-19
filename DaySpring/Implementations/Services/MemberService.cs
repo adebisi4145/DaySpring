@@ -40,7 +40,7 @@ namespace DaySpring.Implementations.Services
 
         public async Task<MemberResponseModel> GetMember(int id)
         {
-            var member = await _memberRepository.GetAsync(id);
+            var member = await _memberRepository.GetMember(id);
             return new MemberResponseModel
             {
                 Data = new MemberModel
@@ -91,9 +91,37 @@ namespace DaySpring.Implementations.Services
 
         }
 
+        public async Task<MembersResponseModel> GetMembersByName(string name)
+        {
+            var members = await _memberRepository.GetMembersByName(name);
+            if(members.Count == 0)
+            {
+                return null;
+            }
+            return new MembersResponseModel
+            {
+                Data = members.Select(m => new MemberModel
+                {
+                    Id = m.Id,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    Email = m.Email,
+                    UserId = m.UserId,
+                    User = m.User
+                }).ToList(),
+                Status = true,
+                Message = "successful"
+            };
+
+        }
+
         public async Task<MemberModel> GetMemberByEmail(string email)
         {
             var member = await _memberRepository.GetMemberByEmailAsync(email);
+            if(member == null)
+            {
+                return null;
+            }
             return new MemberModel
             {
                 Id = member.Id,
@@ -136,7 +164,44 @@ namespace DaySpring.Implementations.Services
                     Message = "member already exist"
                 };
             }
-            else
+
+            var role = await _roleRepository.GetRoleByNameAsync("member");
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
+            var user = new User
+            {
+                Email = model.Email,
+                PasswordHash = hashedPassword
+            };
+            await _userRepository.AddAsync(user);
+            await _memberRepository.SaveChangesAsync();
+
+            var userRole = new UserRole
+            {
+                User = user,
+                UserId = user.Id,
+                Role = role,
+                RoleId = role.Id
+            };
+            await _userRoleRepository.AddUserRole(userRole);
+            await _memberRepository.SaveChangesAsync();
+
+            var member = new Member
+            {
+                UserId = user.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email
+            };
+            await _memberRepository.AddAsync(member);
+            await _memberRepository.SaveChangesAsync();
+            return new BaseResponse
+            {
+                Status = true,
+                Message = "Student successfully registered"
+            };
+
+            /*else
             {
                 var role = await _roleRepository.GetRoleByNameAsync("member");
                 var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
@@ -183,7 +248,7 @@ namespace DaySpring.Implementations.Services
                         Message = "Student successfully registered"
                     };
                 }
-            }
+            }*/
         }
 
         public async Task<BaseResponse> UpdateMember(int id, UpdateMemberRequestModel model)

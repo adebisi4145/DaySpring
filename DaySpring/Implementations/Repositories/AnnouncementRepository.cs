@@ -23,6 +23,12 @@ namespace DaySpring.Implementations.Repositories
         {
             return await _daySpringDbContext.Announcements.Where(c => c.EndingDate >= DateTime.Now).ToListAsync();
         }
+        public async Task<List<Announcement>> GetAnnouncementsByTitle(string title)
+        {
+            return await _daySpringDbContext.Announcements
+                .Where(m => EF.Functions.Like(m.Title, $"%{title}%"))
+                .ToListAsync();
+        }
     }
 }
  

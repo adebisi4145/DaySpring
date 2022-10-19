@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DaySpring.Controllers
@@ -27,16 +25,50 @@ namespace DaySpring.Controllers
             _memberService = memberService;
             _webHostEnvironment = webHostEnvironment;
         }
-
         public async Task<IActionResult> VideoIndex()
         {
             var sermons = await _sermonService.GetSermons();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
             return View(sermons);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonsByTitle(string title)
+        {
+            var sermons = await _sermonService.GetSermonsByTitle(title);
+            if (sermons == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("VideoIndex");
+            }
+            return View(sermons);
+        }
+
 
         public async Task<IActionResult> AudioIndex()
         {
             var sermons = await _sermonService.GetSermonAudios();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
+            return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonAudiosByTitle(string title)
+        {
+            var sermons = await _sermonService.GetSermonsByTitle(title);
+            if (sermons == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("AudioIndex");
+            }
             return View(sermons);
         }
 
@@ -44,6 +76,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> GetSermonsByPreacher(int id)
         {
             var sermons = await _sermonService.GetSermonsByPreacher(id);
+            if (sermons == null)
+            {
+                TempData["Message"] = "This preacher's sermon is yet to be uploaded";
+                return RedirectToAction("Index");
+            }
             return View(sermons);
         }
 
@@ -146,12 +183,7 @@ namespace DaySpring.Controllers
             return RedirectToAction("MediaIndex");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetSermonsByTitle(string title)
-        {
-            var sermons = await _sermonService.GetSermonsByTitle(title);
-            return View(sermons);
-        }
+        
 
         /* [HttpGet]
          public async Task<IActionResult> GetSermonAudioByTitle(string title)
@@ -171,25 +203,94 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> MediaAudioIndex()
         {
             var sermons = await _sermonService.GetSermonAudios();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
+            return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonAudiosByTitleMedia(string title)
+        {
+            var sermons = await _sermonService.GetSermonsByTitle(title);
+            if (sermons == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("MediaAudioIndex");
+            }
             return View(sermons);
         }
 
         public async Task<IActionResult> MediaIndex()
         {
-            var author = await _sermonService.GetSermons();
-            return View(author);
+            var sermons = await _sermonService.GetSermons();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
+            return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonsByTitleMedia(string title)
+        {
+            var sermon = await _sermonService.GetSermonsByTitle(title);
+            if (sermon == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("MediaIndex");
+            }
+            return View(sermon);
         }
 
         public async Task<IActionResult> superAdminAudioIndex()
         {
             var sermons = await _sermonService.GetSermonAudios();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
+            return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonAudiosByTitleSuperAdmin(string title)
+        {
+            var sermons = await _sermonService.GetSermonsByTitle(title);
+            if (sermons == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("superAdminAudioIndex");
+            }
             return View(sermons);
         }
 
         public async Task<IActionResult> SuperAdminIndex()
         {
-            var author = await _sermonService.GetSermons();
-            return View(author);
+
+            var sermons = await _sermonService.GetSermons();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(sermons);
+            }
+            return View(sermons);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSermonsByTitleSuperAdmin(string title)
+        {
+            var sermon = await _sermonService.GetSermonsByTitle(title);
+            if (sermon == null)
+            {
+                TempData["Message"] = "Sermon Not found";
+                return RedirectToAction("SuperAdminIndex");
+            }
+            return View(sermon);
         }
 
         [HttpGet]
@@ -210,28 +311,24 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> MediaGetSermonsByPreacher(int id)
         {
             var sermons = await _sermonService.GetSermonsByPreacher(id);
+            if (sermons == null)
+            {
+                TempData["Message"] = "This preacher's sermon is yet to be uploaded";
+                return RedirectToAction("MediaIndex");
+            }
             return View(sermons);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetSermonsByTitleMedia(string title)
-        {
-            var sermon = await _sermonService.GetSermonsByTitle(title);
-            return View(sermon);
         }
 
         [HttpGet]
         public async Task<IActionResult> SuperAdminGetSermonsByPreacher(int id)
         {
             var sermons = await _sermonService.GetSermonsByPreacher(id);
+            if(sermons == null)
+            {
+                TempData["Message"] = "This preacher's sermon is yet to be uploaded";
+                return RedirectToAction("SuperAdminIndex");
+            }
             return View(sermons);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetSermonsByTitleSuperAdmin(string title)
-        {
-            var sermon = await _sermonService.GetSermonsByTitle(title);
-            return View(sermon);
         }
     }
 }

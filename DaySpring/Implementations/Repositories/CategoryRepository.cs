@@ -18,5 +18,9 @@ namespace DaySpring.Implementations.Repositories
         {
             return await _daySpringDbContext.Categories.Where(c => ids.Contains(c.Id)).ToListAsync();
         }
+        public async Task<Category> GetCategoryByName(string name)
+        {
+            return await _daySpringDbContext.Categories.SingleOrDefaultAsync(c => c.Name == name);
+        }
     }
 }

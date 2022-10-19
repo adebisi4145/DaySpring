@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DaySpring.Controllers
 {
+    [Authorize(Roles = "Media")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -24,16 +25,19 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Media")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateCategoryRequestModel model)
         {
+            var category = await _categoryService.GetCategoryByName(model.Name);
+            if(category != null)
+            {
+                ViewBag.Message = "This Category already exist";
+                return View();
+            }
             await _categoryService.CreateCategory(model);
             return RedirectToAction("MediaIndex");
         }
@@ -46,7 +50,6 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryService.GetCategory(id);
@@ -54,7 +57,6 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Edit(int id, UpdateCategoryRequestModel model)
         {
             await _categoryService.UpdateCategory(id, model);
@@ -62,7 +64,6 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Media")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryService.GetCategory(id);
@@ -70,36 +71,10 @@ namespace DaySpring.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Media")]
         public async Task<IActionResult> DeleteConfirmed([FromRoute] int id)
         {
             await _categoryService.DeleteCategory(id);
             return RedirectToAction("Index");
-        }
-
-        public async Task<IActionResult> MediaIndex()
-        {
-            var category = await _categoryService.GetCategories();
-            return View(category);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> MediaDetails(int id)
-        {
-            var category = await _categoryService.GetCategory(id);
-            return View(category);
-        }
-        public async Task<IActionResult> SuperAdminIndex()
-        {
-            var category = await _categoryService.GetCategories();
-            return View(category);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> SuperAdminDetails(int id)
-        {
-            var category = await _categoryService.GetCategory(id);
-            return View(category);
         }
     }
 }

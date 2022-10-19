@@ -15,38 +15,49 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+    }
+    <form class="signup-form form-inline justify-content-center pt-3">
+        <div class="form-group">
+            @*<label class="sr-only" for="semail">Your email</label>*@
+            <input name="title" type="text" style="font-size:2rem" class="form-control" placeholder="Enter Title">
+        </div>
+        <button class="btn" asp-action="GetSermonAudiosByTitleMedia" style="font-size: 1.5rem; padding: 10px 60px; background-color: rgb(185, 175, 175);">Search</button>
+    </form>
     <div class="container">
-        <div class="heading">Sermon Gallery</div>
+        <div class="heading">Sermons</div>
         <div class="music-container">
             @foreach (var sermon in Model.Data)
             {
-            <div class="box">
-                @if (sermon.Member == null)
-                {
-                    <div class="image">
-                        <img src="~/PreachersPicture/@sermon.Preacher.Picture" alt="">
-                    </div>
-                    <div class="music">
-                        <div class="head">@sermon.Title by @sermon.Preacher.Name</div>
-                        <audio controls>
-                            <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
-                        </audio>
-                    </div>
-                }
-                else
-                {
-                    <div class="image">
-                        <img src="~/Registration/images/signup-bg.jpg" alt="">
-                    </div>
-                    <div class="music">
-                        <div class="head">@sermon.Title by @sermon.Member.FirstName @sermon.Member.LastName</div>
-                        <audio controls>
-                            <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
-                        </audio>
-                    </div>
-                }
+                <div class="box">
+                    @if (sermon.Member == null)
+                    {
+                        <div class="image">
+                            <img src="~/PreachersPicture/@sermon.Preacher.Picture" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@sermon.Title by @sermon.Preacher.Name</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="image">
+                            <img src="~/Registration/images/signup-bg.jpg" alt="">
+                        </div>
+                        <div class="music">
+                            <div class="head">@sermon.Title by @sermon.Member.FirstName @sermon.Member.LastName</div>
+                            <audio controls>
+                                <source src="~/SermonAudios/@sermon.Audio" type="audio/mp3" />
+                            </audio>
+                        </div>
+                    }
 
-            </div>
+                </div>
             }
 
         </div>

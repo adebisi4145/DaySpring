@@ -145,6 +145,10 @@ namespace DaySpring.Implementations.Services
         public async Task<SermonsResponseModel> GetSermonsByPreacher(int id)
         {
             var sermons = await _sermonRepository.GetSermonsByPreacher(id);
+            if(sermons.Count == 0)
+            {
+                return null;
+            }
             return new SermonsResponseModel
             {
                 Data = sermons.Select(m => new SermonModel
@@ -166,6 +170,10 @@ namespace DaySpring.Implementations.Services
         public async Task<SermonsResponseModel> GetSermonsByTitle(string title)
         {
             var sermons = await _sermonRepository.GetSermonsByTitle(title);
+            if(sermons.Count == 0)
+            {
+                return null;
+            }
             return new SermonsResponseModel
             {
                 Data = sermons.Select(m => new SermonModel

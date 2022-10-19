@@ -33,7 +33,7 @@
     </script>
 </head>
 <body>
-    <div class="pre-loader">
+    @*<div class="pre-loader">
         <div class="pre-loader-box">
             <div class="loader-logo"><img src="~/Dashboard/vendors/images/deskapp-logo.svg" alt=""></div>
             <div class='loader-progress' id="progress_div">
@@ -44,7 +44,7 @@
                 Loading...
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="main-container">
         <main role="main">
             @RenderBody()
@@ -100,7 +100,7 @@
                 </div>
             </div>
             @*NOTIFICATION*@
-            <div class="user-notification">
+            @*<div class="user-notification">
                 <div class="dropdown">
                     <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
                         <i class="icon-copy dw dw-notification"></i>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="user-info-dropdown">
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -235,25 +235,15 @@
                             <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Member" asp-action="Details">My Profile</a></li>
                             <li><a asp-controller="Book" asp-action="MediaIndex">Library</a></li>
-                            <li class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle">
-                                    <span class="micon dw dw-apartment"></span><span class="mtext">View</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a asp-controller="Author" asp-action="MediaIndex">Authors</a></li>
-                                    <li><a asp-controller="Category" asp-action="MediaIndex">Categories</a></li>
-                                    <li><a asp-controller="Preacher" asp-action="MediaIndex">Preachers</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="MediaCurrentAnnouncements">View New Programs</a></li>
-                                    <li><a asp-controller="Announcement" asp-action="MediaIndex">View All Programs</a></li>
-                                </ul>
-                            </li>
+                            <li><a asp-controller="Author" asp-action="MediaIndex">Authors</a></li>
+                            <li><a asp-controller="Category" asp-action="MediaIndex">Categories</a></li>
+                            <li><a asp-controller="Preacher" asp-action="MediaIndex">Preachers</a></li>
+
                         </ul>
 
 
                     </li>
-
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -264,8 +254,9 @@
                         </a>
                         <ul class="submenu">
                             <li><a asp-controller="Book" asp-action="Create">Book</a></li>
-                            <li><a asp-controller="Category" asp-action="Create">Category</a></li>
+                            <li><a asp-controller="Sermon" asp-action="SermonType">Sermon</a></li>
                             <li><a asp-controller="Announcement" asp-action="Create">Announcement</a></li>
+                            <li><a asp-controller="Category" asp-action="Create">Category</a></li>
                             <li><a asp-controller="Preacher" asp-action="Create">Preacher</a></li>
                             <li><a asp-controller="Author" asp-action="Create">Author</a></li>
                         </ul>
@@ -276,11 +267,21 @@
                             <span class="micon dw dw-apartment"></span><span class="mtext">Sermon</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Sermon" asp-action="SermonType">Add Sermon</a></li>
-                            <li><a asp-controller="Sermon" asp-action="MediaAudioIndex">Audios</a></li>
                             <li><a asp-controller="Sermon" asp-action="MediaIndex">Sermons</a></li>
+                            <li><a asp-controller="Sermon" asp-action="MediaAudioIndex">Audios</a></li>
                         </ul>
                     </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-apartment"></span><span class="mtext">Announcement</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a asp-controller="Announcement" asp-action="MediaCurrentAnnouncements">View New Programs</a></li>
+                            <li><a asp-controller="Announcement" asp-action="MediaIndex">View All Programs</a></li>
+                        </ul>
+                    </li>
+
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -289,7 +290,7 @@
                             <span class="micon dw dw-library"></span><span class="mtext">Tithe & Offering</span>
                         </a>
                         <ul class="submenu">
-                            <li><a asp-controller="Payment" asp-action="MediaCreate">Tithe & Offering</a></li>
+                            <li><a asp-controller="Payment" asp-action="MediaCreate">Pay Tithe & Offering</a></li>
                             <li><a asp-controller="Payment" asp-action="GetPaymentsByEmailMedia">My Payments</a></li>
                         </ul>
                     </li>

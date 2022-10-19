@@ -34,14 +34,39 @@
                <label asp-for="Dates[i]" class="control-label"><strong>Date</strong></label>
            </div>
         }*@
+                    @{ 
+                        var myDate = DateTime.Now.ToString();
+                        var mySplittedDate = myDate.Split(" ");
+                        var date = mySplittedDate[0];
+                        var time = mySplittedDate[1];
+                        var splittedTime = time.Split(":");
+                        var hour = splittedTime[0];
+                        if(hour.Count() == 1)
+                        {
+                            hour = $"0{hour}";
+                        }
+                        var splittedDate = date.Split("/");
+                        var finalTime = string.Empty;
+
+                        finalTime = $"{splittedDate[2]}-{splittedDate[0]}-{splittedDate[1]} {hour}:{splittedTime[1]}:00";
+
+                        @*if(hour.Count() == 1)
+                        {
+                            finalTime = $"{splittedDate[2]}-{splittedDate[0]}-{splittedDate[1]} 0{time}";
+                        }
+                        else
+                        {
+                            finalTime = $"{splittedDate[2]}-{splittedDate[0]}-{splittedDate[1]} {time}";
+                        }*@
+                    }
                     <div>
                         <label asp-for="StartingDate" class="control-label"><strong>Starting Date</strong></label>
-                        <input asp-for="StartingDate" type="datetime-local" name="StartingDate" class="form-control" required/>
+                        <input asp-for="StartingDate" type="datetime-local" name="StartingDate" min="@finalTime" class="form-control" required/>
                         @*<span asp-validation-for="StartingDate"></span>*@
                     </div>
                     <div>
                         <label asp-for="EndingDate" class="control-label"><strong>Ending Date</strong></label>
-                        <input asp-for="EndingDate" type="datetime-local" name="EndingDate" class="form-control" required/>
+                        <input asp-for="EndingDate" type="datetime-local" name="EndingDate" min="@finalTime" class="form-control" required/>
                     </div>
                     <br />
                     <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Create">Add Announcement</a></button>

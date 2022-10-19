@@ -4,6 +4,7 @@ using DaySpring.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using PayStack.Net;
 using System;
@@ -16,7 +17,8 @@ namespace DaySpring.Controllers
 {
     public class PaymentController : Controller
     {
-        private readonly IPaymentService _transactionService;
+        private readonly IPaymentService _paymentService;
+        private readonly IPaymentCategoryService _paymentCategoryService;
         private readonly IMemberService _memberService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -26,7 +28,7 @@ namespace DaySpring.Controllers
         private readonly string token;
         public PaymentController(IPaymentService transactionService, IMemberService memberService, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
-            _transactionService = transactionService;
+            _paymentService = transactionService;
             _memberService = memberService;
             _httpContextAccessor = httpContextAccessor;
 
@@ -38,20 +40,25 @@ namespace DaySpring.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Index()
         {
-            var payments = await  _transactionService.GetPayments();
+            var payments = await  _paymentService.GetPayments();
             return View(payments);
         }
 
         public async Task<IActionResult> GetPaymentsByEmail(string email)
         {
             var member = await _memberService.GetMemberByEmail(email);
-            var payments = await _transactionService.GetMembersPaymentsByEmail(email);
+            var payments = await _paymentService.GetMembersPaymentsByEmail(email);
 
             var memberspayments = new MembersPaymentViewModel
             {
                 Member = member,
                 Payments = payments
             };
+            if (payments.Count == 0)
+            {
+                ViewBag.Message = "No Payments Yet";
+                return View(memberspayments);
+            }
             return View(memberspayments);
         }
 
@@ -79,7 +86,7 @@ namespace DaySpring.Controllers
             TransactionInitializeResponse response = Paystack.Transactions.Initialize(request);
             if (response.Status)
             {
-                await _transactionService.CreatePayment(model, email, request.Reference);
+                await _paymentService.CreatePayment(model, email, request.Reference);
                 return Redirect(response.Data.AuthorizationUrl);
             }
             ViewData["error"] = response.Message;
@@ -92,7 +99,7 @@ namespace DaySpring.Controllers
             TransactionVerifyResponse response = Paystack.Transactions.Verify(reference);
             if (response.Data.Status == "success")
             {
-                await _transactionService.VerifyPayment(reference);
+                await _paymentService.VerifyPayment(reference);
                 return RedirectToAction("GetPaymentsByEmailMember");
             }
             ViewData["error"] = response.Data.GatewayResponse;
@@ -129,7 +136,7 @@ namespace DaySpring.Controllers
             TransactionInitializeResponse response = Paystack.Transactions.Initialize(request);
             if (response.Status)
             {
-                await _transactionService.CreatePayment(model, email, request.Reference);
+                await _paymentService.CreatePayment(model, email, request.Reference);
                 return Redirect(response.Data.AuthorizationUrl);
             }
             ViewData["error"] = response.Message;
@@ -142,7 +149,7 @@ namespace DaySpring.Controllers
             TransactionVerifyResponse response = Paystack.Transactions.Verify(reference);
             if (response.Data.Status == "success")
             {
-                await _transactionService.VerifyPayment(reference);
+                await _paymentService.VerifyPayment(reference);
                 return RedirectToAction("GetPaymentsByEmailMedia");
             }
             ViewData["error"] = response.Data.GatewayResponse;
@@ -155,7 +162,12 @@ namespace DaySpring.Controllers
             var memberId = int.Parse(signedInMemberId);
             var member = await _memberService.GetMember(memberId);
             string email = member.Data.Email;
-            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
+            var payments = await _paymentService.GetPaymentsByEmail(member.Data.Email);
+            if (payments.Data.Count == 0)
+            {
+                ViewBag.Message = "No Payments Yet";
+                return View(payments);
+            }
             return View(payments);
         }
         public async Task<IActionResult> GetPaymentsByEmailMember()
@@ -164,13 +176,20 @@ namespace DaySpring.Controllers
             var memberId = int.Parse(signedInMemberId);
             var member = await _memberService.GetMember(memberId);
             string email = member.Data.Email;
-            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
+            var payments = await _paymentService.GetPaymentsByEmail(member.Data.Email);
+            if(payments.Data.Count == 0)
+            {
+                ViewBag.Message = "No Payments Yet";
+                return View(payments);
+            }
             return View(payments);
         }
 
         [HttpGet]
         public IActionResult SuperAdminCreate()
         {
+            var paymentCategories = _paymentCategoryService.GetPaymentCategories();
+            ViewData["PaymentCategories"] = new SelectList(paymentCategories.Data, "Id", "Name");
             return View();
         }
 
@@ -192,7 +211,7 @@ namespace DaySpring.Controllers
             TransactionInitializeResponse response = Paystack.Transactions.Initialize(request);
             if (response.Status)
             {
-                await _transactionService.CreatePayment(model, email, request.Reference);
+                await _paymentService.CreatePayment(model, email, request.Reference);
                 return Redirect(response.Data.AuthorizationUrl);
             }
             ViewData["error"] = response.Message;
@@ -205,8 +224,8 @@ namespace DaySpring.Controllers
             TransactionVerifyResponse response = Paystack.Transactions.Verify(reference);
             if (response.Data.Status == "success")
             {
-                await _transactionService.VerifyPayment(reference);
-                return RedirectToAction("Index");
+                await _paymentService.VerifyPayment(reference);
+                return RedirectToAction("GetPaymentsByEmailSuperAdmin");
             }
             ViewData["error"] = response.Data.GatewayResponse;
             return RedirectToAction("SuperAdminCreate");
@@ -219,7 +238,26 @@ namespace DaySpring.Controllers
             var memberId = int.Parse(signedInMemberId);
             var member = await _memberService.GetMember(memberId);
             string email = member.Data.Email;
-            var payments = await _transactionService.GetPaymentsByEmail(member.Data.Email);
+            var payments = await _paymentService.GetPaymentsByEmail(member.Data.Email);
+            if (payments.Data.Count == 0)
+            {
+                ViewBag.Message = "No Payments Yet";
+                return View(payments);
+            }
+            return View(payments);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> GetPaymentsByDates(DateTime date)
+        {
+            var payments = await _paymentService.GetPaymentsByDate(date);
+            var totalAmount = await _paymentService.GetTotalPayment(date);
+            var paymentbyDate = new PaymentByDateViewmodel
+            {
+                Payments = payments,
+                TotalAmount = totalAmount
+            };
             return View(payments);
         }
 

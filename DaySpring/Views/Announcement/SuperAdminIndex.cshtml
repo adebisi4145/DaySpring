@@ -25,7 +25,10 @@
     <link href="~/Announcement/assets/css/mediumish.css" rel="stylesheet">
 </head>
 <body>
-
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+    }
     <!-- Begin Top Author Page
     ================================================== -->
     <div class="container">
@@ -42,6 +45,13 @@
             </div>
         </div>
     </div>
+    <form class="signup-form form-inline justify-content-center pt-3">
+        <div class="form-group">
+            @*<label class="sr-only" for="semail">Your email</label>*@
+            <input name="title" type="text" class="form-control" placeholder="Enter Title">
+        </div>
+        <button class="btn" asp-action="GetAnnouncementsByTitleSuperAdmin" style="font-size: 1.0rem; padding: 10px 60px; background-color: #202342; color:white; ">Search</button>
+    </form>
     <!-- End Top Author Meta
     ================================================== -->
     <!-- Begin Author Posts
@@ -57,7 +67,7 @@
                                 <img class="img-fluid img-thumb" src="~/AnnouncementImages/@announcement.AnnouncementImage" alt="">
                             </a>
                             <div class="card-block">
-                                <h2 class="card-title"><a href="post.html">@announcement.Title</a></h2>
+                                <h2 class="card-title">@announcement.Title</h2>
                                 <h4 class="card-text">@announcement.Description</h4>
                                 @{
                                     if (announcement.EndingDate != announcement.StartingDate)

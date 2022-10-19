@@ -1,0 +1,21 @@
+﻿@model DaySpring.ViewModels.PaymentCategoryResponseModel
+
+@{
+    Layout = "~/Views/Shared/_MediaLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h3>Payment Categories</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Data.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Data.Name)
+        </dd>
+
+    </dl>
+    <a asp-action="MediaIndex">Back</a>
+</div>

@@ -10,21 +10,26 @@
         <h1 class="text-center">My Payments</h1>
     </div>
 </div>
-@*<table class="table justify-content-center align-items-center">*@
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+}
+else
+{
 <table class="table">
     <thead>
         <tr>
             <th>
-                Amount
-            </th>
-            <th>
-                Transaction Reference
+                Date
             </th>
             <th>
                 Details
             </th>
             <th>
-                Date
+                Amount
+            </th>
+            <th>
+                Transaction Reference
             </th>
         </tr>
     </thead>
@@ -33,18 +38,20 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => transation.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => transation.PaymentReference)
+                    @Html.DisplayFor(modelItem => transation.CreatedAt)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => transation.PaymentType)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => transation.CreatedAt)
+                    @Html.DisplayFor(modelItem => transation.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => transation.PaymentReference)
                 </td>
             </tr>
         }
     </tbody>
 </table>
+}
+@*<table class="table justify-content-center align-items-center">*@

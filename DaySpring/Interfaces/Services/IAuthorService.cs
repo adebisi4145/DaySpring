@@ -14,6 +14,7 @@ namespace DaySpring.Interfaces.Services
         public Task<BaseResponse> UpdateAuthor(int id, UpdateAuthorRequestModel model);
         public Task<AuthorResponseModel> GetAuthor(int id);
         public Task<AuthorsResponseModel> GetAuthorsByName(string name);
+        public Task<bool> Check(string firstName, string lastName);
 
         public Task<AuthorsResponseModel> GetAuthors();
     }

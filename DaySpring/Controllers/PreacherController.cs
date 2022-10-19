@@ -39,18 +39,25 @@ namespace DaySpring.Controllers
         [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreatePreacherRequestModel model, IFormFile image)
         {
-                string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "PreachersPicture");
-                Directory.CreateDirectory(imageDirectory);
-                string contentType = image.ContentType.Split('/')[1];
-                string preachersPicture = $"{Guid.NewGuid()}.{contentType}";
-                string fullPath = Path.Combine(imageDirectory, preachersPicture);
-                using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    image.CopyTo(fileStream);
-                }
-                model.Picture = preachersPicture;
-                await _preacherService.CreatePreacher(model);
+            var preacher = await _preacherService.GetPreacherByName(model.Name);
+            if(preacher != null)
+            {
+                ViewBag.Message = "This Preacher already exist";
+                return View();
+            }
+            string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "PreachersPicture");
+            Directory.CreateDirectory(imageDirectory);
+            string contentType = image.ContentType.Split('/')[1];
+            string preachersPicture = $"{Guid.NewGuid()}.{contentType}";
+            string fullPath = Path.Combine(imageDirectory, preachersPicture);
+            using (var fileStream = new FileStream(fullPath, FileMode.Create))
+            {
+                image.CopyTo(fileStream);
+            }
+            model.Picture = preachersPicture;
+            await _preacherService.CreatePreacher(model);
             return RedirectToAction("MediaIndex");
+                
         }
 
         [HttpGet]

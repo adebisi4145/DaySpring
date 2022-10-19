@@ -28,6 +28,8 @@ https://templatemo.com/tm-552-video-catalog
 -->
 <body>
     <div class="card-header" style="background-color: #ecf0f4;">
+        @if (Model.Data.Audio != null)
+        { 
         <div class="container">
             <div class="heading">@Model.Data.Title</div>
             <div class="music-container">
@@ -60,6 +62,8 @@ https://templatemo.com/tm-552-video-catalog
                 </div>
             </div>
         </div>
+        }
+        
         <div class="tm-page-wrap mx-auto">
 
             <!-- Page content -->
@@ -69,7 +73,7 @@ https://templatemo.com/tm-552-video-catalog
                         <div class="row mb-5 pb-4">
                             <div class="col-12">
                                 <!-- Video player 1422x800 -->
-                                <video width="1422" height="800" controls autoplay>
+                                <video width="1422" height="800" controls>
                                     <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>

@@ -13,6 +13,7 @@ namespace DaySpring.Interfaces.Services
         public Task<BookResponseModel> GetBook(int id);
 
         public Task<BooksResponseModel> GetBooksByTitle(string title);
+        public Task<BookResponseModel> GetBooksByISBN(string isbn);
 
         public Task<BooksResponseModel> GetBooks();
 

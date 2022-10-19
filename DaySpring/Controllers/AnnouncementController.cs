@@ -24,6 +24,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> Index()
         {
             var announcement = await _announcementService.GetAnnouncements();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(announcement);
+            }
             return View(announcement);
         }
 
@@ -65,7 +70,7 @@ namespace DaySpring.Controllers
             }
             model.AnnouncementImage = announcementImage;
             await _announcementService.CreateAnnouncement(model);
-            return RedirectToAction("MediaIndex");
+            return RedirectToAction("MediaCurrentAnnouncements");
         }
 
         [HttpGet]
@@ -119,6 +124,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> CurrentAnnouncements()
         {
             var announcement = await _announcementService.GetCurrentAnnouncements();
+            if (announcement.Data.Count == 0)
+            {
+                ViewBag.Message = "No Current Programs";
+                return View(announcement);
+            }
             return View(announcement);
         }
 
@@ -126,6 +136,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> MediaCurrentAnnouncements()
         {
             var announcement = await _announcementService.GetCurrentAnnouncements();
+            if (announcement.Data.Count == 0)
+            {
+                ViewBag.Message = "No Current Programs";
+                return View(announcement);
+            }
             return View(announcement);
         }
 
@@ -133,7 +148,44 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> SuperAdminCurrentAnnouncements()
         {
             var announcement = await _announcementService.GetCurrentAnnouncements();
+            if(announcement.Data.Count == 0)
+            {
+                ViewBag.Message = "No Current Programs";
+                return View(announcement);
+            }
             return View(announcement);
+        }
+
+        public async Task<IActionResult> GetAnnouncementsByTitle(string title)
+        {
+            var announcements = await _announcementService.GetAnnouncementsByTitle(title);
+            if(announcements == null)
+            {
+                TempData["Message"] = "Not Found";
+                return RedirectToAction("Index");
+            }
+            return View(announcements);
+        }
+
+        public async Task<IActionResult> GetAnnouncementsByTitleMedia(string title)
+        {
+            var announcements = await _announcementService.GetAnnouncementsByTitle(title);
+            if (announcements == null)
+            {
+                TempData["Message"] = "Not Found";
+                return RedirectToAction("MediaIndex");
+            }
+            return View(announcements);
+        }
+        public async Task<IActionResult> GetAnnouncementsByTitleSuperAdmin(string title)
+        {
+            var announcements = await _announcementService.GetAnnouncementsByTitle(title);
+            if (announcements == null)
+            {
+                TempData["Message"] = "Not Found";
+                return RedirectToAction("MediaIndex");
+            }
+            return View(announcements);
         }
     }
 }

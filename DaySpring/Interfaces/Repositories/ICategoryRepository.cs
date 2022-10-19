@@ -9,5 +9,6 @@ namespace DaySpring.Interfaces.Repositories
     public interface ICategoryRepository: IRepository<Category>
     {
         Task<IEnumerable<Category>> GetSelectedCategories(IList<int> ids);
+        Task<Category> GetCategoryByName(string name);
     }
 }

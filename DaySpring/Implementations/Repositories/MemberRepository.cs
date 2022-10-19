@@ -35,5 +35,25 @@ namespace DaySpring.Implementations.Repositories
                  .ThenInclude(c => c.UserRoles)
                  .ThenInclude(c => c.Role).ToListAsync();
         }
+
+        public async Task<Member> GetMember(int id)
+        {
+            return await _daySpringDbContext.Members
+                 .Include(c => c.User)
+                 .ThenInclude(c => c.UserRoles)
+                 .ThenInclude(c => c.Role)
+                 .SingleOrDefaultAsync(c=>c.Id == id);
+        }
+
+        public async Task<List<Member>> GetMembersByName(string name)
+        {
+            return await _daySpringDbContext.Members
+                 .Include(c => c.User)
+                 .ThenInclude(c => c.UserRoles)
+                 .ThenInclude(c => c.Role)
+                 .Where(m => EF.Functions.Like(m.LastName, $"%{name}%"))
+                 //.Where(c => c.FirstName.ToLower() == name.ToLower() || c.LastName.ToLower() == name.ToLower() || c.FirstName.ToLower().Contains(name.ToLower()) || c.LastName.Contains(name.ToLower()))
+                 .ToListAsync();
+        }
     }
 }

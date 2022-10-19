@@ -13,6 +13,7 @@ namespace DaySpring.Interfaces.Repositories
         Task<List<Book>> GetBooks();
 
         Task<List<Book>> GetBooksByTitle(string title);
+        Task<Book> GetBookByISBN(string isbn);
 
         Task<List<Book>> GetBooksByPublisher(string publisher);
 

@@ -29,38 +29,41 @@ https://templatemo.com/tm-552-video-catalog
 
 <body>
     <div class="card-header" style="background-color: #ecf0f4;">
-        <div class="container">
-            <div class="heading">@Model.Data.Title</div>
-            <div class="music-container">
-                <div class="box">
-                    @if (Model.Data.PreacherId == null)
-                    {
-                        <div class="image">
-                            <img src="~/Registration/images/signup-bg.jpg" alt="">
-                        </div>
-                        <div class="music">
-                            <div class="head">@Model.Data.Title by @Model.Data.Member.FirstName @Model.Data.Member.LastName</div>
-                            <audio controls>
-                                <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
-                            </audio>
-                        </div>
-                    }
-                    else if (Model.Data.MemberId == null)
-                    {
-                        <div class="image">
-                            <img src="~/PreachersPicture/@Model.Data.Preacher.Picture" alt="">
-                        </div>
-                        <div class="music">
-                            <div class="head">@Model.Data.Title by @Model.Data.Preacher.Name</div>
-                            <audio controls>
-                                <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
-                            </audio>
-                        </div>
-                    }
+        @if (Model.Data.Audio != null)
+        {
+            <div class="container">
+                <div class="heading">@Model.Data.Title</div>
+                <div class="music-container">
+                    <div class="box">
+                        @if (Model.Data.PreacherId == null)
+                        {
+                            <div class="image">
+                                <img src="~/Registration/images/signup-bg.jpg" alt="">
+                            </div>
+                            <div class="music">
+                                <div class="head">@Model.Data.Title by @Model.Data.Member.FirstName @Model.Data.Member.LastName</div>
+                                <audio controls>
+                                    <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                                </audio>
+                            </div>
+                        }
+                        else if (Model.Data.MemberId == null)
+                        {
+                            <div class="image">
+                                <img src="~/PreachersPicture/@Model.Data.Preacher.Picture" alt="">
+                            </div>
+                            <div class="music">
+                                <div class="head">@Model.Data.Title by @Model.Data.Preacher.Name</div>
+                                <audio controls>
+                                    <source src="~/SermonAudios/@Model.Data.Audio" type="audio/mp3" />
+                                </audio>
+                            </div>
+                        }
 
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="tm-page-wrap mx-auto">
 
             <!-- Page content -->
@@ -70,7 +73,7 @@ https://templatemo.com/tm-552-video-catalog
                         <div class="row mb-5 pb-4">
                             <div class="col-12">
                                 <!-- Video player 1422x800 -->
-                                <video width="1422" height="800" controls autoplay>
+                                <video width="1422" height="800" controls>
                                     <source src="~/SermonVideos/@Model.Data.Video" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>

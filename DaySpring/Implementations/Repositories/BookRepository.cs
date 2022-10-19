@@ -24,12 +24,22 @@ namespace DaySpring.Implementations.Repositories
                 .ThenInclude(c => c.Category).SingleOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<Book> GetBookByISBN(string isbn)
+        {
+            return await _daySpringDbContext.Books
+                .Include(b => b.BookAuthors)
+                .ThenInclude(a => a.Author)
+                .Include(bc => bc.BookCategories)
+                .ThenInclude(c => c.Category).SingleOrDefaultAsync(s => s.ISBN == isbn);
+        }
+
         public async Task<List<Book>> GetBooksByTitle(string title)
         {
             return await _daySpringDbContext.Books
                 .Include(b => b.BookAuthors).ThenInclude(b => b.Author)
                 .Include(b => b.BookCategories).ThenInclude(b => b.Category)
-                .Where(b => b.Title.ToLower() == title.ToLower() || b.Title.ToLower().Contains(title.ToLower()))
+                .Where(m => EF.Functions.Like(m.Title, $"%{title}%"))
+                /*.Where(b => b.Title.ToLower() == title.ToLower() || b.Title.ToLower().Contains(title.ToLower()))*/
                 .ToListAsync();
         }
 

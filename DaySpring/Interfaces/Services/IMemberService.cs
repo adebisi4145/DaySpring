@@ -13,6 +13,7 @@ namespace DaySpring.Interfaces.Services
         public Task<MemberModel> GetMemberByEmail(string email);
 
         public Task<MemberResponseModel> GetMember(int id);
+        public Task<MembersResponseModel> GetMembersByName(string name);
         public Task<MembersResponseModel> GetMinisters();
 
         public Task<BaseResponse> CreateMember(CreateMemberRequestModel model);

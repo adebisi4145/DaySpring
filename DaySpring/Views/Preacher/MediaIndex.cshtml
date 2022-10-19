@@ -42,9 +42,10 @@
             @foreach (var preacher in Model.Data)
             {
                 <div class="card">
-                    <a asp-action="MediaDetails" asp-route-id="@preacher.Id">
+                    <div class="img-fluid" style="background: url(../../PreachersPicture/@preacher.Picture ); width: 400px; height: 350px; background-repeat: no-repeat; background-size: cover"><a asp-action="MediaDetails" asp-route-id="@preacher.Id"></a></div>
+                    @*<a asp-action="MediaDetails" asp-route-id="@preacher.Id">
                         <img class="img-fluid" src="~/PreachersPicture/@preacher.Picture" alt="">
-                    </a>
+                    </a>*@
                     <div class="card-block">
                         <h2 class="card-title"><a asp-action="MediaDetails" asp-route-id="@preacher.Id">@preacher.Name</a></h2>
                         @*<h4 class="card-text">@preacher.Details</h4>

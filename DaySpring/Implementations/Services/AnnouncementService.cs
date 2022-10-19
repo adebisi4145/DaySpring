@@ -71,6 +71,30 @@ namespace DaySpring.Implementations.Services
         public async Task<AnnouncementsResponseModel> GetAnnouncements()
         {
             var announcement = await _announcementRepository.GetAllAsync();
+            announcement.Reverse();
+            return new AnnouncementsResponseModel
+            {
+                Data = announcement.Select(m => new AnnouncementModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    AnnouncementImage = m.AnnouncementImage,
+                    Description = m.Description,
+                    StartingDate = m.StartingDate,
+                    EndingDate = m.EndingDate,
+                    DateAdded = m.DateAdded
+                }).ToList(),
+                Status = true,
+                Message = "successful"
+            };
+        }
+        public async Task<AnnouncementsResponseModel> GetAnnouncementsByTitle(string title)
+        {
+            var announcement = await _announcementRepository.GetAnnouncementsByTitle(title);
+            if (announcement.Count == 0)
+            {
+                return null;
+            }
             return new AnnouncementsResponseModel
             {
                 Data = announcement.Select(m => new AnnouncementModel
@@ -91,6 +115,7 @@ namespace DaySpring.Implementations.Services
         public async Task<AnnouncementsResponseModel> GetCurrentAnnouncements()
         {
             var announcement = await _announcementRepository.GetCurrentAnnouncements();
+            announcement.Reverse();
             return new AnnouncementsResponseModel
             {
                 Data = announcement.Select(m => new AnnouncementModel

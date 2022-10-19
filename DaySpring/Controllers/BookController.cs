@@ -31,8 +31,13 @@ namespace DaySpring.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var books = await _bookService.GetBooks();
-            return View(books);
+            var book = await _bookService.GetBooks();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(book);
+            }
+            return View(book);
         }
 
         [HttpGet]
@@ -50,9 +55,10 @@ namespace DaySpring.Controllers
         [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateBookRequestModel model, IFormFile image, IFormFile pdf)
         {
-            if(image == null || pdf == null)
+            var book = await _bookService.GetBooksByISBN(model.ISBN);
+            if(book != null)
             {
-                ViewBag.Message = "Please upload an image or pdf";
+                ViewBag.Message = "ISBN already exist";
                 return View();
             }
             if (image != null)
@@ -127,6 +133,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> GetBooksByTitle(string title)
         {
             var books = await _bookService.GetBooksByTitle(title);
+            if (books == null)
+            {
+                TempData["Message"] = "Book Not found";
+                return RedirectToAction("Index");
+            }
             return View(books);
         }
 
@@ -141,13 +152,24 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> GetBooksByAuthor(int id)
         {
             var books = await _bookService.GetBooksByAuthor(id);
+            if(books == null)
+            {
+                TempData["Message"] = "This author's book is yet to be uploaded";
+                return RedirectToAction("Index");
+            }
             return View(books);
         }
 
         public async Task<IActionResult> MediaIndex()
         {
-            var books = await _bookService.GetBooks();
-            return View(books);
+
+            var book = await _bookService.GetBooks();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(book);
+            }
+            return View(book);
         }
         [HttpGet]
         public async Task<IActionResult> MediaDetails(int id)
@@ -160,11 +182,22 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> GetBooksByTitleMedia(string title)
         {
             var books = await _bookService.GetBooksByTitle(title);
+            if(books == null)
+            {
+                TempData["Message"] = "Book Not found";
+                return RedirectToAction("MediaIndex");
+            }
             return View(books);
         }
 
         public async Task<IActionResult> SuperAdminIndex()
         {
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                var book = await _bookService.GetBooks();
+                return View(book);
+            }
             var books = await _bookService.GetBooks();
             return View(books);
         }
@@ -179,6 +212,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> GetBooksByTitleSuperAdmin(string title)
         {
             var books = await _bookService.GetBooksByTitle(title);
+            if (books == null)
+            {
+                TempData["Message"] = "Book Not found";
+                return RedirectToAction("SuperAdminIndex");
+            }
             return View(books);
         }
 
@@ -186,6 +224,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> MediaGetBooksByAuthor(int id)
         {
             var books = await _bookService.GetBooksByAuthor(id);
+            if (books == null)
+            {
+                TempData["Message"] = "This author's book is yet to be uploaded";
+                return RedirectToAction("MediaIndex");
+            }
             return View(books);
         }
 
@@ -193,6 +236,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> SuperAdminGetBooksByAuthor(int id)
         {
             var books = await _bookService.GetBooksByAuthor(id);
+            if (books == null)
+            {
+                TempData["Message"] = "This author's book is yet to be uploaded";
+                return RedirectToAction("SuperAdminIndex");
+            }
             return View(books);
         }
 

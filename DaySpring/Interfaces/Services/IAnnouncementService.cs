@@ -18,5 +18,6 @@ namespace DaySpring.Interfaces.Services
         public Task<AnnouncementsResponseModel> GetCurrentAnnouncements();
 
         public Task<AnnouncementsResponseModel> GetAnnouncements();
+        public Task<AnnouncementsResponseModel> GetAnnouncementsByTitle(string title);
     }
 }

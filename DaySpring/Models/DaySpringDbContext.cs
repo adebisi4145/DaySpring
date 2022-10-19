@@ -30,15 +30,11 @@ namespace DaySpring.Models
             {
                 a.HasIndex(a => a.Email).IsUnique();
             });
-            modelBuilder.Entity<Color>(a =>
+            modelBuilder.Entity<Category>(a =>
             {
                 a.HasIndex(a => a.Name).IsUnique();
             });
-            modelBuilder.Entity<Size>(a =>
-            {
-                a.HasIndex(a => a.Name).IsUnique();
-                a.HasIndex(a => a.Abbreviation).IsUnique();
-            });
+
             modelBuilder.Entity<Role>().HasData(new Role { Id= 1, Name = "SuperAdmin" });
             modelBuilder.Entity<Role>().HasData(new Role { Id= 2, Name = "Member" });
             modelBuilder.Entity<User>().HasData(new User { Id = 1, Email = "adeyemieyinjuoluwa@gmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("password") });
@@ -60,10 +56,8 @@ namespace DaySpring.Models
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Preacher> Preachers { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Color> Colors { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
-        public DbSet<Size> Sizes { get; set; }
         public DbSet<ProductSize> ProductSizes { get; set; }
+        public DbSet<PaymentCategory> PaymentCategories{ get; set; }
     }
 }

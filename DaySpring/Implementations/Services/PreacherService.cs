@@ -20,22 +20,13 @@ namespace DaySpring.Implementations.Services
 
         public async Task<BaseResponse> CreatePreacher(CreatePreacherRequestModel model)
         {
-            var preachers = await _preacherRepository.GetAllAsync();
+
             var preacher = new Preacher
             {
                 Name = model.Name,
                 Picture = model.Picture,
                 Details = model.Details
             };
-
-            if(preachers.Contains(preacher))
-            {
-                return new BaseResponse
-                {
-                    Status = true,
-                    Message = "Preacher already exist"
-                };
-            }
             await _preacherRepository.AddAsync(preacher);
             await _preacherRepository.SaveChangesAsync();
             return new BaseResponse

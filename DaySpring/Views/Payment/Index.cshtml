@@ -15,6 +15,9 @@
     <thead>
         <tr>
             <th>
+                Date
+            </th>
+            <th>
                 First Name
             </th>
             <th>
@@ -24,16 +27,13 @@
                 Email
             </th>
             <th>
+                Details
+            </th>
+            <th>
                 Amount
             </th>
             <th>
                 Payment Reference
-            </th>
-            <th>
-                Details
-            </th>
-            <th>
-                Date
             </th>
         </tr>
     </thead>
@@ -41,6 +41,9 @@
         @foreach (var transation in Model.Data)
         {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => transation.CreatedAt)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => transation.Member.FirstName)
             </td>
@@ -51,16 +54,13 @@
                 @Html.DisplayFor(modelItem => transation.Member.Email)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => transation.PaymentType)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => transation.Amount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => transation.PaymentReference)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => transation.PaymentType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => transation.CreatedAt)
             </td>
         </tr>
         }

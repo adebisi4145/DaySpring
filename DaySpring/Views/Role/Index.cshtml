@@ -21,15 +21,6 @@
             <th>
                 Name
             </th>
-
-
-
-            <th>
-                Edit
-            </th>
-            <th>
-                Details
-            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,13 +32,6 @@
                     </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => session.Name)
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@session.Id">Edit</a>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@session.Id">Details</a>
                 </td>
             </tr>
         }

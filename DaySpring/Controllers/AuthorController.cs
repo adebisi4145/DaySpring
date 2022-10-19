@@ -40,6 +40,12 @@ namespace DaySpring.Controllers
         [Authorize(Roles = "Media")]
         public async Task<IActionResult> Create(CreateAuthorRequestModel model, IFormFile image)
         {
+            var authorExist = await _authorService.Check(model.FirstName, model.LastName);
+            if(authorExist == true)
+            {
+                ViewBag.Message = "This Author Already Exist";
+                return View();
+            }
             if (image != null)
             {
                 string imageDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "AuthorsImage");

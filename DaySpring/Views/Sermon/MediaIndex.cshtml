@@ -28,10 +28,14 @@
 </head>
 
 <body>
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+    }
     <form class="signup-form form-inline justify-content-center pt-3">
         <div class="form-group">
             @*<label class="sr-only" for="semail">Your email</label>*@
-            <input name="title" type="text"  class="form-control" placeholder="Enter Title">
+            <input name="title" type="text" class="form-control" placeholder="Enter Title">
         </div>
         <button class="btn btn-primary" asp-action="GetSermonsByTitleMedia" style="font-size: 1.0rem; padding: 10px 60px;">Search</button>
     </form>
@@ -50,7 +54,7 @@
                         @foreach (var video in Model.Data)
                         {
                             <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
-                                @if (video.Member == null)
+                                @if (video.Member == null && video.Video != null)
                                 {
                                     <div class="position-relative tm-thumbnail-container">
                                         <div class="img-fluid tm-catalog-item-img" style="background: url(../../PreachersPicture/@video.Preacher.Picture); width:400px; height:350px; background-repeat: no-repeat; background-size:cover"></div>
@@ -67,7 +71,7 @@
                                         </p>
                                     </div>
                                 }
-                                @if (video.Preacher == null)
+                                @if (video.Preacher == null && video.Video != null)
                                 {
                                     <div class="position-relative tm-thumbnail-container">
                                         <div class="img-fluid tm-catalog-item-img" style="background: url(../../Registration/images/signup-bg.jpg); width:400px; height:350px; background-repeat: no-repeat; background-size:cover"></div>

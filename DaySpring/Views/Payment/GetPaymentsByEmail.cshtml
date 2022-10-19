@@ -10,41 +10,49 @@
         <h1 class="text-center">@Model.Member.LastName @Model.Member.FirstName's Payments</h1>
     </div>
 </div>
-@*<table class="table justify-content-center align-items-center">*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Amount
-            </th>
-            <th>
-                Transaction Reference
-            </th>
-            <th>
-                Details
-            </th>
-            <th>
-                Date
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var transation in Model.Payments)
-        {
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => transation.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => transation.PaymentReference)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => transation.PaymentType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => transation.CreatedAt)
-                </td>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Transaction Reference
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var transation in Model.Payments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => transation.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => transation.PaymentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => transation.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => transation.PaymentReference)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<button class="btn offset-9" style="background-color: #202342; color: black; font-size: 2rem;"><a asp-action="Index" asp-controller="Member">Back</a></button>
+@*<table class="table justify-content-center align-items-center">*@

@@ -13,8 +13,9 @@ namespace DaySpring.Models
         public int Amount { get; set; }
         public int MemberId { get; set; }
         public Member Member { get; set; }
-        public PaymentType TransactionType { get; set; }
         public DateTime CreatedAt { get; set; }
         public string PaymentReference { get; set; }
+        public int PaymentCategoryId { get; set; }
+        public PaymentCategory PaymentCategory { get; set; }
     }
 }

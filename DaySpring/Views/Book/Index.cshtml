@@ -53,6 +53,10 @@
                 </div>
 
             </div>
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+            }
             <form class="signup-form form-inline justify-content-center pt-3">
                 <div class="form-group">
                     @*<label class="sr-only" for="semail">Your email</label>*@

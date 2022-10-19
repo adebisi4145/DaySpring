@@ -121,6 +121,10 @@ namespace DaySpring.Implementations.Services
         public async Task<BooksResponseModel> GetBooksByTitle(string title)
         {
             var books = await _bookRepository.GetBooksByTitle(title);
+            if(books.Count == 0)
+            {
+                return null;
+            }
             return new BooksResponseModel
             {
                 Data = books.Select(m => new BookModel
@@ -186,6 +190,10 @@ namespace DaySpring.Implementations.Services
         public async Task<BooksResponseModel> GetBooksByAuthor(int authorId)
         {
             var books = await _bookRepository.GetBooksByAuthor(authorId);
+            if(books.Count == 0)
+            {
+                return null;
+            }
             return new BooksResponseModel
             {
                 Data = books.Select(m => new BookModel
@@ -292,6 +300,42 @@ namespace DaySpring.Implementations.Services
             {
                 Status = true,
                 Message = "Successfully Updated"
+            };
+        }
+
+        public async Task<BookResponseModel> GetBooksByISBN(string isbn)
+        {
+            var book = await _bookRepository.GetBookByISBN(isbn);
+            if(book == null)
+            {
+                return null;
+            }
+            return new BookResponseModel
+            {
+                Data = new BookModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    ISBN = book.ISBN,
+                    BookPDF = book.BookPDF,
+                    BookImage = book.BookImage,
+                    NumberOfPages = book.NumberOfPages,
+                    Publisher = book.Publisher,
+                    Authors = book.BookAuthors.Select(a => new AuthorModel()
+                    {
+                        Id = a.AuthorId,
+                        FirstName = a.Author.FirstName,
+                        LastName = a.Author.LastName,
+                        Biography = a.Author.Biography
+                    }).ToList(),
+                    BookCategories = book.BookCategories.Select(a => new CategoryModel()
+                    {
+                        Id = a.CategoryId,
+                        Name = a.Category.Name,
+                    }).ToList()
+                },
+                Status = true,
+                Message = "Successful"
             };
         }
     }

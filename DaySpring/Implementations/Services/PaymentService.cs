@@ -12,11 +12,11 @@ namespace DaySpring.Implementations.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IPaymentRepository _transactionRepository;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IMemberRepository _memberRepository;
         public PaymentService(IPaymentRepository transactionRepository, IMemberRepository memberRepository)
         {
-            _transactionRepository = transactionRepository;
+            _paymentRepository = transactionRepository;
             _memberRepository = memberRepository;
         }
         public async Task<BaseResponse> CreatePayment(CreatePaymentRequestModel model, string email, string reference)
@@ -32,8 +32,8 @@ namespace DaySpring.Implementations.Services
                 TransactionType = model.PaymentType,
                 PaymentReference = reference
             };
-            await _transactionRepository.AddAsync(transaction);
-            await _transactionRepository.SaveChangesAsync();
+            await _paymentRepository.AddAsync(transaction);
+            await _paymentRepository.SaveChangesAsync();
             return new BaseResponse
             {
                 Status = true,
@@ -42,13 +42,13 @@ namespace DaySpring.Implementations.Services
         }
         public async Task VerifyPayment(string reference)
         {
-            var transaction = await _transactionRepository.GetPaymentByPaymentReference(reference);
+            var transaction = await _paymentRepository.GetPaymentByPaymentReference(reference);
             if (transaction != null)
             {
                 transaction.Status = true;
             }
-            await _transactionRepository.UpdateAsync(transaction);
-            await _transactionRepository.SaveChangesAsync();
+            await _paymentRepository.UpdateAsync(transaction);
+            await _paymentRepository.SaveChangesAsync();
         }
 
         public Task<PaymentResponseModel> GetPayment(int id)
@@ -58,7 +58,8 @@ namespace DaySpring.Implementations.Services
 
         public async Task<PaymentsResponseModel> GetPayments()
         {
-            var transactions = await _transactionRepository.GetPayments();
+            var transactions = await _paymentRepository.GetPayments();
+            transactions.Reverse();
             return new PaymentsResponseModel
             {
                 Data = transactions.Select(m => new PaymentModel
@@ -76,7 +77,8 @@ namespace DaySpring.Implementations.Services
 
         public async Task<List<PaymentModel>> GetAllPaymentsByEmail(string email)
         {
-            var transactions = await _transactionRepository.GetPaymentsByEmail(email);
+            var transactions = await _paymentRepository.GetPaymentsByEmail(email);
+            transactions.Reverse();
             var transaction = transactions.Select(m => new PaymentModel
             {
                 Email = m.Email,
@@ -91,7 +93,8 @@ namespace DaySpring.Implementations.Services
         }
         public async Task<PaymentsResponseModel> GetPaymentsByEmail(string email)
         {
-            var transactions = await _transactionRepository.GetPaymentsByEmail(email);
+            var transactions = await _paymentRepository.GetPaymentsByEmail(email);
+            transactions.Reverse();
             return new PaymentsResponseModel
             {
                 Data = transactions.Select(m => new PaymentModel
@@ -109,7 +112,8 @@ namespace DaySpring.Implementations.Services
 
         public async Task<List<PaymentModel>> GetMembersPaymentsByEmail(string email)
         {
-            var transactions = await _transactionRepository.GetPaymentsByEmail(email);
+            var transactions = await _paymentRepository.GetPaymentsByEmail(email);
+            transactions.Reverse();
             var transaction = transactions.Select(m => new PaymentModel
             {
                 Email = m.Email,
@@ -122,22 +126,32 @@ namespace DaySpring.Implementations.Services
             }).ToList();
             return transaction;
         }
-        public async Task<PaymentsResponseModel> GetPaymentsByDate(DateTime date)
+        public async Task<List<PaymentModel>> GetPaymentsByDate(DateTime date)
         {
-            var payments = await _transactionRepository.GetPaymentsByDate(date);
-            return new PaymentsResponseModel
+            var payments = await _paymentRepository.GetPaymentsByDate(date);
+            var payment = payments.Select(m => new PaymentModel
             {
-                Data = payments.Select(m => new PaymentModel
-                {
-                    Email = m.Email,
-                    Amount = m.Amount,
-                    Member = m.Member,
-                    MemberId = m.MemberId,
-                    PaymentType = m.TransactionType,
-                    PaymentReference = m.PaymentReference,
-                    CreatedAt = m.CreatedAt
-                }).ToList(),
-            };
+                Email = m.Email,
+                Amount = m.Amount,
+                Member = m.Member,
+                MemberId = m.MemberId,
+                PaymentType = m.TransactionType,
+                PaymentReference = m.PaymentReference,
+                CreatedAt = m.CreatedAt
+            }).ToList();
+            return payment;
+        }
+
+        public async Task<Double> GetTotalPayment(DateTime date)
+        {
+            var payments = await _paymentRepository.GetPaymentsByDate(date);
+            var amounts = payments.Select(c => c.Amount);
+            double totalAmount = 0;
+            foreach(var amount in amounts)
+            {
+                totalAmount += amount;
+            }
+            return totalAmount;
         }
     }
 }

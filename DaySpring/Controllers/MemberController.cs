@@ -27,6 +27,11 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> Index()
         {
             var members = await _memberService.GetAllMembers();
+            if (TempData.ContainsKey("Message"))
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                return View(members);
+            }
             return View(members);
         }
 
@@ -39,8 +44,22 @@ namespace DaySpring.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(CreateMemberRequestModel model)
         {
-            await _memberService.CreateMember(model);
-            return RedirectToAction("Login","User");
+            var member = await _memberService.GetMemberByEmail(model.Email);
+            if(member != null)
+            {
+                ViewBag.Message = "This email already exist, proceed to Login";
+                return View();
+            }
+            if(model.Password != model.ConfirmPassword)
+            {
+                ViewBag.Message = "The passwords must be the same";
+                return View();
+            }
+            else
+            {
+                await _memberService.CreateMember(model);
+                return RedirectToAction("Login", "User");
+            }
         }
 
         [HttpGet]
@@ -64,6 +83,14 @@ namespace DaySpring.Controllers
         {
             await _memberService.UpdateMember(id, model);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> Role(int id)
+        {
+            var member = await _memberService.GetMember(id);
+            return View(member);
         }
 
         [HttpGet]
@@ -138,6 +165,12 @@ namespace DaySpring.Controllers
                 Member = member,
                 Payments = payments
             };
+
+            if (payments.Count == 0)
+            {
+                ViewBag.Message = "No Payment Yet";
+                return View(dashboardViewModel);
+            }
             return View(dashboardViewModel);
         }
 
@@ -153,6 +186,11 @@ namespace DaySpring.Controllers
                 Member = member,
                 Payments = payments
             };
+            if (payments.Count == 0)
+            {
+                ViewBag.Message = "No Payment Yet";
+                return View(dashboardViewModel);
+            }
             return View(dashboardViewModel);
         }
 
@@ -168,6 +206,11 @@ namespace DaySpring.Controllers
                 Member = member,
                 Payments = payments
             };
+            if (payments.Count == 0)
+            {
+                ViewBag.Message = "No Payment Yet";
+                return View(dashboardViewModel);
+            }
             return View(dashboardViewModel);
         }
 
@@ -218,6 +261,18 @@ namespace DaySpring.Controllers
             var memberId = int.Parse(signedInMemberId);
             var member = await _memberService.GetMember(memberId);
             return View(member);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMembersByName(string name)
+        {
+            var members = await _memberService.GetMembersByName(name);
+            if (members == null)
+            {
+                TempData["Message"] = "Member Not Found";
+                return RedirectToAction("Index");
+            }
+            return View(members);
         }
     }
 }
