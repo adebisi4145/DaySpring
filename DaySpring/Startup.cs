@@ -54,14 +54,10 @@ namespace DaySpring
             services.AddScoped<ISermonService, SermonService>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<IAnnouncementService, AnnouncementService>();
-            services.AddScoped<IColorRepository, ColorRepository>();
-            services.AddScoped<IColorService, ColorService>();
-            services.AddScoped<ISizeRepository, SizeRepository>();
-            services.AddScoped<ISizeService, SizeService>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPaymentCategoryRepository, PaymentCategoryRepository>();
+            services.AddScoped<IPaymentCategoryService, PaymentCategoryService>();
             services.AddHttpContextAccessor();
 
             //services.AddSession();

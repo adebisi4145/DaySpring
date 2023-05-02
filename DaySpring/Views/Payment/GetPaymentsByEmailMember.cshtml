@@ -44,7 +44,7 @@ else
                     @Html.DisplayFor(modelItem => transation.PaymentReference)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => transation.PaymentType)
+                    @Html.DisplayFor(modelItem => transation.PaymentCategory.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => transation.CreatedAt)

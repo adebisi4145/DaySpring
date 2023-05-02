@@ -18,6 +18,7 @@ namespace DaySpring.Models
         public string BookImage { get; set; }
 
         public string BookPDF { get; set; }
+        public int? Count { get; set; }
 
         public List<BookCategory> BookCategories { get; set; } = new List<BookCategory>();
 

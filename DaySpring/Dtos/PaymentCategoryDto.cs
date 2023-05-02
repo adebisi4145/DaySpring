@@ -9,5 +9,6 @@ namespace DaySpring.Dtos
     public class PaymentCategoryModel:BaseEntity
     {
         public string Name { get; set; }
+        public List<Payment> Payments { get; set; } = new List<Payment>();
     }
 }

@@ -20,6 +20,8 @@ namespace DaySpring.Dtos
 
         public string BookPDF { get; set; }
 
+        public int? Count { get; set; }
+
         public List<CategoryModel> BookCategories { get; set; } = new List<CategoryModel>();
 
         public List<AuthorModel> Authors { get; set; } = new List<AuthorModel>();

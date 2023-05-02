@@ -11,7 +11,7 @@ namespace DaySpring.ViewModels
     public class CreatePaymentRequestModel
     {
         public int Amount { get; set; }
-        public PaymentType PaymentType { get; set; }
+        public int PaymentCategoryId { get; set; }
     }
 
     public class PaymentResponseModel : BaseResponse

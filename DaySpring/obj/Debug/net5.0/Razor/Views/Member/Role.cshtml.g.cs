@@ -28,7 +28,9 @@ using DaySpring.Models;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"756054c7c535a9fedb48085f0a772d0827bf0752", @"/Views/Member/Role.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ecd1b4a0891021d69e73dd3f3e1269ab7f070957", @"/Views/_ViewImports.cshtml")]
+    #nullable restore
     public class Views_Member_Role : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<DaySpring.ViewModels.MemberResponseModel>
+    #nullable disable
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "UpdateToMedia", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "UpdateToMinister", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -97,7 +99,7 @@ using DaySpring.Models;
 #line hidden
 #nullable disable
             WriteLiteral("                        <div class=\"post-information\">\r\n                            <ul class=\"list-inline color-a\">\r\n                                <li class=\"list-inline-item mr-2\">\r\n                                    <span class=\"color-text-a\">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf07526408", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf07526454", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Upgrade To Media\" />");
             }
             );
@@ -128,7 +130,7 @@ using DaySpring.Models;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("</span>\r\n\r\n                                </li>\r\n                                <li class=\"list-inline-item mr-2\">\r\n                                    <span class=\"color-text-a\">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf07528881", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf07528927", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Upgrade To Minister\" />");
             }
             );
@@ -174,7 +176,7 @@ using DaySpring.Models;
                                 <ul class=""list-inline color-a"">
                                     <li class=""list-inline-item mr-2"">
                                         <span class=""color-text-a"">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075211905", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075211951", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Remove Media Role\" />");
             }
             );
@@ -218,7 +220,7 @@ using DaySpring.Models;
                                 <ul class=""list-inline color-a"">
                                     <li class=""list-inline-item mr-2"">
                                         <span class=""color-text-a"">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075214906", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075214952", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Remove Minister Role\" />");
             }
             );
@@ -262,7 +264,7 @@ using DaySpring.Models;
                                 <ul class=""list-inline color-a"">
                                     <li class=""list-inline-item mr-2"">
                                         <span class=""color-text-a"">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075217911", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075217957", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Upgrade To Media\" />");
             }
             );
@@ -306,7 +308,7 @@ using DaySpring.Models;
                                 <ul class=""list-inline color-a"">
                                     <li class=""list-inline-item mr-2"">
                                         <span class=""color-text-a"">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075220910", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075220956", async() => {
                 WriteLiteral("<input class=\"btn btn-outline-primary\" type=\"button\" value=\"Update To Minister\" />");
             }
             );
@@ -349,7 +351,7 @@ using DaySpring.Models;
 #line hidden
 #nullable disable
             WriteLiteral("                <br />\r\n                <button class=\"btn offset-9\" style=\"background-color: #ecf0f4; color: black; font-size: 2rem;\">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075223737", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "756054c7c535a9fedb48085f0a772d0827bf075223783", async() => {
                 WriteLiteral("Back");
             }
             );
@@ -367,16 +369,26 @@ using DaySpring.Models;
             WriteLiteral("</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n");
         }
         #pragma warning restore 1998
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.ViewFeatures.IModelExpressionProvider ModelExpressionProvider { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IUrlHelper Url { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.IViewComponentHelper Component { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; } = default!;
+        #nullable disable
+        #nullable restore
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<DaySpring.ViewModels.MemberResponseModel> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<DaySpring.ViewModels.MemberResponseModel> Html { get; private set; } = default!;
+        #nullable disable
     }
 }
 #pragma warning restore 1591

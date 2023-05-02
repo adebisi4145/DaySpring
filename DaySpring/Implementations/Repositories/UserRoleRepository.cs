@@ -20,9 +20,9 @@ namespace DaySpring.Implementations.Repositories
             await _daySpringDbContext.UserRoles.AddAsync(userRole);
             return userRole;
         }
-        public async Task<UserRole> GetUserRoleByName(int id)
+        public async Task<UserRole> GetUserRoleByName(int id , int userId)
         {
-            return await _daySpringDbContext.UserRoles.SingleOrDefaultAsync(c => c.Role.Id == id);
+            return await _daySpringDbContext.UserRoles.SingleOrDefaultAsync(c => c.Role.Id == id && c.User.Id == userId);
         }
         /*public async Task RemoveUserRole(string name)
         {

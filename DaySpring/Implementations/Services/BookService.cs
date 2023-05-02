@@ -32,10 +32,11 @@ namespace DaySpring.Implementations.Services
                 NumberOfPages = model.NumberOfPages,
                 BookImage = model.BookImage,
                 Publisher = model.Publisher,
-                Title = model.Title
+                Title = model.Title,
+                Count = 0
             };
 
-            var authors = await _authorRepository.GetSelectedAuthors(model.Authors);
+            var authors = await _authorRepository.GetSelectedAuthors(model.AuthorIds);
             foreach (var author in authors)
             {
                 var bookAuthor = new BookAuthor
@@ -49,7 +50,7 @@ namespace DaySpring.Implementations.Services
                 book.BookAuthors.Add(bookAuthor);
             }
 
-            var categories = await _categoryRepository.GetSelectedCategories(model.Categories);
+            var categories = await _categoryRepository.GetSelectedCategories(model.CategoryIds);
             foreach (var category in categories)
             {
                 var bookCategory = new BookCategory
@@ -100,6 +101,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = book.BookImage,
                     NumberOfPages = book.NumberOfPages,
                     Publisher = book.Publisher,
+                    Count = book.Count,
                     Authors = book.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -136,6 +138,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = m.BookImage,
                     NumberOfPages = m.NumberOfPages,
                     Publisher = m.Publisher,
+                    Count = m.Count,
                     Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -168,6 +171,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = m.BookImage,
                     NumberOfPages = m.NumberOfPages,
                     Publisher = m.Publisher,
+                    Count = m.Count,
                     Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -205,6 +209,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = m.BookImage,
                     NumberOfPages = m.NumberOfPages,
                     Publisher = m.Publisher,
+                    Count = m.Count,
                     Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -237,6 +242,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = m.BookImage,
                     NumberOfPages = m.NumberOfPages,
                     Publisher = m.Publisher,
+                    Count = m.Count,
                     Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -269,6 +275,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = m.BookImage,
                     NumberOfPages = m.NumberOfPages,
                     Publisher = m.Publisher,
+                    Count = m.Count,
                     Authors = m.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -321,6 +328,7 @@ namespace DaySpring.Implementations.Services
                     BookImage = book.BookImage,
                     NumberOfPages = book.NumberOfPages,
                     Publisher = book.Publisher,
+                    Count = book.Count,
                     Authors = book.BookAuthors.Select(a => new AuthorModel()
                     {
                         Id = a.AuthorId,
@@ -336,6 +344,19 @@ namespace DaySpring.Implementations.Services
                 },
                 Status = true,
                 Message = "Successful"
+            };
+        }
+
+        public async Task<BaseResponse> UpdateCount(int id)
+        {
+            var book = await _bookRepository.GetBook(id);
+            book.Count++;
+            await _bookRepository.UpdateAsync(book);
+            await _bookRepository.SaveChangesAsync();
+            return new BaseResponse
+            {
+                Status = true,
+                Message = "Successfully Updated"
             };
         }
     }

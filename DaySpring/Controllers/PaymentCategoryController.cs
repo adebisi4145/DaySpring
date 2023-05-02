@@ -37,7 +37,7 @@ namespace DaySpring.Controllers
                 return View();
             }
             await _paymentCategoryService.CreatePaymentCategory(model);
-            return RedirectToAction("MediaIndex");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -58,7 +58,7 @@ namespace DaySpring.Controllers
         public async Task<IActionResult> Edit(int id, UpdatePaymentCategoryRequestModel model)
         {
             await _paymentCategoryService.UpdatePaymentCategory(id, model);
-            return RedirectToAction("MediaIndex");
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

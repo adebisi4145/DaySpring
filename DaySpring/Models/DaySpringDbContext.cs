@@ -56,8 +56,6 @@ namespace DaySpring.Models
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<Preacher> Preachers { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<ProductColor> ProductColors { get; set; }
-        public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<PaymentCategory> PaymentCategories{ get; set; }
     }
 }

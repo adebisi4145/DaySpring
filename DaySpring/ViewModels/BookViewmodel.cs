@@ -21,9 +21,9 @@ namespace DaySpring.ViewModels
 
         public string BookPDF { get; set; }
 
-        public List<int> Categories { get; set; } = new List<int>();
+        public List<int> CategoryIds { get; set; } = new List<int>();
 
-        public List<int> Authors { get; set; } = new List<int>();
+        public List<int> AuthorIds { get; set; } = new List<int>();
     }
 
     public class UpdateBookRequestModel

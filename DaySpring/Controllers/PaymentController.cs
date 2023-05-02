@@ -26,10 +26,11 @@ namespace DaySpring.Controllers
         private PayStackApi Paystack { get; set; }
         private readonly IConfiguration  _configuration;
         private readonly string token;
-        public PaymentController(IPaymentService transactionService, IMemberService memberService, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public PaymentController(IPaymentService transactionService, IMemberService memberService, IPaymentCategoryService paymentCategoryService, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _paymentService = transactionService;
             _memberService = memberService;
+            _paymentCategoryService = paymentCategoryService;
             _httpContextAccessor = httpContextAccessor;
 
             _configuration = configuration;
@@ -63,8 +64,10 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public  async Task<IActionResult> Create()
         {
+            var paymentCategories = await _paymentCategoryService.GetPaymentCategories();
+            ViewData["PaymentCategories"] = new SelectList(paymentCategories.Data, "Id", "Name");
             return View();
         }
 
@@ -113,8 +116,10 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public IActionResult MediaCreate()
+        public async Task<IActionResult> MediaCreate()
         {
+            var paymentCategories = await _paymentCategoryService.GetPaymentCategories();
+            ViewData["PaymentCategories"] = new SelectList(paymentCategories.Data, "Id", "Name");
             return View();
         }
 
@@ -186,9 +191,9 @@ namespace DaySpring.Controllers
         }
 
         [HttpGet]
-        public IActionResult SuperAdminCreate()
+        public async Task<IActionResult> SuperAdminCreate()
         {
-            var paymentCategories = _paymentCategoryService.GetPaymentCategories();
+            var paymentCategories = await _paymentCategoryService.GetPaymentCategories();
             ViewData["PaymentCategories"] = new SelectList(paymentCategories.Data, "Id", "Name");
             return View();
         }
@@ -249,16 +254,63 @@ namespace DaySpring.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> GetPaymentsByDates(DateTime date)
+        public async Task<IActionResult> Filter()
         {
-            var payments = await _paymentService.GetPaymentsByDate(date);
-            var totalAmount = await _paymentService.GetTotalPayment(date);
+            var paymentCategories = await _paymentCategoryService.GetPaymentCategories();
+            ViewData["PaymentCategories"] = new SelectList(paymentCategories.Data, "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult Filter(GetPaymentByDate model)
+        {
+            TempData["StartingDate"] = model.StartingDate;
+            TempData["EndingDate"] = model.EndingDate;
+            var paymentcategoryIds = string.Empty;
+            for (int i = 0; i < model.PaymentCategoryIds.Count; i++)
+            {
+                if(i+1 != model.PaymentCategoryIds.Count)
+                {
+                    paymentcategoryIds += $"{model.PaymentCategoryIds[i]},";
+                }
+                else
+                {
+                    paymentcategoryIds += model.PaymentCategoryIds[i];
+                }
+            }
+            /*foreach(var category in model.PaymentCategoryIds)
+            {
+                paymentcategoryIds += $"{category},";
+            }
+            paymentcategoryIds.Remove(paymentcategoryIds.Length - 1);*/
+            TempData["PaymentCategoryIds"] = paymentcategoryIds;
+            return RedirectToAction("GetPaymentsByDates");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> GetPaymentsByDates()
+        {
+            var startingDate = DateTime.Parse(TempData.Peek("StartingDate").ToString());
+            var endingDate = DateTime.Parse(TempData.Peek("EndingDate").ToString());
+            var categories = TempData.Peek("PaymentCategoryIds").ToString();
+            var splittedCategories = categories.Split(",");
+
+            List<int> paymentCategoryIds = new List<int>();
+            foreach (var category in splittedCategories)
+            {
+                paymentCategoryIds.Add(int.Parse(category));
+            }
+
+            var payments = await _paymentService.GetPaymentsByDate(startingDate,  endingDate, paymentCategoryIds);
+            var totalAmount = await _paymentService.GetTotalPayment(startingDate, endingDate, paymentCategoryIds);
             var paymentbyDate = new PaymentByDateViewmodel
             {
                 Payments = payments,
                 TotalAmount = totalAmount
             };
-            return View(payments);
+            return View(paymentbyDate);
         }
 
         

@@ -19,6 +19,7 @@ namespace DaySpring.Implementations.Repositories
             return await _daySpringDbContext.Payments
                 .Include(c => c.Member)
                 .ThenInclude(c => c.User)
+                .Include(c => c.PaymentCategory)
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
         public async Task<Payment> GetPaymentByPaymentReference(string reference)
@@ -26,15 +27,17 @@ namespace DaySpring.Implementations.Repositories
             return await _daySpringDbContext.Payments
                 .Include(c => c.Member)
                 .ThenInclude(c => c.User)
+                .Include(c => c.PaymentCategory)
                 .SingleOrDefaultAsync(c => c.PaymentReference == reference);
         }
 
-        public async Task<List<Payment>> GetPaymentsByDate(DateTime date)
+        public async Task<List<Payment>> GetPaymentsByDate(DateTime startingDate, DateTime endingDate, List<int> paymentCategoryIds)
         {
             return await _daySpringDbContext.Payments
                 .Include(c => c.Member)
                 .ThenInclude(c => c.User)
-                .Where(c => c.CreatedAt == date && c.Status==true)
+                .Include(c => c.PaymentCategory)
+                .Where(c => c.CreatedAt >= startingDate && c.CreatedAt <= endingDate && c.Status==true && paymentCategoryIds.Contains(c.PaymentCategoryId))
                 .ToListAsync();
         }
 
@@ -43,6 +46,7 @@ namespace DaySpring.Implementations.Repositories
             return await _daySpringDbContext.Payments
                 .Include(c => c.Member)
                 .ThenInclude(c => c.User)
+                .Include(c=>c.PaymentCategory)
                 .Where(c => c.Email == email && c.Status== true)
                 .ToListAsync();
         }
@@ -52,6 +56,7 @@ namespace DaySpring.Implementations.Repositories
             return await _daySpringDbContext.Payments
                 .Include(c => c.Member)
                 .ThenInclude(c => c.User)
+                .Include(c => c.PaymentCategory)
                 .Where(c => c.Status == true)
                 .ToListAsync();
         }

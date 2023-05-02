@@ -375,7 +375,7 @@ namespace DaySpring.Implementations.Services
             var user = await _userRepository.GetUserByEmailAsync(member.Email);
             var role = await _roleRepository.GetRoleByNameAsync("Media");
 
-            var userRole = await _userRoleRepository.GetUserRoleByName(role.Id);
+            var userRole = await _userRoleRepository.GetUserRoleByName(role.Id, user.Id);
             await _userRoleRepository.DeleteUserRole(userRole);
             await _memberRepository.SaveChangesAsync();
             return new BaseResponse
@@ -391,7 +391,7 @@ namespace DaySpring.Implementations.Services
             var user = await _userRepository.GetUserByEmailAsync(member.Email);
             var role = await _roleRepository.GetRoleByNameAsync("minister");
 
-            var userRole = await _userRoleRepository.GetUserRoleByName(role.Id);
+            var userRole = await _userRoleRepository.GetUserRoleByName(role.Id, user.Id);
             await _userRoleRepository.DeleteUserRole(userRole);
             await _memberRepository.SaveChangesAsync();
             return new BaseResponse

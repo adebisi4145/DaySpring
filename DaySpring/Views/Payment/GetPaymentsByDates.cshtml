@@ -8,7 +8,7 @@
 <div class="card-header" style="background-color: whitesmoke;">
     <div class="card-title">
         <h1 class="text-center">Payments</h1>
-        <h1>Total Amount: @Model.TotalAmount</h1>
+        <h4 class="text-center">Total Amount: @Model.TotalAmount</h4>
     </div>
 </div>
 @*<table class="table justify-content-center align-items-center">*@
@@ -46,7 +46,7 @@
                     @Html.DisplayFor(modelItem => transation.CreatedAt)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => transation.PaymentType)
+                    @Html.DisplayFor(modelItem => transation.PaymentCategory.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => transation.Member.FirstName)

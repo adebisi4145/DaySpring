@@ -86,6 +86,9 @@ namespace DaySpring.Migrations
                     b.Property<string>("BookPDF")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Count")
+                        .HasColumnType("int");
+
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(450)");
 
@@ -170,21 +173,6 @@ namespace DaySpring.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("DaySpring.Models.Color", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Colors");
-                });
-
             modelBuilder.Entity("DaySpring.Models.Member", b =>
                 {
                     b.Property<int>("Id")
@@ -244,20 +232,37 @@ namespace DaySpring.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PaymentCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PaymentReference")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MemberId");
 
+                    b.HasIndex("PaymentCategoryId");
+
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("DaySpring.Models.PaymentCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentCategories");
                 });
 
             modelBuilder.Entity("DaySpring.Models.Preacher", b =>
@@ -283,71 +288,6 @@ namespace DaySpring.Migrations
                         .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Preachers");
-                });
-
-            modelBuilder.Entity("DaySpring.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PoductImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("DaySpring.Models.ProductColor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductColors");
-                });
-
-            modelBuilder.Entity("DaySpring.Models.ProductSize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("ProductSizes");
                 });
 
             modelBuilder.Entity("DaySpring.Models.Role", b =>
@@ -411,24 +351,6 @@ namespace DaySpring.Migrations
                     b.ToTable("Sermons");
                 });
 
-            modelBuilder.Entity("DaySpring.Models.Size", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Abbreviation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sizes");
-                });
-
             modelBuilder.Entity("DaySpring.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -455,7 +377,7 @@ namespace DaySpring.Migrations
                         {
                             Id = 1,
                             Email = "adeyemieyinjuoluwa@gmail.com",
-                            PasswordHash = "$2a$11$eXotTIeAv39nPlopUU5m7OLZx5Tm371Ytan2haRbg5NDGpDNA4wfm"
+                            PasswordHash = "$2a$11$TLNHJ6qGbn3P2Ey.uIFGPOENOlOlAcmopOWZOu50oKLlVabkkoh7a"
                         });
                 });
 
@@ -552,45 +474,15 @@ namespace DaySpring.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DaySpring.Models.PaymentCategory", "PaymentCategory")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Member");
-                });
 
-            modelBuilder.Entity("DaySpring.Models.ProductColor", b =>
-                {
-                    b.HasOne("DaySpring.Models.Color", "Color")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DaySpring.Models.Product", "Product")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("DaySpring.Models.ProductSize", b =>
-                {
-                    b.HasOne("DaySpring.Models.Product", "Product")
-                        .WithMany("ProductSizes")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DaySpring.Models.Size", "Size")
-                        .WithMany("ProductSizes")
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Size");
+                    b.Navigation("PaymentCategory");
                 });
 
             modelBuilder.Entity("DaySpring.Models.Sermon", b =>
@@ -644,11 +536,6 @@ namespace DaySpring.Migrations
                     b.Navigation("BookCategories");
                 });
 
-            modelBuilder.Entity("DaySpring.Models.Color", b =>
-                {
-                    b.Navigation("ProductColors");
-                });
-
             modelBuilder.Entity("DaySpring.Models.Member", b =>
                 {
                     b.Navigation("Payments");
@@ -656,26 +543,19 @@ namespace DaySpring.Migrations
                     b.Navigation("Sermons");
                 });
 
+            modelBuilder.Entity("DaySpring.Models.PaymentCategory", b =>
+                {
+                    b.Navigation("Payments");
+                });
+
             modelBuilder.Entity("DaySpring.Models.Preacher", b =>
                 {
                     b.Navigation("Sermons");
                 });
 
-            modelBuilder.Entity("DaySpring.Models.Product", b =>
-                {
-                    b.Navigation("ProductColors");
-
-                    b.Navigation("ProductSizes");
-                });
-
             modelBuilder.Entity("DaySpring.Models.Role", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("DaySpring.Models.Size", b =>
-                {
-                    b.Navigation("ProductSizes");
                 });
 
             modelBuilder.Entity("DaySpring.Models.User", b =>

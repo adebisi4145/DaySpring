@@ -240,7 +240,7 @@
                             <li><a asp-controller="Preacher" asp-action="SuperAdminIndex">Preachers</a></li>
                             <li><a asp-controller="Announcement" asp-action="SuperAdminCurrentAnnouncements">View New Programs</a></li>
                             <li><a asp-controller="Announcement" asp-action="SuperAdminIndex">View All Programs</a></li>
-                            
+
                         </ul>
                     </li>
 
@@ -273,6 +273,16 @@
                             <li><a asp-controller="Payment" asp-action="SuperAdminCreate">Pay Tithe & Offering</a></li>
                             <li><a asp-controller="Payment" asp-action="GetPaymentsByEmailSuperAdmin">My Payments</a></li>
                             <li><a asp-controller="Payment" asp-action="Index">All Payments</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon dw dw-edit-2"></span><span class="mtext">Payment Category</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a asp-controller="PaymentCategory" asp-action="Create">Payment Category</a></li>
+                            <li><a asp-controller="Payment" asp-action="Filter">Filter Payments</a></li>
+                            <li><a asp-controller="PaymentCategory" asp-action="Index">View Payment Categories</a></li>
                         </ul>
                     </li>
                     <li>

@@ -8,6 +8,6 @@ namespace DaySpring.Models
     public class PaymentCategory:BaseEntity
     {
         public string Name { get; set; }
-        public List<PaymentCategory> paymentCategories { get; set; } = new List<PaymentCategory>();
+        public List<Payment> Payments { get; set; } = new List<Payment>();
     }
 }

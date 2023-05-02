@@ -13,7 +13,8 @@ namespace DaySpring.Dtos
         public int Amount { get; set; }
         public int MemberId { get; set; }
         public Member Member { get; set; }
-        public PaymentType PaymentType { get; set; }
+        public PaymentCategory PaymentCategory { get; set; }
+        public int PaymentCategoryId { get; set; }
         public DateTime CreatedAt { get; set; }
         public string PaymentReference { get; set; }
     }

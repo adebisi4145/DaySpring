@@ -9,7 +9,7 @@ namespace DaySpring.Interfaces.Repositories
     public interface IUserRoleRepository
     {
         Task<UserRole> AddUserRole(UserRole userRole);
-        Task<UserRole> GetUserRoleByName(int id);
+        Task<UserRole> GetUserRoleByName(int id, int userId);
         Task DeleteUserRole(UserRole userRole);
     }
 }

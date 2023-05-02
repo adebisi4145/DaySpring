@@ -27,5 +27,6 @@ namespace DaySpring.Interfaces.Services
 
         public Task<BaseResponse> UpdateBook(int id, UpdateBookRequestModel model);
         public Task<BaseResponse> DeleteBook(int id);
+        public Task<BaseResponse> UpdateCount(int id);
     }
 }

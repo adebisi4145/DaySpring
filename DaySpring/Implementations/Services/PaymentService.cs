@@ -13,14 +13,17 @@ namespace DaySpring.Implementations.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IPaymentCategoryRepository _paymentCategoryRepository;
         private readonly IMemberRepository _memberRepository;
-        public PaymentService(IPaymentRepository transactionRepository, IMemberRepository memberRepository)
+        public PaymentService(IPaymentRepository transactionRepository, IMemberRepository memberRepository, IPaymentCategoryRepository paymentCategoryRepository)
         {
             _paymentRepository = transactionRepository;
             _memberRepository = memberRepository;
+            _paymentCategoryRepository = paymentCategoryRepository;
         }
         public async Task<BaseResponse> CreatePayment(CreatePaymentRequestModel model, string email, string reference)
         {
+            var paymentCategory = await _paymentCategoryRepository.GetAsync(model.PaymentCategoryId);
             var member = await _memberRepository.GetMemberByEmailAsync(email);
             var transaction = new Payment
             {
@@ -29,7 +32,8 @@ namespace DaySpring.Implementations.Services
                 Email = member.Email,
                 Amount = model.Amount,
                 CreatedAt = DateTime.Now,
-                TransactionType = model.PaymentType,
+                PaymentCategoryId = model.PaymentCategoryId,
+                PaymentCategory = paymentCategory,
                 PaymentReference = reference
             };
             await _paymentRepository.AddAsync(transaction);
@@ -68,7 +72,8 @@ namespace DaySpring.Implementations.Services
                     Amount = m.Amount,
                     Member = m.Member,
                     MemberId = m.MemberId,
-                    PaymentType = m.TransactionType,
+                    PaymentCategory = m.PaymentCategory,
+                    PaymentCategoryId = m.PaymentCategoryId,
                     PaymentReference = m.PaymentReference,
                     CreatedAt = m.CreatedAt
                 }).ToList(),
@@ -85,7 +90,8 @@ namespace DaySpring.Implementations.Services
                 Amount = m.Amount,
                 Member = m.Member,
                 MemberId = m.MemberId,
-                PaymentType = m.TransactionType,
+                PaymentCategory = m.PaymentCategory,
+                PaymentCategoryId = m.PaymentCategoryId,
                 PaymentReference = m.PaymentReference,
                 CreatedAt = m.CreatedAt
             }).ToList();
@@ -103,7 +109,8 @@ namespace DaySpring.Implementations.Services
                     Amount = m.Amount,
                     Member = m.Member,
                     MemberId = m.MemberId,
-                    PaymentType = m.TransactionType,
+                    PaymentCategory = m.PaymentCategory,
+                    PaymentCategoryId = m.PaymentCategoryId,
                     PaymentReference = m.PaymentReference,
                     CreatedAt = m.CreatedAt
                 }).ToList(),
@@ -120,31 +127,33 @@ namespace DaySpring.Implementations.Services
                 Amount = m.Amount,
                 Member = m.Member,
                 MemberId = m.MemberId,
-                PaymentType = m.TransactionType,
+                PaymentCategory = m.PaymentCategory,
+                PaymentCategoryId = m.PaymentCategoryId,
                 PaymentReference = m.PaymentReference,
                 CreatedAt = m.CreatedAt
             }).ToList();
             return transaction;
         }
-        public async Task<List<PaymentModel>> GetPaymentsByDate(DateTime date)
+        public async Task<List<PaymentModel>> GetPaymentsByDate(DateTime startingDate, DateTime endingDate, List<int> paymentCategoryIds)
         {
-            var payments = await _paymentRepository.GetPaymentsByDate(date);
+            var payments = await _paymentRepository.GetPaymentsByDate(startingDate, endingDate, paymentCategoryIds);
             var payment = payments.Select(m => new PaymentModel
             {
                 Email = m.Email,
                 Amount = m.Amount,
                 Member = m.Member,
                 MemberId = m.MemberId,
-                PaymentType = m.TransactionType,
+                PaymentCategory = m.PaymentCategory,
+                PaymentCategoryId = m.PaymentCategoryId,
                 PaymentReference = m.PaymentReference,
                 CreatedAt = m.CreatedAt
             }).ToList();
             return payment;
         }
 
-        public async Task<Double> GetTotalPayment(DateTime date)
+        public async Task<Double> GetTotalPayment(DateTime startingDate, DateTime endingDate, List<int> paymentCategoryIds)
         {
-            var payments = await _paymentRepository.GetPaymentsByDate(date);
+            var payments = await _paymentRepository.GetPaymentsByDate(startingDate, endingDate, paymentCategoryIds);
             var amounts = payments.Select(c => c.Amount);
             double totalAmount = 0;
             foreach(var amount in amounts)

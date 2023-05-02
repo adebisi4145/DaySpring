@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model DaySpring.ViewModels.GetPaymentByDate
+
 @{
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    ViewData["Title"] = "Filter";
 }
+
+<div class="row row-content d-flex justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <h3 class="card-header bg-black text-center"><strong>Filter Payments</strong></h3>
+            <div class="card-body">
+                <form method="POST">
+                    @if (!string.IsNullOrEmpty(ViewBag.Message))
+                    {
+                        <p class="alert alert-warning alert-dismissible" role="alert">@ViewBag.Message</p>
+                    }
+                    <div>
+                        <label asp-for="StartingDate" class="control-label"><strong>Starting Date</strong></label>
+                        <input asp-for="StartingDate" type="datetime-local" class="form-control" required />
+                    </div>
+                    <div>
+                        <label asp-for="EndingDate" class="control-label"><strong>Ending Date</strong></label>
+                        <input asp-for="EndingDate" type="datetime-local" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6" style="margin-top: 20px; font-size: larger; font-weight: bold; color: darkcyan">
+                        <label asp-for="PaymentCategoryIds" class="control-label">Payment Category</label>
+                        <select asp-for="PaymentCategoryIds" asp-items="ViewBag.PaymentCategories" required>
+                            <option value="">--Select Payment Category--</option>
+                        </select>
+                    </div>
+                    <br />
+                    <button class="btn btn-primary" style="background-color: whitesmoke;"><a asp-action="Filter">Next</a></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

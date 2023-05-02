@@ -1,5 +1,6 @@
 ﻿using DaySpring.Interfaces.Services;
 using DaySpring.ViewModels;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -86,6 +87,9 @@ namespace DaySpring.Controllers
                     pdf.CopyTo(fileStream);
                 }
                 model.BookPDF = bookPDF;
+
+                PdfReader pdfReader = new PdfReader(fullPath);
+                model.NumberOfPages = pdfReader.NumberOfPages;
             }
             await _bookService.CreateBook(model);
             return RedirectToAction("MediaIndex");
@@ -256,6 +260,27 @@ namespace DaySpring.Controllers
         {
             var book = await _bookService.GetBook(id);
             return View(book);
+        }
+
+        [HttpGet]
+        public IActionResult Count(int id)
+        {
+            _bookService.UpdateCount(id);
+            return RedirectToAction("Details");
+        }
+
+        [HttpGet]
+        public IActionResult MediaCount(int id)
+        {
+            _bookService.UpdateCount(id);
+            return RedirectToAction("MediaDetails");
+        }
+
+        [HttpGet]
+        public IActionResult SuperAdminCount(int id)
+        {
+            _bookService.UpdateCount(id);
+            return RedirectToAction("SuperAdminDetails");
         }
     }
 }

@@ -25,4 +25,11 @@ namespace DaySpring.ViewModels
     {
         public List<PaymentCategoryModel> Data { get; set; }
     }
+
+    public class GetPaymentByDate
+    {
+        public DateTime StartingDate { get; set; }
+        public DateTime EndingDate { get; set; }
+        public List<int> PaymentCategoryIds { get; set; }
+    }
 }

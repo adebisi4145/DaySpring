@@ -21,16 +21,12 @@
                 <form method="POST">
                     <div>
                         <label asp-for="@Model.Amount" class="control-label"><strong>Amount</strong></label>
-                        <input asp-for="@Model.Amount" type="text" class="form-control" required/>
+                        <input asp-for="@Model.Amount" type="number" class="form-control" required/>
                     </div>
-                    <div class="form-group col-sm-6">
-                        <label asp-for="@Model.PaymentType" class="control-label">Payment Type</label>
-                        <select asp-for="@Model.PaymentType" class="form-control" required>
-                            Select Payment Type
-                            <option value="@PaymentType.Tithe"> Tithe</option>
-                            <option value="@PaymentType.Offering"> Offering</option>
-                            <option value="@PaymentType.Seed"> Seed</option>
-                            <option value="@PaymentType.Others"> Others</option>
+                    <div class="col-md-6" style="margin-top: 20px; font-size: larger; font-weight: bold; color: darkcyan">
+                        <label asp-for="@Model.PaymentCategoryId" class="control-label"><strong>Payment Category</strong></label>
+                        <select asp-for="@Model.PaymentCategoryId" asp-items="ViewBag.PaymentCategories" required>
+                            <option value="">--Select Payment Category--</option>
                         </select>
                     </div>
                     <br />

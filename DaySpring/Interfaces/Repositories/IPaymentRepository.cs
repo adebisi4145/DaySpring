@@ -11,7 +11,7 @@ namespace DaySpring.Interfaces.Repositories
         Task<Payment> GetPayment(int id);
         public Task<Payment> GetPaymentByPaymentReference(string reference);
         Task<List<Payment>> GetPaymentsByEmail(string email);
-        Task<List<Payment>> GetPaymentsByDate(DateTime date);
+        Task<List<Payment>> GetPaymentsByDate(DateTime startingDate, DateTime endingDate, List<int> paymentCategoryIds);
         Task<List<Payment>> GetPayments();
     }
 }
